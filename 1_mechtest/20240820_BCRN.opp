@@ -1,0 +1,26 @@
+MECHMOD
+  USE_NAME         BCRN6
+  MECH_FILE        7_Krisztian/mech/BCRN6.inp
+  COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
+END
+
+MECHTEST
+    MECHANISM  BCRN6
+    TIME_LIMIT 50
+    THREAD_LIMIT 32
+    SETTINGS_TAG systems_biology
+    
+    SOLVER cantera
+    SAVE_STATES      CSV
+    
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0001.xml
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0002.xml
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0003.xml
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0004.xml
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0005.xml
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0006.xml
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0007.xml
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0008.xml
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0009.xml
+     NAME 7_Krisztian/xml/nitin_rap_ver3/Nitin_rap_000nM/Nitin_rap_000nM_0010.xml
+END
