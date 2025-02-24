@@ -4,15 +4,16 @@ MECHMOD
   COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
 END
 
-MECHTEST
-    MECHANISM  BCRN6
+SENSITIVITY
+    MECHANISM BCRN6 
     TIME_LIMIT 50
     THREAD_LIMIT 32
     SETTINGS_TAG systems_biology
     FALLBACK_TO_DEFAULT_SETTINGS
-    
+    SPLIT 32
+    PERTURBATION 0.5
+
     SOLVER cantera
-    SAVE_STATES      CSV
 
       NAME 7_Krisztian/xml/OOPgovernor_Holczer2019/Holczer2019_rap_rap_RAP_1e-10_0001.xml
       NAME 7_Krisztian/xml/OOPgovernor_Holczer2019/Holczer2019_rap_rap_RAP_1e-10_0002.xml

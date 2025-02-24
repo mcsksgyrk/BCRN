@@ -1,0 +1,50 @@
+<experiment>
+    <fileAuthor>Bence Hajdu and Tibor Nagy</fileAuthor>
+    <fileVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </fileVersion>
+    <ReSpecThVersion>
+        <major>2</major>
+        <minor>5</minor>
+    </ReSpecThVersion>
+    <bibliographyLink>
+        <description></description>
+        <referenceDOI>10.1038/s41598-020-75030-8</referenceDOI>
+        <details>
+            <author>Marianna Holczer, Bence Hajdu, Tamas Lorincz, Andras Szarka, Gabor Banhegyi, Orsolya Kapuy</author>
+            <journal>Scientific Reports</journal>
+            <number>1</number>
+            <title>Fine-tuning of AMPK–ULK1–mTORC1 regulatory triangle is crucial for autophagy oscillation</title>
+            <volume>10</volume>
+            <year>2020</year>
+        </details>
+    </bibliographyLink>
+    <experimentType>concentration time profile measurement</experimentType>
+    <apparatus>
+        <kind>flow reactor</kind>
+    </apparatus>
+    <commonProperties>
+        <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
+        <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
+        <property name="initial composition"  sourcetype="digitized" >
+            {%- for k,v in ics.items() %}
+            <component><speciesLink preferredKey="{{k}}"         chemName="{{k}}"     /><amount units="mole fraction" >{{v}}</amount></component>
+            {%- endfor %}
+        </property>
+    </commonProperties>
+    <dataGroup id="dg1">
+        <property name="time"                          id="time"    label="t"       sourcetype="reported"  units="min"     />
+        {%- for name in variables %}
+        <property name="composition"                   id="{{name}}"   label="{{name}}"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="{{name}}"  chemName="{{name}}" />
+        </property>
+        <property name="evaluated standard deviation"  id="{{name}}std"    label="{{name}}std"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+            <speciesLink preferredKey="{{name}}"    chemName="{{name}}"   />
+        </property>
+        {%- endfor %}
+        {%- for dp in dataPoints %}
+            {{dp}}
+        {%- endfor %}
+    </dataGroup>
+</experiment>
