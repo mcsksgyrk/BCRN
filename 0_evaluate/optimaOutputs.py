@@ -9,7 +9,7 @@ class OptimaOutput:
 
         self.job_name = str(job_name)
         if optima_path == None:
-            self.optima_path = Path("/home/nvme/Opt/outputs")
+            self.optima_path = Path("/home/szupernikusz/Opt/outputs")
         self.job_folder = self.optima_path / job_name
         file_path = self.job_folder / "mechanismInfo.txt"
         try:

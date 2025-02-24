@@ -1,0 +1,37 @@
+MECHMOD
+  USE_NAME         BCRN6
+  MECH_FILE        7_Krisztian/mech/BCRN6.inp
+  COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
+END
+
+MECHTEST
+    MECHANISM  BCRN6
+    TIME_LIMIT 50
+    THREAD_LIMIT 32
+    SETTINGS_TAG systems_biology
+    FALLBACK_TO_DEFAULT_SETTINGS
+    
+    SOLVER cantera
+    SAVE_STATES      CSV
+
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0001.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0002.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0003.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0004.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0005.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0006.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0007.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0008.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0009.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0010.xml 
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0011.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0012.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0013.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0014.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0015.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0016.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0017.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0018.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0019.xml
+      NAME 7_Krisztian/xml/Holczer2019_rap_100nM/Holczer2019_rap_100nm_0020.xml 
+END
