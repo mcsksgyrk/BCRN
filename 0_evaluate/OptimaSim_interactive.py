@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import jinja2
 import os
+import subprocess
 
 
 class Experiment:
@@ -151,25 +152,54 @@ class Simulation:
 
 
 class OptimaSimRunner:
-    def opp_exists(self, dot_opp_file: str = "") -> None:
+
+    def __init__(self, simulation: Simulation, opp_path: str):
+        self.simulation = simulation
+        self.opp_path = opp_path
+
+    def __str__(self):
+        return f"OPTIMA Simulation Runner\nSimulation used: {self.simulation}OPTIMA (.opp) file path: {self.opp_path}\n\n"
+
+    def opp_exists(self) -> None:
         # This function should check if an OPTIMA (.opp) file exists at the provided path
         # or create it if it doesn't
-        if dot_opp_file == "":
-            self.create_opp_file(path, dot_opp_file)
-            self.run_simulation(dot_opp_file)
-        else:
-            self.run_simulation(dot_opp_file)
-        pass
+        if not os.path.exists(self.opp_path):
+            print(f"OPTIMA (.opp) file not found at {self.opp_path}. Please check the path.")
+            return
+        self.run_simulation()
+
+        # if not os.path.exists(self.opp_path):
+        #     self.create_opp_file()
+        #     print('OPTIMA (.opp) file was not found at the given path. New one was created at: ', self.opp_path)
+        #     self.run_simulation()
+        # else:
+        #     self.run_simulation()
+
+    def run_simulation(self) -> None:
+        """Runs the OptimaPP simulation using the provided .opp file."""
+        try:
+            # Command to execute OptimaPP binary with the .opp file
+            command = ["bin/Release/OptimaPP", self.opp_path]
+
+            print(f"\nRunning simulation with: {' '.join(command)}\n")
+            
+            # Run the command and capture output
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+            
+            # Print the output from the simulation
+            print("\n=== OPTIMA Simulation Output ===")
+            print(result.stdout)
+
+        except subprocess.CalledProcessError as e:
+            print(f"Error: The simulation failed with error:\n{e.stderr}")
+        except FileNotFoundError:
+            print("Error: OptimaPP binary not found! Please check your OptimaPP installation path.")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
     
     def create_opp_file(self, path: str, dot_opp_file: str) -> None:
         # This function should create an OPTIMA (.opp) file using the provided dot_opp_file
         # and handle any potential errors or exceptions that may occur
-        pass
-
-    def run_simulation(self, dot_opp_file: str) -> None:
-        # This function should run the simulation using the provided dot_opp_file
-        # and call opp_exists() to check if the dot_opp_file exists, and create it if it doesn't exist
-        # then run the simulation
         pass
 
 
@@ -199,7 +229,7 @@ or 'arbitrary_stress' (for stress that's more vague, e.g., aa. starvation)
             break
         parts = stress_input.split()
         if len(parts) != 3:
-            print("Invalid format! Please enter in the format: NAME VALUE UNIT")
+            print("Invalid format! Please enter in the format: NAME VALUE STRESS_TYPE")
             continue
         name, value, unit = parts
         try:
@@ -246,7 +276,7 @@ or 'arbitrary_stress' (for stress that's more vague, e.g., aa. starvation)
 
     # === GENERATE XML FILES ===
     while True:
-        output_xmls_path = input("Enter the directory path for the output XML files: ").strip()
+        output_xmls_path = input("Enter the directory path for the output XML files (name is generat): ").strip()
         if not os.path.exists(output_xmls_path):
             os.makedirs(output_xmls_path)
             print("Directory created successfully!")
@@ -262,7 +292,7 @@ or 'arbitrary_stress' (for stress that's more vague, e.g., aa. starvation)
             print("Invalid input! Please enter a valid integer.")
 
     while True:
-        xml_template_path = input("Enter the path for the template XML file: ").strip()
+        xml_template_path = input("Enter the path and name for the template XML file: ").strip()
         if not os.path.exists(output_xmls_path):
             print(f"File is not found at {xml_template_path}. Please provide a valid path.")
         break
@@ -277,23 +307,40 @@ or 'arbitrary_stress' (for stress that's more vague, e.g., aa. starvation)
     print(ranges)
     print(simulation)
 
+    sim_or_not_input = input("Run the simulation? [yes/no]: ").strip()
+    if sim_or_not_input.lower() == "yes":
+        while True:
+            opp_path = input("Enter a valid path and name for the OPTIMA (.opp) file: ").strip()
+            opp_runner = OptimaSimRunner(simulation, opp_path)
+            if opp_runner.opp_exists():
+                break
+        opp_runner.run_simulation(opp_path)
+        print('Simulation run, final summary printed above.')
+    print('Simulation not run, final summary printed.')
+
 
 # main() is executed when the script is run.
 # Comment this out if you want to run from code.
 # Important: the script was written so that it accepts input .csv files in the format of min_max_ranges.csv (for TheoreticalRanges), and rap.csv (for Experiment).
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
 
 
 # To run from code, uncomment the following lines:
 
-# Holczer_rap = Experiment("path_to rap.csv", {"RAP": (100e-12, "molecular_species")}, "2019", "Holczer")
-# ranges = TheoreticalRanges("path to min_max_ranges.csv", 1e-12, 5)
-# sim1 = Simulation(ranges, Holczer_rap)
-# sim1.create_xml_files('xml output path', 20)
-# print(Holczer_rap)
-# print(ranges)
-# print(sim1)
+Holczer_rap = Experiment("/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/rap.csv", {"RAP": (100e-12, "molecular_species")}, "2019", "Holczer")
+ranges = TheoreticalRanges("/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/min_max_ranges.csv", 1e-12, 5)
+sim1 = Simulation(ranges, Holczer_rap)
+sim1.create_xml_files('/home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOPgovernor_Holczer2019', 20, "/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/data_w_std.xml")
+print(Holczer_rap)
+print(ranges)
+print(sim1)
+
+opt_runner = OptimaSimRunner(sim1, "/home/szupernikusz/TDK/Opt/7_Krisztian/1_mechtest/20250224_BCRN_OOPgoverned.opp")
+
+print(opt_runner)
+
+opt_runner.run_simulation()
 
 
 # I have to be in the folder where 'bin' is, or rewrite the commands below!!!!!!

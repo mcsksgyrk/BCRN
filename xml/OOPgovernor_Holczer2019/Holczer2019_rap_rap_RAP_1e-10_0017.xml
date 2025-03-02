@@ -28,89 +28,89 @@
         <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
         <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
         <property name="initial composition"  sourcetype="digitized" >
-            <component><speciesLink preferredKey="AC_GA"         chemName="AC_GA"     /><amount units="mole fraction" >6.683550390964748e-14</amount></component>
-            <component><speciesLink preferredKey="AC_GAA"         chemName="AC_GAA"     /><amount units="mole fraction" >8.251540532875811e-14</amount></component>
-            <component><speciesLink preferredKey="AKT"         chemName="AKT"     /><amount units="mole fraction" >3.057201188798724e-11</amount></component>
-            <component><speciesLink preferredKey="AKTA"         chemName="AKTA"     /><amount units="mole fraction" >4.419197590870658e-11</amount></component>
-            <component><speciesLink preferredKey="AMPK"         chemName="AMPK"     /><amount units="mole fraction" >4.3630461749516955e-10</amount></component>
-            <component><speciesLink preferredKey="AMPKA"         chemName="AMPKA"     /><amount units="mole fraction" >2.89140699429669e-10</amount></component>
-            <component><speciesLink preferredKey="ATG5"         chemName="ATG5"     /><amount units="mole fraction" >1.5149642258594477e-10</amount></component>
-            <component><speciesLink preferredKey="ATG5T"         chemName="ATG5T"     /><amount units="mole fraction" >3.636198561704129e-11</amount></component>
-            <component><speciesLink preferredKey="ATG5_BCL2"         chemName="ATG5_BCL2"     /><amount units="mole fraction" >2.720980467732057e-11</amount></component>
-            <component><speciesLink preferredKey="AUT"         chemName="AUT"     /><amount units="mole fraction" >3.3707747215431695e-14</amount></component>
-            <component><speciesLink preferredKey="BAX"         chemName="BAX"     /><amount units="mole fraction" >6.162276317692341e-08</amount></component>
-            <component><speciesLink preferredKey="BAXA"         chemName="BAXA"     /><amount units="mole fraction" >3.5058313114081785e-10</amount></component>
-            <component><speciesLink preferredKey="BCL2"         chemName="BCL2"     /><amount units="mole fraction" >8.35081715058086e-11</amount></component>
-            <component><speciesLink preferredKey="BCL2_BAX"         chemName="BCL2_BAX"     /><amount units="mole fraction" >2.4296599486350296e-11</amount></component>
-            <component><speciesLink preferredKey="BCL2_PUMA"         chemName="BCL2_PUMA"     /><amount units="mole fraction" >6.599100102979626e-11</amount></component>
-            <component><speciesLink preferredKey="BEC1"         chemName="BEC1"     /><amount units="mole fraction" >9.853380874242472e-11</amount></component>
-            <component><speciesLink preferredKey="BEC1A"         chemName="BEC1A"     /><amount units="mole fraction" >2.036514067926006e-12</amount></component>
-            <component><speciesLink preferredKey="BEC1_BCL2"         chemName="BEC1_BCL2"     /><amount units="mole fraction" >6.280271812755125e-14</amount></component>
-            <component><speciesLink preferredKey="BEC1_UVG"         chemName="BEC1_UVG"     /><amount units="mole fraction" >5.636100899573505e-12</amount></component>
-            <component><speciesLink preferredKey="BID"         chemName="BID"     /><amount units="mole fraction" >1.198917688776376e-11</amount></component>
-            <component><speciesLink preferredKey="CA2ER"         chemName="CA2ER"     /><amount units="mole fraction" >1.3298041423261735e-09</amount></component>
-            <component><speciesLink preferredKey="CA2IC"         chemName="CA2IC"     /><amount units="mole fraction" >1.1275037697444927e-10</amount></component>
-            <component><speciesLink preferredKey="CALPAIN"         chemName="CALPAIN"     /><amount units="mole fraction" >1.7279166633781052e-11</amount></component>
-            <component><speciesLink preferredKey="CALPAINA"         chemName="CALPAINA"     /><amount units="mole fraction" >1.1312607572896723e-14</amount></component>
-            <component><speciesLink preferredKey="CAMKKB"         chemName="CAMKKB"     /><amount units="mole fraction" >1.377314744312046e-10</amount></component>
-            <component><speciesLink preferredKey="CAMKKBA"         chemName="CAMKKBA"     /><amount units="mole fraction" >1.3758920704461139e-11</amount></component>
-            <component><speciesLink preferredKey="CAMP"         chemName="CAMP"     /><amount units="mole fraction" >6.513035718795785e-14</amount></component>
-            <component><speciesLink preferredKey="CASP"         chemName="CASP"     /><amount units="mole fraction" >2.044854595790267e-11</amount></component>
-            <component><speciesLink preferredKey="CCH"         chemName="CCH"     /><amount units="mole fraction" >3.608632936536325e-30</amount></component>
-            <component><speciesLink preferredKey="CYTC"         chemName="CYTC"     /><amount units="mole fraction" >1.508295221106363e-14</amount></component>
-            <component><speciesLink preferredKey="CYTCM"         chemName="CYTCM"     /><amount units="mole fraction" >1.24082622661603e-11</amount></component>
-            <component><speciesLink preferredKey="DAPK"         chemName="DAPK"     /><amount units="mole fraction" >7.647309788604792e-11</amount></component>
-            <component><speciesLink preferredKey="DAPKA"         chemName="DAPKA"     /><amount units="mole fraction" >6.405052639271256e-14</amount></component>
-            <component><speciesLink preferredKey="DRAM"         chemName="DRAM"     /><amount units="mole fraction" >8.895133921234913e-14</amount></component>
+            <component><speciesLink preferredKey="AC_GA"         chemName="AC_GA"     /><amount units="mole fraction" >7.834065101849553e-14</amount></component>
+            <component><speciesLink preferredKey="AC_GAA"         chemName="AC_GAA"     /><amount units="mole fraction" >9.33770548945733e-14</amount></component>
+            <component><speciesLink preferredKey="AKT"         chemName="AKT"     /><amount units="mole fraction" >2.615789937755138e-11</amount></component>
+            <component><speciesLink preferredKey="AKTA"         chemName="AKTA"     /><amount units="mole fraction" >6.809378521328987e-11</amount></component>
+            <component><speciesLink preferredKey="AMPK"         chemName="AMPK"     /><amount units="mole fraction" >3.1286051735512854e-10</amount></component>
+            <component><speciesLink preferredKey="AMPKA"         chemName="AMPKA"     /><amount units="mole fraction" >2.0954553356174597e-10</amount></component>
+            <component><speciesLink preferredKey="ATG5"         chemName="ATG5"     /><amount units="mole fraction" >2.0808632202068648e-10</amount></component>
+            <component><speciesLink preferredKey="ATG5T"         chemName="ATG5T"     /><amount units="mole fraction" >3.8735838742239343e-11</amount></component>
+            <component><speciesLink preferredKey="ATG5_BCL2"         chemName="ATG5_BCL2"     /><amount units="mole fraction" >3.467269558348498e-11</amount></component>
+            <component><speciesLink preferredKey="AUT"         chemName="AUT"     /><amount units="mole fraction" >1.0446077159052808e-13</amount></component>
+            <component><speciesLink preferredKey="BAX"         chemName="BAX"     /><amount units="mole fraction" >6.16342118369755e-08</amount></component>
+            <component><speciesLink preferredKey="BAXA"         chemName="BAXA"     /><amount units="mole fraction" >4.191893027760447e-10</amount></component>
+            <component><speciesLink preferredKey="BCL2"         chemName="BCL2"     /><amount units="mole fraction" >8.262942937057767e-11</amount></component>
+            <component><speciesLink preferredKey="BCL2_BAX"         chemName="BCL2_BAX"     /><amount units="mole fraction" >1.8919920891771392e-11</amount></component>
+            <component><speciesLink preferredKey="BCL2_PUMA"         chemName="BCL2_PUMA"     /><amount units="mole fraction" >5.737181649414327e-11</amount></component>
+            <component><speciesLink preferredKey="BEC1"         chemName="BEC1"     /><amount units="mole fraction" >1.127117986796717e-10</amount></component>
+            <component><speciesLink preferredKey="BEC1A"         chemName="BEC1A"     /><amount units="mole fraction" >1.9830390067060363e-12</amount></component>
+            <component><speciesLink preferredKey="BEC1_BCL2"         chemName="BEC1_BCL2"     /><amount units="mole fraction" >4.742182434601761e-14</amount></component>
+            <component><speciesLink preferredKey="BEC1_UVG"         chemName="BEC1_UVG"     /><amount units="mole fraction" >3.855853674028328e-12</amount></component>
+            <component><speciesLink preferredKey="BID"         chemName="BID"     /><amount units="mole fraction" >2.2192145564189956e-11</amount></component>
+            <component><speciesLink preferredKey="CA2ER"         chemName="CA2ER"     /><amount units="mole fraction" >1.0828673056433642e-09</amount></component>
+            <component><speciesLink preferredKey="CA2IC"         chemName="CA2IC"     /><amount units="mole fraction" >1.2270411802014496e-10</amount></component>
+            <component><speciesLink preferredKey="CALPAIN"         chemName="CALPAIN"     /><amount units="mole fraction" >2.8812872883346556e-11</amount></component>
+            <component><speciesLink preferredKey="CALPAINA"         chemName="CALPAINA"     /><amount units="mole fraction" >9.637000825059503e-14</amount></component>
+            <component><speciesLink preferredKey="CAMKKB"         chemName="CAMKKB"     /><amount units="mole fraction" >1.1414127761241962e-10</amount></component>
+            <component><speciesLink preferredKey="CAMKKBA"         chemName="CAMKKBA"     /><amount units="mole fraction" >1.6261832500364575e-11</amount></component>
+            <component><speciesLink preferredKey="CAMP"         chemName="CAMP"     /><amount units="mole fraction" >5.315272382250595e-14</amount></component>
+            <component><speciesLink preferredKey="CASP"         chemName="CASP"     /><amount units="mole fraction" >7.190092418370514e-12</amount></component>
+            <component><speciesLink preferredKey="CCH"         chemName="CCH"     /><amount units="mole fraction" >2.079902133987622e-30</amount></component>
+            <component><speciesLink preferredKey="CYTC"         chemName="CYTC"     /><amount units="mole fraction" >8.461964537833052e-14</amount></component>
+            <component><speciesLink preferredKey="CYTCM"         chemName="CYTCM"     /><amount units="mole fraction" >2.7364767074556673e-11</amount></component>
+            <component><speciesLink preferredKey="DAPK"         chemName="DAPK"     /><amount units="mole fraction" >1.1673352739495216e-10</amount></component>
+            <component><speciesLink preferredKey="DAPKA"         chemName="DAPKA"     /><amount units="mole fraction" >7.345287600888996e-14</amount></component>
+            <component><speciesLink preferredKey="DRAM"         chemName="DRAM"     /><amount units="mole fraction" >5.958245447128676e-14</amount></component>
             <component><speciesLink preferredKey="DS"         chemName="DS"     /><amount units="mole fraction" >0.0</amount></component>
-            <component><speciesLink preferredKey="EPAC"         chemName="EPAC"     /><amount units="mole fraction" >1.4008972235364186e-11</amount></component>
-            <component><speciesLink preferredKey="EPACA"         chemName="EPACA"     /><amount units="mole fraction" >5.315764172719545e-14</amount></component>
-            <component><speciesLink preferredKey="GA"         chemName="GA"     /><amount units="mole fraction" >8.687662977803456e-12</amount></component>
-            <component><speciesLink preferredKey="GAA"         chemName="GAA"     /><amount units="mole fraction" >2.6757302995926074e-14</amount></component>
-            <component><speciesLink preferredKey="GABC"         chemName="GABC"     /><amount units="mole fraction" >5.655139946129124e-13</amount></component>
-            <component><speciesLink preferredKey="GBC"         chemName="GBC"     /><amount units="mole fraction" >1.0796216191488946e-11</amount></component>
-            <component><speciesLink preferredKey="GPCRA"         chemName="GPCRA"     /><amount units="mole fraction" >1.1171081100671064e-11</amount></component>
+            <component><speciesLink preferredKey="EPAC"         chemName="EPAC"     /><amount units="mole fraction" >1.2111310934066469e-11</amount></component>
+            <component><speciesLink preferredKey="EPACA"         chemName="EPACA"     /><amount units="mole fraction" >7.389393233231992e-14</amount></component>
+            <component><speciesLink preferredKey="GA"         chemName="GA"     /><amount units="mole fraction" >8.766018549569207e-12</amount></component>
+            <component><speciesLink preferredKey="GAA"         chemName="GAA"     /><amount units="mole fraction" >5.3322648345443733e-14</amount></component>
+            <component><speciesLink preferredKey="GABC"         chemName="GABC"     /><amount units="mole fraction" >5.972359166856298e-14</amount></component>
+            <component><speciesLink preferredKey="GBC"         chemName="GBC"     /><amount units="mole fraction" >1.279500235826947e-11</amount></component>
+            <component><speciesLink preferredKey="GPCRA"         chemName="GPCRA"     /><amount units="mole fraction" >1.3026057509598812e-11</amount></component>
             <component><speciesLink preferredKey="INSULIN"         chemName="INSULIN"     /><amount units="mole fraction" >1e-10</amount></component>
-            <component><speciesLink preferredKey="IP3"         chemName="IP3"     /><amount units="mole fraction" >9.093437869573228e-11</amount></component>
-            <component><speciesLink preferredKey="IP3R"         chemName="IP3R"     /><amount units="mole fraction" >8.297400064486253e-15</amount></component>
-            <component><speciesLink preferredKey="IP3R_BCL2"         chemName="IP3R_BCL2"     /><amount units="mole fraction" >1.8514185297129015e-14</amount></component>
-            <component><speciesLink preferredKey="IP3R_IP3"         chemName="IP3R_IP3"     /><amount units="mole fraction" >9.08544020461305e-14</amount></component>
-            <component><speciesLink preferredKey="MDM2"         chemName="MDM2"     /><amount units="mole fraction" >6.036637338384317e-14</amount></component>
-            <component><speciesLink preferredKey="MTOR"         chemName="MTOR"     /><amount units="mole fraction" >8.959293320026123e-11</amount></component>
-            <component><speciesLink preferredKey="MTORA"         chemName="MTORA"     /><amount units="mole fraction" >5.391707998324242e-10</amount></component>
-            <component><speciesLink preferredKey="MTOR_RAP"         chemName="MTOR_RAP"     /><amount units="mole fraction" >8.551001459949959e-33</amount></component>
-            <component><speciesLink preferredKey="NS"         chemName="NS"     /><amount units="mole fraction" >2.1249938172557656e-29</amount></component>
-            <component><speciesLink preferredKey="P53"         chemName="P53"     /><amount units="mole fraction" >1.5476159699222626e-11</amount></component>
-            <component><speciesLink preferredKey="P53A"         chemName="P53A"     /><amount units="mole fraction" >9.917097324538464e-14</amount></component>
-            <component><speciesLink preferredKey="P53A_BCL2"         chemName="P53A_BCL2"     /><amount units="mole fraction" >6.736456772822178e-14</amount></component>
-            <component><speciesLink preferredKey="PHAG"         chemName="PHAG"     /><amount units="mole fraction" >4.052182297247946e-14</amount></component>
-            <component><speciesLink preferredKey="PI3K"         chemName="PI3K"     /><amount units="mole fraction" >9.22825003372154e-19</amount></component>
-            <component><speciesLink preferredKey="PI3KA"         chemName="PI3KA"     /><amount units="mole fraction" >6.757602826690493e-19</amount></component>
-            <component><speciesLink preferredKey="PIP2"         chemName="PIP2"     /><amount units="mole fraction" >8.69232224360317e-10</amount></component>
-            <component><speciesLink preferredKey="PKA"         chemName="PKA"     /><amount units="mole fraction" >1.8300931208891627e-10</amount></component>
-            <component><speciesLink preferredKey="PKAA"         chemName="PKAA"     /><amount units="mole fraction" >7.118505524819451e-14</amount></component>
-            <component><speciesLink preferredKey="PKC"         chemName="PKC"     /><amount units="mole fraction" >7.874909435507173e-12</amount></component>
-            <component><speciesLink preferredKey="PKC_CA2IC"         chemName="PKC_CA2IC"     /><amount units="mole fraction" >9.63588459100575e-12</amount></component>
-            <component><speciesLink preferredKey="PLCE"         chemName="PLCE"     /><amount units="mole fraction" >1.314390112649625e-11</amount></component>
-            <component><speciesLink preferredKey="PLCEA"         chemName="PLCEA"     /><amount units="mole fraction" >2.619965361257003e-14</amount></component>
-            <component><speciesLink preferredKey="PREAUT"         chemName="PREAUT"     /><amount units="mole fraction" >1.0689128952937889e-14</amount></component>
-            <component><speciesLink preferredKey="PROCASP"         chemName="PROCASP"     /><amount units="mole fraction" >1.6320861824384607e-11</amount></component>
-            <component><speciesLink preferredKey="PUMA"         chemName="PUMA"     /><amount units="mole fraction" >5.941023548109804e-14</amount></component>
+            <component><speciesLink preferredKey="IP3"         chemName="IP3"     /><amount units="mole fraction" >1.4532239335002153e-10</amount></component>
+            <component><speciesLink preferredKey="IP3R"         chemName="IP3R"     /><amount units="mole fraction" >5.290585806586911e-14</amount></component>
+            <component><speciesLink preferredKey="IP3R_BCL2"         chemName="IP3R_BCL2"     /><amount units="mole fraction" >1.2460833727793488e-13</amount></component>
+            <component><speciesLink preferredKey="IP3R_IP3"         chemName="IP3R_IP3"     /><amount units="mole fraction" >5.690905418285064e-14</amount></component>
+            <component><speciesLink preferredKey="MDM2"         chemName="MDM2"     /><amount units="mole fraction" >7.969659827003457e-14</amount></component>
+            <component><speciesLink preferredKey="MTOR"         chemName="MTOR"     /><amount units="mole fraction" >1.6445281128809985e-11</amount></component>
+            <component><speciesLink preferredKey="MTORA"         chemName="MTORA"     /><amount units="mole fraction" >5.025645927478475e-10</amount></component>
+            <component><speciesLink preferredKey="MTOR_RAP"         chemName="MTOR_RAP"     /><amount units="mole fraction" >2.748986980319691e-32</amount></component>
+            <component><speciesLink preferredKey="NS"         chemName="NS"     /><amount units="mole fraction" >2.1954183260260756e-29</amount></component>
+            <component><speciesLink preferredKey="P53"         chemName="P53"     /><amount units="mole fraction" >2.3394111779169348e-11</amount></component>
+            <component><speciesLink preferredKey="P53A"         chemName="P53A"     /><amount units="mole fraction" >9.33727061922956e-14</amount></component>
+            <component><speciesLink preferredKey="P53A_BCL2"         chemName="P53A_BCL2"     /><amount units="mole fraction" >1.8062761055730357e-13</amount></component>
+            <component><speciesLink preferredKey="PHAG"         chemName="PHAG"     /><amount units="mole fraction" >8.583778898231894e-14</amount></component>
+            <component><speciesLink preferredKey="PI3K"         chemName="PI3K"     /><amount units="mole fraction" >6.463303995393196e-19</amount></component>
+            <component><speciesLink preferredKey="PI3KA"         chemName="PI3KA"     /><amount units="mole fraction" >1.592085856217288e-19</amount></component>
+            <component><speciesLink preferredKey="PIP2"         chemName="PIP2"     /><amount units="mole fraction" >5.914241558155668e-10</amount></component>
+            <component><speciesLink preferredKey="PKA"         chemName="PKA"     /><amount units="mole fraction" >2.083658966894499e-10</amount></component>
+            <component><speciesLink preferredKey="PKAA"         chemName="PKAA"     /><amount units="mole fraction" >7.685682521244562e-14</amount></component>
+            <component><speciesLink preferredKey="PKC"         chemName="PKC"     /><amount units="mole fraction" >4.013623879128165e-12</amount></component>
+            <component><speciesLink preferredKey="PKC_CA2IC"         chemName="PKC_CA2IC"     /><amount units="mole fraction" >1.7725429434612137e-12</amount></component>
+            <component><speciesLink preferredKey="PLCE"         chemName="PLCE"     /><amount units="mole fraction" >7.730080740068858e-12</amount></component>
+            <component><speciesLink preferredKey="PLCEA"         chemName="PLCEA"     /><amount units="mole fraction" >8.24862611207023e-15</amount></component>
+            <component><speciesLink preferredKey="PREAUT"         chemName="PREAUT"     /><amount units="mole fraction" >7.839833179417856e-14</amount></component>
+            <component><speciesLink preferredKey="PROCASP"         chemName="PROCASP"     /><amount units="mole fraction" >2.4645628485628693e-11</amount></component>
+            <component><speciesLink preferredKey="PUMA"         chemName="PUMA"     /><amount units="mole fraction" >1.2739917765986044e-14</amount></component>
             <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >1e-10</amount></component>
             <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1.0</amount></component>
-            <component><speciesLink preferredKey="RHEB"         chemName="RHEB"     /><amount units="mole fraction" >8.695772229149973e-14</amount></component>
-            <component><speciesLink preferredKey="RHEBA"         chemName="RHEBA"     /><amount units="mole fraction" >1.7803663912451303e-10</amount></component>
-            <component><speciesLink preferredKey="SERCA"         chemName="SERCA"     /><amount units="mole fraction" >9.158632826260877e-11</amount></component>
+            <component><speciesLink preferredKey="RHEB"         chemName="RHEB"     /><amount units="mole fraction" >2.009000456237883e-14</amount></component>
+            <component><speciesLink preferredKey="RHEBA"         chemName="RHEBA"     /><amount units="mole fraction" >2.416976548380351e-10</amount></component>
+            <component><speciesLink preferredKey="SERCA"         chemName="SERCA"     /><amount units="mole fraction" >9.660822483289477e-11</amount></component>
             <component><speciesLink preferredKey="SERCAA"         chemName="SERCAA"     /><amount units="mole fraction" >0.0</amount></component>
-            <component><speciesLink preferredKey="TBID"         chemName="TBID"     /><amount units="mole fraction" >5.3197343656370426e-12</amount></component>
+            <component><speciesLink preferredKey="TBID"         chemName="TBID"     /><amount units="mole fraction" >3.5105586484928494e-12</amount></component>
             <component><speciesLink preferredKey="TG"         chemName="TG"     /><amount units="mole fraction" >0.0</amount></component>
             <component><speciesLink preferredKey="TG_SERCA"         chemName="TG_SERCA"     /><amount units="mole fraction" >0.0</amount></component>
-            <component><speciesLink preferredKey="TSC"         chemName="TSC"     /><amount units="mole fraction" >1.511946746215503e-10</amount></component>
-            <component><speciesLink preferredKey="TSCA"         chemName="TSCA"     /><amount units="mole fraction" >2.7650908698636815e-14</amount></component>
-            <component><speciesLink preferredKey="ULK"         chemName="ULK"     /><amount units="mole fraction" >1.0035707574017582e-10</amount></component>
-            <component><speciesLink preferredKey="ULKA"         chemName="ULKA"     /><amount units="mole fraction" >1.0850699775467826e-12</amount></component>
-            <component><speciesLink preferredKey="UVG"         chemName="UVG"     /><amount units="mole fraction" >9.604975738183107e-11</amount></component>
-            <component><speciesLink preferredKey="UVG_BAX"         chemName="UVG_BAX"     /><amount units="mole fraction" >3.342798521297007e-11</amount></component>
+            <component><speciesLink preferredKey="TSC"         chemName="TSC"     /><amount units="mole fraction" >2.65957853231346e-10</amount></component>
+            <component><speciesLink preferredKey="TSCA"         chemName="TSCA"     /><amount units="mole fraction" >5.121663221992698e-14</amount></component>
+            <component><speciesLink preferredKey="ULK"         chemName="ULK"     /><amount units="mole fraction" >9.235672530209936e-11</amount></component>
+            <component><speciesLink preferredKey="ULKA"         chemName="ULKA"     /><amount units="mole fraction" >1.890093769755191e-11</amount></component>
+            <component><speciesLink preferredKey="UVG"         chemName="UVG"     /><amount units="mole fraction" >1.2882569462045051e-10</amount></component>
+            <component><speciesLink preferredKey="UVG_BAX"         chemName="UVG_BAX"     /><amount units="mole fraction" >1.3847158316375925e-10</amount></component>
         </property>
     </commonProperties>
     <dataGroup id="dg1">
@@ -139,16 +139,16 @@
         <property name="evaluated standard deviation"  id="AUTstd"    label="AUTstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
             <speciesLink preferredKey="AUT"    chemName="AUT"   />
         </property>
-            <dataPoint><time>0.0000e+00</time><MTORA>5.3917e-10</MTORA><MTORASTD>3.3733e-11</MTORASTD><ULKA>1.0851e-12</ULKA><ULKASTD>5.1334e-14</ULKASTD><AMPKA>2.8914e-10</AMPKA><AMPKASTD>1.7191e-12</AMPKASTD><AUT>3.3708e-14</AUT><AUTSTD>1.7927e-15</AUTSTD></dataPoint>
-            <dataPoint><time>5.0000e-01</time><MTORA>1.7729e-10</MTORA><MTORASTD>1.9722e-11</MTORASTD><ULKA>1.3194e-12</ULKA><ULKASTD>3.2649e-14</ULKASTD><AMPKA>1.6986e-09</AMPKA><AMPKASTD>2.2959e-12</AMPKASTD><AUT>2.8324e-14</AUT><AUTSTD>1.3254e-15</AUTSTD></dataPoint>
-            <dataPoint><time>1.0000e+00</time><MTORA>1.3241e-10</MTORA><MTORASTD>7.2712e-12</MTORASTD><ULKA>1.1845e-12</ULKA><ULKASTD>3.3558e-14</ULKASTD><AMPKA>3.4714e-09</AMPKA><AMPKASTD>3.4086e-12</AMPKASTD><AUT>1.7845e-14</AUT><AUTSTD>1.8775e-16</AUTSTD></dataPoint>
-            <dataPoint><time>1.5000e+00</time><MTORA>2.1898e-10</MTORA><MTORASTD>4.5374e-11</MTORASTD><ULKA>1.8661e-12</ULKA><ULKASTD>4.8645e-14</ULKASTD><AMPKA>2.6871e-09</AMPKA><AMPKASTD>1.1544e-12</AMPKASTD><AUT>1.3825e-14</AUT><AUTSTD>2.0110e-16</AUTSTD></dataPoint>
-            <dataPoint><time>2.0000e+00</time><MTORA>2.4371e-10</MTORA><MTORASTD>3.5168e-11</MTORASTD><ULKA>1.5494e-12</ULKA><ULKASTD>6.6241e-14</ULKASTD><AMPKA>1.8367e-09</AMPKA><AMPKASTD>1.7124e-12</AMPKASTD><AUT>2.2792e-14</AUT><AUTSTD>3.2066e-16</AUTSTD></dataPoint>
-            <dataPoint><time>2.5000e+00</time><MTORA>2.7584e-10</MTORA><MTORASTD>6.7242e-12</MTORASTD><ULKA>9.8391e-13</ULKA><ULKASTD>4.6720e-14</ULKASTD><AMPKA>1.8385e-09</AMPKA><AMPKASTD>3.8436e-12</AMPKASTD><AUT>2.4962e-14</AUT><AUTSTD>2.0339e-15</AUTSTD></dataPoint>
-            <dataPoint><time>3.0000e+00</time><MTORA>1.0756e-01</MTORA><MTORASTD>2.6853e-11</MTORASTD><ULKA>1.2345e-12</ULKA><ULKASTD>2.2014e-14</ULKASTD><AMPKA>2.7026e-09</AMPKA><AMPKASTD>5.1503e-12</AMPKASTD><AUT>2.4283e-14</AUT><AUTSTD>1.1650e-15</AUTSTD></dataPoint>
-            <dataPoint><time>3.5000e+00</time><MTORA>8.8089e-11</MTORA><MTORASTD>6.3836e-11</MTORASTD><ULKA>1.5347e-12</ULKA><ULKASTD>3.3023e-14</ULKASTD><AMPKA>2.7702e-09</AMPKA><AMPKASTD>1.7560e-11</AMPKASTD><AUT>2.8914e-14</AUT><AUTSTD>1.1068e-15</AUTSTD></dataPoint>
-            <dataPoint><time>4.0000e+00</time><MTORA>6.2831e-11</MTORA><MTORASTD>2.5039e-11</MTORASTD><ULKA>1.6782e-12</ULKA><ULKASTD>4.0578e-14</ULKASTD><AMPKA>3.3884e-09</AMPKA><AMPKASTD>1.4599e-11</AMPKASTD><AUT>2.9655e-14</AUT><AUTSTD>1.1479e-15</AUTSTD></dataPoint>
-            <dataPoint><time>4.5000e+00</time><MTORA>7.8392e-11</MTORA><MTORASTD>5.8582e-11</MTORASTD><ULKA>1.8230e-12</ULKA><ULKASTD>1.1197e-13</ULKASTD><AMPKA>1.3349e-09</AMPKA><AMPKASTD>2.7021e-12</AMPKASTD><AUT>2.0871e-14</AUT><AUTSTD>4.8387e-17</AUTSTD></dataPoint>
-            <dataPoint><time>5.0000e+00</time><MTORA>9.7396e-11</MTORA><MTORASTD>3.0534e-11</MTORASTD><ULKA>1.6330e-12</ULKA><ULKASTD>6.7253e-14</ULKASTD><AMPKA>1.0732e-09</AMPKA><AMPKASTD>4.3194e-12</AMPKASTD><AUT>1.1727e-14</AUT><AUTSTD>2.6118e-16</AUTSTD></dataPoint>
+            <dataPoint><time>0.0000e+00</time><MTORA>5.0256e-10</MTORA><MTORASTD>3.1443e-11</MTORASTD><ULKA>1.8901e-11</ULKA><ULKASTD>8.9419e-13</ULKASTD><AMPKA>2.0955e-10</AMPKA><AMPKASTD>1.2459e-12</AMPKASTD><AUT>1.0446e-13</AUT><AUTSTD>5.5555e-15</AUTSTD></dataPoint>
+            <dataPoint><time>5.0000e-01</time><MTORA>1.6526e-10</MTORA><MTORASTD>1.8383e-11</MTORASTD><ULKA>2.2983e-11</ULKA><ULKASTD>5.6872e-13</ULKASTD><AMPKA>1.2310e-09</AMPKA><AMPKASTD>1.6639e-12</AMPKASTD><AUT>8.7776e-14</AUT><AUTSTD>4.1075e-15</AUTSTD></dataPoint>
+            <dataPoint><time>1.0000e+00</time><MTORA>1.2342e-10</MTORA><MTORASTD>6.7776e-12</MTORASTD><ULKA>2.0633e-11</ULKA><ULKASTD>5.8455e-13</ULKASTD><AMPKA>2.5158e-09</AMPKA><AMPKASTD>2.4702e-12</AMPKASTD><AUT>5.5302e-14</AUT><AUTSTD>5.8185e-16</AUTSTD></dataPoint>
+            <dataPoint><time>1.5000e+00</time><MTORA>2.0411e-10</MTORA><MTORASTD>4.2293e-11</MTORASTD><ULKA>3.2506e-11</ULKA><ULKASTD>8.4736e-13</ULKASTD><AMPKA>1.9474e-09</AMPKA><AMPKASTD>8.3659e-13</AMPKASTD><AUT>4.2845e-14</AUT><AUTSTD>6.2323e-16</AUTSTD></dataPoint>
+            <dataPoint><time>2.0000e+00</time><MTORA>2.2717e-10</MTORA><MTORASTD>3.2781e-11</MTORASTD><ULKA>2.6990e-11</ULKA><ULKASTD>1.1539e-12</ULKASTD><AMPKA>1.3311e-09</AMPKA><AMPKASTD>1.2410e-12</AMPKASTD><AUT>7.0632e-14</AUT><AUTSTD>9.9374e-16</AUTSTD></dataPoint>
+            <dataPoint><time>2.5000e+00</time><MTORA>2.5711e-10</MTORA><MTORASTD>6.2676e-12</MTORASTD><ULKA>1.7139e-11</ULKA><ULKASTD>8.1382e-13</ULKASTD><AMPKA>1.3324e-09</AMPKA><AMPKASTD>2.7856e-12</AMPKASTD><AUT>7.7357e-14</AUT><AUTSTD>6.3030e-15</AUTSTD></dataPoint>
+            <dataPoint><time>3.0000e+00</time><MTORA>1.0026e-01</MTORA><MTORASTD>2.5030e-11</MTORASTD><ULKA>2.1504e-11</ULKA><ULKASTD>3.8346e-13</ULKASTD><AMPKA>1.9586e-09</AMPKA><AMPKASTD>3.7325e-12</AMPKASTD><AUT>7.5254e-14</AUT><AUTSTD>3.6103e-15</AUTSTD></dataPoint>
+            <dataPoint><time>3.5000e+00</time><MTORA>8.2109e-11</MTORA><MTORASTD>5.9502e-11</MTORASTD><ULKA>2.6733e-11</ULKA><ULKASTD>5.7524e-13</ULKASTD><AMPKA>2.0076e-09</AMPKA><AMPKASTD>1.2726e-11</AMPKASTD><AUT>8.9605e-14</AUT><AUTSTD>3.4299e-15</AUTSTD></dataPoint>
+            <dataPoint><time>4.0000e+00</time><MTORA>5.8565e-11</MTORA><MTORASTD>2.3339e-11</MTORASTD><ULKA>2.9234e-11</ULKA><ULKASTD>7.0683e-13</ULKASTD><AMPKA>2.4556e-09</AMPKA><AMPKASTD>1.0580e-11</AMPKASTD><AUT>9.1903e-14</AUT><AUTSTD>3.5572e-15</AUTSTD></dataPoint>
+            <dataPoint><time>4.5000e+00</time><MTORA>7.3069e-11</MTORA><MTORASTD>5.4604e-11</MTORASTD><ULKA>3.1755e-11</ULKA><ULKASTD>1.9505e-12</ULKASTD><AMPKA>9.6742e-10</AMPKA><AMPKASTD>1.9583e-12</AMPKASTD><AUT>6.4678e-14</AUT><AUTSTD>1.4995e-16</AUTSTD></dataPoint>
+            <dataPoint><time>5.0000e+00</time><MTORA>9.0783e-11</MTORA><MTORASTD>2.8461e-11</MTORASTD><ULKA>2.8445e-11</ULKA><ULKASTD>1.1715e-12</ULKASTD><AMPKA>7.7776e-10</AMPKA><AMPKASTD>3.1304e-12</AMPKASTD><AUT>3.6342e-14</AUT><AUTSTD>8.0941e-16</AUTSTD></dataPoint>
     </dataGroup>
 </experiment>
