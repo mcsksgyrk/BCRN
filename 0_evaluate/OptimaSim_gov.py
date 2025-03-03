@@ -1,7 +1,9 @@
+
 import numpy as np
 import pandas as pd
 import jinja2
 import os
+import subprocess
 
 
 class Experiment:
@@ -15,7 +17,7 @@ class Experiment:
         self.author = author
         self.doi = doi
         self.experiment_data = pd.read_csv(experiment_csv_path)
-        self.non_species_cols = {"TIME"}
+        self.non_species_cols = {"TIME"}                            # Excluding columns that are not protein or prot<std> measurements
         self.process_data()
 
     def __str__(self):
@@ -23,19 +25,19 @@ class Experiment:
 
     def process_data(self) -> None:
         self.experiment_data.columns = [col.upper() for col in self.experiment_data.columns]
-        self.experiment_data.rename(columns={'TIME': 'time'}, inplace=True)
-        self.experiment_data = self.experiment_data.dropna()
-        self.species = [v for v in self.experiment_data.columns if v.upper() not in self.non_species_cols and "STD" not in v.upper()]
+        self.experiment_data.rename(columns={'TIME': 'time'}, inplace=True)                                 # .xml works with OPTIMA only if time is lowercase
+        self.experiment_data = self.experiment_data.dropna()                                                # Just in case
+        self.species = [v for v in self.experiment_data.columns if v.upper() not in self.non_species_cols and "STD" not in v.upper()]           # variable declarations for the datagroup part of the xml
 
     def quantitated_exp_data(self, ics: dict[str, float]) -> None:
         quant_Data = self.experiment_data.copy()
         species_and_std = [col for col in quant_Data.columns if col.upper() not in self.non_species_cols]
         for s in species_and_std:
             if 'STD' in s.upper():
-                quant_Data[s] *= ics[s[0:-3]]  # Scaling standard devs
+                quant_Data[s] *= ics[s[0:-3]]  # Scaling relative standard devs with random initial conditions
             else:
-                quant_Data[s] *= ics[s]    # Scaling relative measurement values
-        self.quant_data = quant_Data
+                quant_Data[s] *= ics[s]    # Scaling relative measurement values with random initial conditions
+        self.quant_data = quant_Data       # --> if fold change was measured --> first row of prot cc. columns should = 1 * ics[s]
 
 
 class TheoreticalRanges:
@@ -81,20 +83,23 @@ class Simulation:
     def __init__(self, species_range: TheoreticalRanges = "", experiment: Experiment = ""):
         self.species_range = species_range
         self.experiment = experiment
-        self.species_range.check_compatibility(experiment=self.experiment)
+        self.species_range.check_compatibility(experiment=self.experiment)  # Check if all the experiment species are found in the theoretical ranges .csv file  
 
     def __str__(self):
         return f"Simulation\nSpecies Range used: {self.species_range.name}.csv\nExperiment data used: {self.experiment.name}.csv\n\n"
 
-    def create_xml_files(self, output_xmls_path: str, num_of_xmls: int) -> None:
+    def create_xml_files(self, output_xmls_path: str, num_of_xmls: int, xml_template_path: str) -> None:
+        
         if not os.path.exists(output_xmls_path):
             os.makedirs(output_xmls_path)
             print(f"Output XMLs directory had to be created. The provided {output_xmls_path} was not found.\n")
-
+        
+        env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(xml_template_path)))
+        self.template = env.get_template(os.path.basename(xml_template_path))
         for i in range(1, num_of_xmls+1):
             file_index = i
             self.random_ics = self.get_random_ics()
-            self.experiment.quantitated_exp_data(ics=self.random_ics)       # Creates the quantitated (i.e., not just fold changes) data as a field in the experiment object
+            self.experiment.quantitated_exp_data(ics=self.random_ics)       # Creates the quantitated (i.e., not just fold changes) data as a field in the experiment object for this instance of Simulation
             self.make_xml_output(file_index, output_xmls_path)
 
     def get_random_ics(self) -> dict[str, float]:
@@ -107,14 +112,14 @@ class Simulation:
 
         for s in self.experiment.stresses:
             if self.experiment.stresses[s][1] == "molecular_species":    # i.e., a real molecule, not like a "starvation level", or sth like that
-                random_ics[s] = self.experiment.stresses[s][0]
-        
-        random_ics["REF"] = 1.0
+                random_ics[s] = self.experiment.stresses[s][0]           # if it's a molecule, take the IC from the experiment data ("bemeresi koncentracio")
+                                                                         # This will put it into the xml file as a part of species
+        random_ics["REF"] = 1.0                                          # This should always be 1 for OPTIMA to work, right?
         return random_ics
 
     def make_xml_output(self, file_index: int, output_xmls_path: str) -> None:
         dataPoints = []
-        for i, row in self.experiment.quant_data.iterrows():
+        for i, row in self.experiment.quant_data.iterrows():             # This is the quantitated (i.e., scaled with ics) experiment data  
             dataPoints.append(self.compileDataRow(row.values))
         output = self.generateOutput(dataPoints)
         filename = self.generateFileName(file_index)
@@ -131,37 +136,95 @@ class Simulation:
         return row
     
     def generateOutput(self, dataPoints):
-        file_loader = jinja2.FileSystemLoader('.')
-        env = jinja2.Environment(loader=file_loader)
-        template = env.get_template('7_Krisztian/0_evaluate/input_files/data_w_std.xml')
-        # megszorozza a számolt hibával, a maximum értékét a mérésnek
-        output = template.render(ics=self.random_ics, variables=self.experiment.species,
+        output = self.template.render(ics=self.random_ics, variables=self.experiment.species,
                                 dataPoints=dataPoints)
         return output
 
-    def generateFileName(self, file_index: int) -> str:
+    def generateFileName(self, file_index: int) -> str:             # I think this could be improved
         stresses = "".join(f"{k}_{str(v[0])}" for k, v in self.experiment.stresses.items())
         return f"{self.experiment.author+self.experiment.year}_{self.experiment.name}_{self.experiment.name}_{stresses}_{file_index:04d}.xml"
 
+    def run_simulation(self, dot_opp_file: str) -> None:
+        # This function should run the simulation using the provided dot_opp_file
+        # Maybe a new class for running
+        # self.run = OptimaSimRunner.run_simulation(<initializing variables>)
+        pass
 
-Holczer_rap = Experiment("7_Krisztian/0_evaluate/input_files/rap.csv", {"RAP": (100e-12, "molecular_species")}, "2019", "Holczer")
 
-ranges = TheoreticalRanges("7_Krisztian/0_evaluate/input_files/min_max_ranges.csv", 1e-12, 5)
+class OptimaSimRunner:
 
+    def __init__(self, simulation: Simulation, opp_path: str):
+        self.simulation = simulation
+        self.opp_path = opp_path
+
+    def __str__(self):
+        return f"OPTIMA Simulation Runner\nSimulation used: {self.simulation}OPTIMA (.opp) file path: {self.opp_path}\n\n"
+
+    def opp_exists(self) -> None:
+        # This function should check if an OPTIMA (.opp) file exists at the provided path
+        # or create it if it doesn't
+        if not os.path.exists(self.opp_path):
+            print(f"OPTIMA (.opp) file not found at {self.opp_path}. Please check the path.")
+            return
+        self.run_simulation()
+
+        # if not os.path.exists(self.opp_path):
+        #     self.create_opp_file()
+        #     print('OPTIMA (.opp) file was not found at the given path. New one was created at: ', self.opp_path)
+        #     self.run_simulation()
+        # else:
+        #     self.run_simulation()
+
+    def run_simulation(self) -> None:
+        """Runs the OptimaPP simulation using the provided .opp file."""
+        try:
+            # Command to execute OptimaPP binary with the .opp file
+            command = ["bin/Release/OptimaPP", self.opp_path]
+
+            print(f"\nRunning simulation with: {' '.join(command)}\n")
+            
+            # Run the command and capture output
+            result = subprocess.run(command, capture_output=True, text=True, check=True)
+            
+            # Print the output from the simulation
+            print("\n=== OPTIMA Simulation Output ===")
+            print(result.stdout)
+
+        except subprocess.CalledProcessError as e:
+            print(f"Error: The simulation failed with error:\n{e.stderr}")
+        except FileNotFoundError:
+            print("Error: OptimaPP binary not found! Please check your OptimaPP installation path.")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+
+    def create_opp_file(self, path: str, dot_opp_file: str) -> None:
+        # This function should create an OPTIMA (.opp) file using the provided dot_opp_file
+        # and handle any potential errors or exceptions that may occur
+        pass
+
+
+# To run from code, uncomment the following lines:
+
+Holczer_rap = Experiment("/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/rap.csv", {"RAP": (100e-12, "molecular_species")}, "2019", "Holczer")
+ranges = TheoreticalRanges("/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/min_max_ranges.csv", 1e-12, 5)
 sim1 = Simulation(ranges, Holczer_rap)
-
-sim1.create_xml_files('/home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOPgovernor_Holczer2019/', 20)
-
+sim1.create_xml_files('/home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOPgovernor_Holczer2019', 20, "/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/data_w_std.xml")
 print(Holczer_rap)
 print(ranges)
+print(sim1)
+
+opt_runner = OptimaSimRunner(sim1, "/home/szupernikusz/TDK/Opt/7_Krisztian/1_mechtest/20250224_BCRN_OOPgoverned.opp")
+
+print(opt_runner)
+
+opt_runner.run_simulation()
 
 
-
-# You have to be in the folder where 'bin' is!!!!!!
+# I have to be in the folder where 'bin' is, or rewrite the commands below!!!!!!
 
 # bin/Release/OptimaPP 7_Krisztian/1_mechtest/20250222_BCRN_proba.opp
 # bin/Release/OptimaPP 7_Krisztian/1_mechtest/20250123_BCRN_cor.opp
 # bin/Release/OptimaPP 7_Krisztian/1_mechtest/20250223_BCRN_debug.opp
 # bin/Release/OptimaPP 7_Krisztian/1_mechtest/20240820_BCRN.opp
 # bin/Release/OptimaPP 7_Krisztian/1_mechtest/20250224_BCRN_OOPgoverned.opp
-
+# bin/Release/OptimaPP 7_Krisztian/2_sensitivity/20250224_BCRN6.opp
