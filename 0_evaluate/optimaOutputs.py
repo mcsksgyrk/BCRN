@@ -9,7 +9,7 @@ class OptimaOutput:
 
         self.job_name = str(job_name)
         if optima_path == None:
-            self.optima_path = Path("/home/szupernikusz/Opt/outputs")
+            self.optima_path = Path("/home/nvme/Opt/outputs")
         self.job_folder = self.optima_path / job_name
         file_path = self.job_folder / "mechanismInfo.txt"
         try:
@@ -63,6 +63,13 @@ class OptimaMechtest(OptimaOutput):
                     skiprows = [0,2],
                     delim_whitespace = True
                 )
+            mechtest_files = list(self.job_folder.glob("mechTestResults_*.csv"))
+            if mechtest_files:
+                self.mechTRes = pd.read_csv(
+                    self.job_folder / mechtest_files[0],
+                    header=None,
+                    delimiter=";"
+                )
         except Exception as e:
             raise e
 
@@ -86,14 +93,14 @@ class OptimaSensitivity(OptimaOutput):
     def calc_normalised_sensitivity(self):
         return
 
-mech = OptimaMechtest("20250123_BCRN_cor.opp")
-stac_eq_df = pd.concat({k: v.iloc[-1] for k, v in mech.all_data.items()}, axis=1)
-df_basal = stac_eq_df.iloc[3:-1].T
-basal_cov = df_basal.cov()
-basal_corr = df_basal.corr()
-basal_mean = df_basal.mean()
-basal_std = df_basal.std()
-basal_cov
-
-from scipy import stats
-mvd = stats.multivariate_normal(mean=basal_mean, cov=basal_cov)
+#mech = OptimaMechtest("20250123_BCRN_cor.opp")
+#stac_eq_df = pd.concat({k: v.iloc[-1] for k, v in mech.all_data.items()}, axis=1)
+#df_basal = stac_eq_df.iloc[3:-1].T
+#basal_cov = df_basal.cov()
+#basal_corr = df_basal.corr()
+#basal_mean = df_basal.mean()
+#basal_std = df_basal.std()
+#basal_cov
+#
+#from scipy import stats
+#mvd = stats.multivariate_normal(mean=basal_mean, cov=basal_cov)
