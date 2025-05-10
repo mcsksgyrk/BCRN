@@ -10,6 +10,8 @@ from PyQt5.QtWidgets import (
     QFileDialog, QLineEdit, QTextEdit, QMessageBox, QSpinBox
 )
 from PyQt5.QtCore import Qt
+from pathlib import Path
+import datetime
 
 # --- Core Classes from Existing Code ---
 
@@ -27,7 +29,7 @@ class Experiment:
             self.experiment_data = data_source.copy()
         else:
             raise ValueError("data_source must be a file path or a pandas DataFrame")
-        
+
         self.stresses = stresses
         self.bibtex = self.parse_bibtex(bibtex)
         self.non_species_cols = {"TIME"}
@@ -182,6 +184,10 @@ class OptimaSimulatorUI(QWidget):
         self.output_dir_btn.clicked.connect(self.choose_output_dir)
         layout.addWidget(self.output_dir_btn)
 
+        self.opp_output_dir_btn = QPushButton("Choose output .opp directory")
+        self.opp_output_dir_btn.clicked.connect(self.opp_choose_output_dir)
+        layout.addWidget(self.opp_output_dir_btn)
+
         self.num_xml_input = QSpinBox()
         self.num_xml_input.setRange(1, 100)
         self.num_xml_input.setPrefix("# of XMLs: ")
@@ -204,16 +210,56 @@ class OptimaSimulatorUI(QWidget):
         if file:
             self.range_file_btn.setText(file)
 
-
     def choose_template_file(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select Template XML", "", "XML Files (*.xml)")
         if file:
             self.template_file_btn.setText(file)
 
     def choose_output_dir(self):
-        directory = QFileDialog.getExistingDirectory(self, "Select Output Directory")
+        directory = QFileDialog.getExistingDirectory(self, "Select .xml Output Directory")
         if directory:
             self.output_dir_btn.setText(directory)
+    
+    def opp_choose_output_dir(self):
+        directory = QFileDialog.getExistingDirectory(self, "Select .opp Output Directory")
+        if directory:
+            self.opp_output_dir_btn.setText(directory)
+
+# Define a function to generate .opp file content
+    def generate_opp_content(self, xml_folder: str, worksheet_name: str, mech_file: str = "7_Krisztian/mech/BCRN6.inp", 
+                            yaml_file: str = "7_Krisztian/mech/BCRN6.yaml", time_limit: int = 50, thread_limit: int = 32,
+                            settings_tag: str = "systems_biology", solver: str = "cantera", extension: str = ".xml") -> str:
+        # Collect all matching XML files for this worksheet
+        folder = Path(xml_folder)
+        xml_files = sorted(f for f in folder.glob(f"*{worksheet_name}*{extension}"))
+
+        # Create MECHMOD section
+        mechmod = f"""MECHMOD
+    USE_NAME         BCRN6
+    MECH_FILE        {mech_file}
+    COMPILE_cantera  {yaml_file}
+    END
+    """
+
+        # Create MECHTEST section
+        mechtest = f"""MECHTEST
+        MECHANISM  BCRN6
+        TIME_LIMIT {time_limit}
+        THREAD_LIMIT {thread_limit}
+        SETTINGS_TAG {settings_tag}
+        FALLBACK_TO_DEFAULT_SETTINGS
+
+        SOLVER {solver}
+        SAVE_STATES      CSV
+    """
+
+        # Add each XML file name
+        for xml in xml_files:
+            mechtest += f"      NAME {xml.as_posix()}\n"
+
+        mechtest += "END\n"
+
+        return mechmod + "\n" + mechtest
 
     def create_xmls(self):
         try:
@@ -221,6 +267,7 @@ class OptimaSimulatorUI(QWidget):
             range_csv = self.range_file_btn.text()
             xml_template = self.template_file_btn.text()
             output_dir = self.output_dir_btn.text()
+            opp_output_dir = self.opp_output_dir_btn.text()
             num_xml = self.num_xml_input.value()
             scaling_factor = float(self.scaling_input.text())
             first_species_col = self.first_col_input.value()
@@ -240,7 +287,6 @@ class OptimaSimulatorUI(QWidget):
             bibtex_df = all_sheets[last_sheet_name]
             # Ha nem lenne header a BibTex-nel, akk ezzel kell beolvasni a sheetet: bibtex_df = pd.read_excel(exp_xlsx_path, sheet_name=last_sheet_name, header=None)
 
-
             # Join all non-empty strings from the first column into a BibTeX string
             bibtex_lines = bibtex_df.iloc[:, 0].dropna().astype(str).tolist()
             bibtex_str = "\n".join(bibtex_lines)
@@ -251,6 +297,8 @@ class OptimaSimulatorUI(QWidget):
                 QMessageBox.warning(self, "Input Error", "No valid BibTeX found in the last worksheet.")
                 return
             
+            date = datetime.datetime.now()
+
             for sheet_name in list(all_sheets.keys())[:-1]:
                 df = all_sheets[sheet_name]
                 exp = Experiment(df, stresses, bibtex_str)
@@ -258,6 +306,10 @@ class OptimaSimulatorUI(QWidget):
                 rng = TheoreticalRanges(range_csv, scaling_factor, first_species_col)
                 sim = Simulation(rng, exp)
                 sim.create_xml_files(output_dir, num_xml, xml_template)
+                opp_content = self.generate_opp_content(output_dir, sheet_name)  # Create .opp file content
+                opp_filename = f"{date.year}{date.month}{date.day}_BCRN_{exp.bibtex['author'].split()[0][:-1]}_{sheet_name}.opp" # Define output .opp file path
+                with open(os.path.join(opp_output_dir, opp_filename), "w") as f:
+                    f.write(opp_content)
 
             QMessageBox.information(self, "Success", "XML files have been successfully generated for all worksheets.")
 
