@@ -13,17 +13,17 @@ MECHTEST
 
         SOLVER cantera
         SAVE_STATES      CSV
-          NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0001.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0002.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0003.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0004.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0005.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0006.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0007.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0008.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0009.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0010.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0011.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0012.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0013.xml
+          NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0001.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0002.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0003.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0004.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0005.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0006.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0007.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0008.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0009.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0010.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0011.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0012.xml
+      NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0013.xml
 END

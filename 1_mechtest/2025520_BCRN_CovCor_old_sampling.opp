@@ -13,14 +13,14 @@ MECHTEST
 
         SOLVER cantera
         SAVE_STATES      CSV
-          NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0001.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0002.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0003.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0004.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0005.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0006.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0007.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0008.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0009.xml
-      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0010.xml
+          NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0001.xml
+      NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0002.xml
+      NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0003.xml
+      NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0004.xml
+      NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0005.xml
+      NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0006.xml
+      NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0007.xml
+      NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0008.xml
+      NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0009.xml
+      NAME 7_Krisztian/xml/Stac_for_cov_corr_trial/stac_0010.xml
 END
