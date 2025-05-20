@@ -1,0 +1,36 @@
+MECHMOD
+    USE_NAME         BCRN6
+    MECH_FILE        7_Krisztian/mech/BCRN6.inp
+    COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
+    END
+    
+MECHTEST
+        MECHANISM  BCRN6
+        TIME_LIMIT 50
+        THREAD_LIMIT 32
+        SETTINGS_TAG systems_biology
+        FALLBACK_TO_DEFAULT_SETTINGS
+
+        SOLVER cantera
+        SAVE_STATES      CSV
+          NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0001.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0002.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0003.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0004.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0005.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0006.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0007.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0008.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0009.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0010.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0011.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0012.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0013.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0014.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0015.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0016.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0017.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0018.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0019.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_Casp_0020.xml
+END

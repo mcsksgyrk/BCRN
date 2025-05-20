@@ -16,6 +16,33 @@ import datetime
 # --- Core Classes from Existing Code ---
 
 
+class TheoreticalRanges:
+    def __init__(self, min_max_path: str, scaling_factor: float):
+        self.name = os.path.splitext(os.path.basename(min_max_path))[0]
+        if min_max_path.endswith('.csv'):
+            self.df_ranges = pd.read_csv(min_max_path)
+        elif min_max_path.endswith('.xlsx'):
+            self.df_ranges = pd.read_excel(min_max_path, sheet_name="icranges")
+        self.scaling_factor = scaling_factor
+        self.df_scaled_ranges = self.df_ranges.select_dtypes(include='number') * self.scaling_factor
+        self.bounds = self.get_bounds()
+
+    def __str__(self):
+        return f"The bounds are: \n{self.bounds}\n"
+
+    def get_bounds(self) -> dict[str, tuple[float, float]]:
+        bounds = {}
+        for row in self.df_ranges.iterrows():
+            lb = row[1]["minconc"] * self.scaling_factor
+            ub = row[1]["maxconc"] * self.scaling_factor
+            if lb == '' or lb < 0:
+                lb = 0
+            if ub == '' or ub < 0:
+                ub = 0
+            bounds[str(row[1][0]).upper()] = [lb, ub]   # row[1][0] is the species name
+        return bounds
+
+
 class Experiment:
     def __init__(self, data_source, # data_source: either a string (path to CSV) or a pandas DataFrame
                  stresses: dict[str, tuple[float, str]],
@@ -57,46 +84,41 @@ class Experiment:
 
     def quantitated_exp_data(self, ics: dict[str, float]) -> None:
         quant_Data = self.experiment_data.copy()
+        existing_cols = [c.upper() for c in quant_Data.columns]
+
+        # Add STD column for each species that does not have an STD column
+        for col in quant_Data.columns[1:]:
+            if not col.upper().endswith("STD") and str(col).upper()+"STD" not in existing_cols:
+                elso = (max(quant_Data[col]) - min(quant_Data[col]))/8
+                masodik = np.mean(quant_Data[col])/8
+                print(f"\nAz elso: {elso}, \n A masodik: {masodik}\n")
+                std = max((max(quant_Data[col]) - min(quant_Data[col]))/8, np.mean(quant_Data[col])/8)  # the formula from discord
+                idx = quant_Data.columns.get_loc(col)   # find the position of the species column in the current DataFrame
+                quant_Data.insert(loc=idx+1, column=col+'STD', value=std) # insert the new STD column right *after* it
+
         species_and_std = [col for col in quant_Data.columns if col.upper() not in self.non_species_cols]
-        for s in species_and_std:
+
+        for s in species_and_std: 
             if 'STD' in s.upper():
                 quant_Data[s] *= ics[s[0:-3]]
             else:
                 quant_Data[s] *= ics[s]
         self.quant_data = quant_Data
 
-
-class TheoreticalRanges:
-    def __init__(self, min_max_csv_path: str, scaling_factor: float, first_species_col: int):
-        self.name = os.path.splitext(os.path.basename(min_max_csv_path))[0]
-        self.df_ranges = pd.read_csv(min_max_csv_path)
-        self.scaling_factor = scaling_factor
-        self.df_scaled_ranges = self.df_ranges.select_dtypes(include='number') * self.scaling_factor
-        self.bounds = self.get_bounds(first_species_col)
-
-    def get_bounds(self, first_species_col) -> dict[str, tuple[float, float]]:
-        bounds = {}
-        for col in self.df_scaled_ranges.iloc[:, first_species_col-1:]:
-            lb, ub = self.df_scaled_ranges[col][:2]
-            if lb == '' or lb < 0:
-                lb = 0
-            if ub == '' or ub < 0:
-                ub = 0
-            col = col.replace('x_', '')
-            bounds[col.upper()] = [lb, ub]
-        return bounds
-
-    def check_compatibility(self, experiment: Experiment) -> None:
-        for s in experiment.species:
-            if s not in self.bounds.keys():
-                self.bounds[s] = [0, 0]
+    def check_compatibility(self, ranges: TheoreticalRanges) -> None:
+        omitted = [s for s in self.species if s not in ranges.bounds]
+        if omitted:
+            # drop them
+            self.species = [s for s in self.species if s in ranges.bounds]
+            self.experiment_data.drop(columns=omitted, inplace=True)
+        return omitted
 
 
 class Simulation:
     def __init__(self, species_range: TheoreticalRanges, experiment: Experiment):
         self.species_range = species_range
         self.experiment = experiment
-        self.species_range.check_compatibility(experiment=self.experiment)
+        self.omitted = self.experiment.check_compatibility(ranges=self.species_range)
 
     def create_xml_files(self, output_xmls_path: str, num_of_xmls: int, xml_template_path: str) -> None:
         if not os.path.exists(output_xmls_path):
@@ -116,6 +138,7 @@ class Simulation:
             if self.experiment.stresses[s][1] == "molecular_species":
                 random_ics[s] = self.experiment.stresses[s][0]
         random_ics["REF"] = 1.0
+        print(f"Random initial concentrations: {random_ics}\n")
         return random_ics
 
     def make_xml_output(self, file_index: int, output_xmls_path: str) -> None:
@@ -126,7 +149,7 @@ class Simulation:
             f.write(output)
 
     def compileDataRow(self, dataPoints):
-        meas = "".join(f"<{v}>{{:.4e}}</{v}>" for v in self.experiment.experiment_data.columns)
+        meas = "".join(f"<{v}>{{:.4e}}</{v}>" for v in self.experiment.quant_data)
         return f"<dataPoint>{meas.format(*dataPoints)}</dataPoint>"
 
 
@@ -145,33 +168,24 @@ class OptimaSimulatorUI(QWidget):
         # === Experiment Section ===
         layout.addWidget(QLabel("Experiment:"))
 
-        self.exp_file_btn = QPushButton("Choose .csv file")
+        self.exp_file_btn = QPushButton("Choose experiment file")
         self.exp_file_btn.clicked.connect(self.choose_exp_file)
         layout.addWidget(self.exp_file_btn)
 
         self.exp_info_input = QLineEdit()
-        self.exp_info_input.setPlaceholderText("Enter stress info: e.g. (molecular_species/starvation [RAP 100e-12])")
+        self.exp_info_input.setPlaceholderText("Enter stress info: e.g. (molecular_species/starvation RAP 100e-12)")
         layout.addWidget(self.exp_info_input)
-
-        self.bibtex_input = QTextEdit()
-        self.bibtex_input.setPlaceholderText("Enter BibTex")
-        layout.addWidget(self.bibtex_input)
 
         # === Theoretical Range Section ===
         layout.addWidget(QLabel("Theoretical Ranges:"))
 
-        self.range_file_btn = QPushButton("Choose .csv file")
+        self.range_file_btn = QPushButton("Choose range file")
         self.range_file_btn.clicked.connect(self.choose_range_file)
         layout.addWidget(self.range_file_btn)
 
         self.scaling_input = QLineEdit()
         self.scaling_input.setPlaceholderText("Enter scaling factor (e.g., 1e-12)")
         layout.addWidget(self.scaling_input)
-
-        self.first_col_input = QSpinBox()
-        self.first_col_input.setRange(1, 100)
-        self.first_col_input.setPrefix("First species col index: ")
-        layout.addWidget(self.first_col_input)
 
         # === Simulation Section ===
         layout.addWidget(QLabel("Simulation:"))
@@ -270,7 +284,6 @@ class OptimaSimulatorUI(QWidget):
             opp_output_dir = self.opp_output_dir_btn.text()
             num_xml = self.num_xml_input.value()
             scaling_factor = float(self.scaling_input.text())
-            first_species_col = self.first_col_input.value()
 
             # Parse stresses
             stress_parts = self.exp_info_input.text().split()
@@ -283,7 +296,7 @@ class OptimaSimulatorUI(QWidget):
             all_sheets = pd.read_excel(exp_xlsx_path, sheet_name=None)  # dict of {sheet_name: DataFrame}
 
             # Extract BibTeX from the last sheet
-            last_sheet_name = list(all_sheets.keys())[-1]
+            last_sheet_name = list(all_sheets.keys())[-1]   # Last worksheet should be the BibTeX sheet
             bibtex_df = all_sheets[last_sheet_name]
             # Ha nem lenne header a BibTex-nel, akk ezzel kell beolvasni a sheetet: bibtex_df = pd.read_excel(exp_xlsx_path, sheet_name=last_sheet_name, header=None)
 
@@ -291,11 +304,12 @@ class OptimaSimulatorUI(QWidget):
             bibtex_lines = bibtex_df.iloc[:, 0].dropna().astype(str).tolist()
             bibtex_str = "\n".join(bibtex_lines)
 
-            print("\n", bibtex_str, "\n")
+            #print("\n", bibtex_str, "\n")
 
-            if len(bibtex_str) == 0:
-                QMessageBox.warning(self, "Input Error", "No valid BibTeX found in the last worksheet.")
-                return
+            if not bibtex_str.strip():  # If no BibTeX found, raise an error
+                raise ValueError(f"No valid BibTeX found in the last worksheet.\n"
+                                 f"Extracted string was:\n{bibtex_str!r}")
+
             
             date = datetime.datetime.now()
 
@@ -303,8 +317,14 @@ class OptimaSimulatorUI(QWidget):
                 df = all_sheets[sheet_name]
                 exp = Experiment(df, stresses, bibtex_str)
                 exp.name = sheet_name
-                rng = TheoreticalRanges(range_csv, scaling_factor, first_species_col)
+                rng = TheoreticalRanges(range_csv, scaling_factor)
                 sim = Simulation(rng, exp)
+
+                if sim.omitted:
+                    QMessageBox.warning(self,"Missing Ranges",
+                        f"The following species were not in your ranges file and will be skipped:\n\n"
+                        + ", ".join(sim.omitted))
+
                 sim.create_xml_files(output_dir, num_xml, xml_template)
                 opp_content = self.generate_opp_content(output_dir, sheet_name)  # Create .opp file content
                 opp_filename = f"{date.year}{date.month}{date.day}_BCRN_{exp.bibtex['author'].split()[0][:-1]}_{sheet_name}.opp" # Define output .opp file path
@@ -332,3 +352,10 @@ if __name__ == '__main__':
 # bin/Release/OptimaPP 7_Krisztian/1_mechtest/20240820_BCRN.opp
 # bin/Release/OptimaPP 7_Krisztian/1_mechtest/20250224_BCRN_OOPgoverned.opp
 # bin/Release/OptimaPP 7_Krisztian/2_sensitivity/20250224_BCRN6.opp
+# bin/Release/OptimaPP 7_Krisztian/1_mechtest/2025517_BCRN_Quan_Bec_LC3.opp
+# bin/Release/OptimaPP 7_Krisztian/1_mechtest/2025517_BCRN_CovCor_new_sampling.opp
+
+
+# bin/Release/OptimaPP Krisztian_Opt/mechtest/2025517_BCRN_CovCor_new_sampling.opp
+
+
