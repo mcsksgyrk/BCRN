@@ -481,7 +481,7 @@ class OptimaSimulatorUI(QWidget):
     def create_xmls_stress(self):
         try:
             exp_xlsx_path = self.exp_file_btn.text()
-            range_csv = self.stress_widget.range_file_btn.text()  #self.range_file_btn.text()
+            range_csv = self.stress_widget.range_file_btn.text()  # self.range_file_btn.text()
             xml_template = self.stress_widget.template_file_btn.text()
             output_dir = self.stress_widget.output_dir_btn.text()
             opp_output_dir = self.stress_widget.opp_output_dir_btn.text()
