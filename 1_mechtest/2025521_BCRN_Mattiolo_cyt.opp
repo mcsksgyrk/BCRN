@@ -13,5 +13,5 @@ MECHTEST
 
         SOLVER cantera
         SAVE_STATES      CSV
-          NAME 7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0001.xml
+          NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Mattiolo_2015_cyt_0001.xml
 END
