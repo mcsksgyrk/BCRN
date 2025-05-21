@@ -88,12 +88,48 @@ class OptimaSensitivity(OptimaOutput):
 
 mech = OptimaMechtest("20250123_BCRN_cor.opp")
 stac_eq_df = pd.concat({k: v.iloc[-1] for k, v in mech.all_data.items()}, axis=1)
-df_basal = stac_eq_df.iloc[3:-1].T
+df_basal = stac_eq_df.iloc[3:-1].T*10e12
 basal_cov = df_basal.cov()
 basal_corr = df_basal.corr()
+basal_corr
+import matplotlib.pyplot as plt
+from IPython.display import display
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+pd.set_option('display.precision', 2)
+fig, ax = plt.subplots(figsize=(10, 8))
+im = ax.imshow(basal_corr, cmap='coolwarm', aspect='auto', vmin=-1, vmax=1)
+plt.savefig('test')
 basal_mean = df_basal.mean()
 basal_std = df_basal.std()
-basal_cov
+eigenvals = np.linalg.eigvals(basal_cov)
+eigs = np.linalg.eig(basal_cov)
+
+np.random.multivariate_normal(basal_mean, basal_cov, tol=1, size=(100))
 
 from scipy import stats
 mvd = stats.multivariate_normal(mean=basal_mean, cov=basal_cov)
+mv_normal = stats.multivariate_normal(mean=basal_mean, cov=basal_cov, allow_singular=True)
+mv_normal
+
+arr1 = np.nan_to_num(basal_corr, nan=0.0)
+eigenvalues, eigenvectors = np.linalg.eigh(arr1)
+# Sort eigenvalues and eigenvectors in descending order
+idx = eigenvalues.argsort()[::-1]
+names = basal_corr.columns.to_numpy()[idx]
+
+eigenvalues = eigenvalues[idx]
+eigenvectors = eigenvectors[:, idx]
+explained_variance_ratio = eigenvalues / np.sum(eigenvalues)
+print("Method 1 - PCA using numpy:")
+print("Eigenvalues:", eigenvalues)
+print("Explained variance ratio:", explained_variance_ratio)
+print("\n")
+
+vec = eigenvectors[:,1]
+sorted_indices = np.argsort(np.abs(vec))[::-1]
+sorted_vec = vec[sorted_indices]
+for idx,x in enumerate(sorted_vec):
+    if abs(x) > 0.1: 
+        print(names[idx],":",x)
