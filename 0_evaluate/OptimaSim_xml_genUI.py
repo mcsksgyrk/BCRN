@@ -4,11 +4,12 @@ import numpy as np
 import pandas as pd
 import jinja2
 import bibtexparser
+import glob
 import subprocess
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
-    QFileDialog, QLineEdit, QTextEdit, QMessageBox, QSpinBox
-)
+    QFileDialog, QLineEdit, QTextEdit, QMessageBox, QSpinBox, QTabWidget,
+    QComboBox)
 from PyQt5.QtCore import Qt
 from pathlib import Path
 import datetime
@@ -91,8 +92,8 @@ class Experiment:
             if not col.upper().endswith("STD") and str(col).upper()+"STD" not in existing_cols:
                 elso = (max(quant_Data[col]) - min(quant_Data[col]))/8
                 masodik = np.mean(quant_Data[col])/8
-                print(f"\nAz elso: {elso}, \n A masodik: {masodik}\n")
-                std = max((max(quant_Data[col]) - min(quant_Data[col]))/8, np.mean(quant_Data[col])/8)  # the formula from discord
+                #print(f"\nAz elso: {elso}, \n A masodik: {masodik}\n")
+                std = max(elso, masodik)  # the formula from discord
                 idx = quant_Data.columns.get_loc(col)   # find the position of the species column in the current DataFrame
                 quant_Data.insert(loc=idx+1, column=col+'STD', value=std) # insert the new STD column right *after* it
 
@@ -138,7 +139,7 @@ class Simulation:
             if self.experiment.stresses[s][1] == "molecular_species":
                 random_ics[s] = self.experiment.stresses[s][0]
         random_ics["REF"] = 1.0
-        print(f"Random initial concentrations: {random_ics}\n")
+        #print(f"Random initial concentrations: {random_ics}\n")
         return random_ics
 
     def make_xml_output(self, file_index: int, output_xmls_path: str) -> None:
@@ -153,43 +154,42 @@ class Simulation:
         return f"<dataPoint>{meas.format(*dataPoints)}</dataPoint>"
 
 
-# --- PyQt UI Class ---
-
-class OptimaSimulatorUI(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Optima Experiment Simulation Setup")
-        self.setGeometry(100, 100, 800, 600)
-        self.setup_ui()
-
-    def setup_ui(self):
+class RangeSimWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
         layout = QVBoxLayout()
-
-        # === Experiment Section ===
-        layout.addWidget(QLabel("Experiment:"))
-
-        self.exp_file_btn = QPushButton("Choose experiment file")
-        self.exp_file_btn.clicked.connect(self.choose_exp_file)
-        layout.addWidget(self.exp_file_btn)
-
-        self.exp_info_input = QLineEdit()
-        self.exp_info_input.setPlaceholderText("Enter stress info: e.g. (molecular_species/starvation RAP 100e-12)")
-        layout.addWidget(self.exp_info_input)
 
         # === Theoretical Range Section ===
         layout.addWidget(QLabel("Theoretical Ranges:"))
-
         self.range_file_btn = QPushButton("Choose range file")
         self.range_file_btn.clicked.connect(self.choose_range_file)
         layout.addWidget(self.range_file_btn)
 
         self.scaling_input = QLineEdit()
+        self.scaling_input.setText("1e-12")
         self.scaling_input.setPlaceholderText("Enter scaling factor (e.g., 1e-12)")
         layout.addWidget(self.scaling_input)
 
         # === Simulation Section ===
-        layout.addWidget(QLabel("Simulation:"))
+        layout.addWidget(QLabel("Input mechanism:"))
+        self.inp_file_btn = QPushButton("Choose input file")
+        self.yaml_file_btn = QPushButton("Choose template .yaml file")
+        layout.addWidget(self.inp_file_btn)
+        layout.addWidget(self.yaml_file_btn)
 
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # find the root of the root directory of the GUI (i.e., 7_Krisztian)
+        mech_dir = self.find_mech_dir(root_dir)
+
+        if mech_dir is not None:    # Set an init. .inp and .yaml file if they exist
+            inp_path = self.init_inp_file(mech_dir)
+            yaml_path = self.init_yaml_file(mech_dir)
+            self.inp_file_btn.setText(inp_path)
+            self.yaml_file_btn.setText(yaml_path)
+
+        self.yaml_file_btn.clicked.connect(self.choose_yaml_file)
+        self.inp_file_btn.clicked.connect(self.choose_input_file)
+        
+        layout.addWidget(QLabel("Generate:"))
         self.template_file_btn = QPushButton("Choose template .xml file")
         self.template_file_btn.clicked.connect(self.choose_template_file)
         layout.addWidget(self.template_file_btn)
@@ -203,7 +203,196 @@ class OptimaSimulatorUI(QWidget):
         layout.addWidget(self.opp_output_dir_btn)
 
         self.num_xml_input = QSpinBox()
-        self.num_xml_input.setRange(1, 100)
+        self.num_xml_input.setRange(1, 10000)
+        self.num_xml_input.valueChanged.connect(self.on_num_xmls_changed)
+        self.num_xml_input.setPrefix("# of XMLs: ")
+        layout.addWidget(self.num_xml_input)
+
+        self.setLayout(layout)
+
+    def on_num_xmls_changed(self, val):
+        print(f"{self.objectName()} wants {val} XMLs")
+        # store in self.num_xml or emit a signal…
+
+    def choose_range_file(self):
+        file, _ = QFileDialog.getOpenFileName(self, "Select Range File", "", "Data Files (*.csv *.xlsx)")
+        if file:
+            self.range_file_btn.setText(file)
+            btn = self.sender()              # <-- the button that was clicked
+            btn.setText(file)
+
+    def choose_input_file(self):
+        file, _ = QFileDialog.getOpenFileName(self, "Select input file", "", "Data Files (*.inp)")
+        if file:
+            self.inp_file_btn.setText(file)
+            btn = self.sender()
+            btn.setText(file)
+
+    def choose_yaml_file(self):
+        file, _ = QFileDialog.getOpenFileName(self, "Select yaml file", "", "Data Files (*.yaml)")
+        if file:
+            self.yaml_file_btn.setText(file)
+            btn = self.sender()
+            btn.setText(file)
+
+    def choose_template_file(self):
+        file, _ = QFileDialog.getOpenFileName(self, "Select Template XML", "", "XML Files (*.xml)")
+        if file:
+            self.template_file_btn.setText(file)
+            btn = self.sender()
+            btn.setText(file)
+
+    def choose_output_dir(self):
+        directory = QFileDialog.getExistingDirectory(self, "Select .xml Output Directory")
+        if directory:
+            self.output_dir_btn.setText(directory)
+            btn = self.sender()
+            btn.setText(directory)
+
+    def opp_choose_output_dir(self):
+        directory = QFileDialog.getExistingDirectory(self, "Select .opp Output Directory")
+        if directory:
+            self.opp_output_dir_btn.setText(directory)
+            btn = self.sender()
+            btn.setText(directory)
+
+    def find_mech_dir(self, root_dir: str) -> str | None:
+        """
+        Walks root_dir recursively and returns the first path
+        to a subdirectory named 'mech', or None if not found.
+        """
+        for current_dir, dirnames, filenames in os.walk(root_dir):
+            if 'mech' in dirnames:
+                return os.path.join(current_dir, 'mech')
+        return None
+
+    def init_inp_file(self, mech_dir: str) -> str:
+        pattern = os.path.join(mech_dir, '*.inp')
+        matches = glob.glob(pattern)
+        if not matches:
+            raise FileNotFoundError(f"No .inp file found in {mech_dir!r}")
+        return matches[0]
+
+    def init_yaml_file(self, mech_dir: str) -> str:
+        pattern = os.path.join(mech_dir, '*.yaml')
+        matches = glob.glob(pattern)
+        if not matches:
+            raise FileNotFoundError(f"No .yaml file found in {mech_dir!r}")
+        return matches[0]
+
+
+# --- PyQt UI Class ---
+class OptimaSimulatorUI(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Optima Experiment Simulation Setup")
+        self.setGeometry(100, 100, 800, 600)
+        self.setup_ui()
+
+    def setup_ui(self):
+        self.tabs = QTabWidget()
+
+        # –– Stress State Tab ––
+        self.stress_tab = QWidget()
+        self.stress_layout = QVBoxLayout()
+
+        # –– Basal State Tab ––
+        self.basal_tab = QWidget()
+        self.basal_layout = QVBoxLayout()
+
+        self.stress_widget = RangeSimWidget()
+        self.basal_widget = RangeSimWidget()
+        self.stress_widget.setObjectName("StressTab")
+        self.basal_widget.setObjectName("BasalTab")
+
+        # === Run Simulation ===
+        self.stress_run_button = QPushButton("Create XML Files")
+        self.stress_run_button.clicked.connect(self.create_xmls_stress)
+        self.basal_run_button = QPushButton("Create XML Files")
+        self.basal_run_button.clicked.connect(self.create_xmls_basal)
+
+        self.exp_4_stress_tab()
+        self.stress_layout.addWidget(self.stress_widget)
+        self.stress_layout.addWidget(self.stress_run_button)
+
+        self.basal_layout.addWidget(self.basal_widget)
+        self.basal_layout.addWidget(self.basal_run_button)
+
+        self.stress_tab.setLayout(self.stress_layout)
+        self.tabs.addTab(self.stress_tab, "Stress State")
+        self.basal_tab.setLayout(self.basal_layout)
+        self.tabs.addTab(self.basal_tab, "Basal State")
+
+        # set the tab widget as our only child
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(self.tabs)
+        self.setLayout(main_layout)
+
+    def exp_4_stress_tab(self):
+        # Experiment section (only in Stress State)
+        self.stress_layout.addWidget(QLabel("Experiment:"))
+        self.exp_file_btn = QPushButton("Choose experiment file")
+        self.exp_file_btn.clicked.connect(self.choose_exp_file)
+        self.stress_layout.addWidget(self.exp_file_btn)
+
+        # --- Stress type + magnitude inputs ---
+        row = QHBoxLayout()
+
+        row.addWidget(QLabel("Stress type:"))
+        self.stress_type_cb = QComboBox()
+        self.stress_type_cb.addItems(["rapamycin", "starvation"])
+        self.stress_type_cb.currentTextChanged.connect(self.on_stress_inp_changed)
+        row.addWidget(self.stress_type_cb, stretch=1)
+
+        row.addWidget(QLabel("Level / Conc.:"))
+        self.stress_value_le = QLineEdit()
+        self.stress_value_le.setPlaceholderText("e.g. 100e-12")
+        self.stress_value_le.textChanged.connect(self.on_stress_inp_changed)
+        row.addWidget(self.stress_value_le, stretch=1)
+        self.stress_layout.addLayout(row)
+
+    def _add_ranges_and_simulation(self, layout: QVBoxLayout):
+        """
+        Helper to add Theoretical Ranges and Simulation sections
+        to whichever tab is calling it.
+        """
+        # === Theoretical Range Section ===
+        layout.addWidget(QLabel("Theoretical Ranges:"))
+        self.range_file_btn = QPushButton("Choose range file")
+        self.range_file_btn.clicked.connect(self.choose_range_file)
+        layout.addWidget(self.range_file_btn)
+
+        self.scaling_input = QLineEdit()
+        self.scaling_input.setText("1e-12")
+        self.scaling_input.setPlaceholderText("Enter scaling factor (e.g., 1e-12)")
+        layout.addWidget(self.scaling_input)
+
+        # === Simulation Section ===
+
+        layout.addWidget(QLabel("Input mechanism:"))
+        self.inp_file_btn = QPushButton("Choose input file")
+        self.yaml_file_btn = QPushButton("Choose template .yaml file")
+        self.yaml_file_btn.clicked.connect(self.choose_yaml_file)
+        self.inp_file_btn.clicked.connect(self.choose_input_file)
+        layout.addWidget(self.inp_file_btn)
+        layout.addWidget(self.yaml_file_btn)
+
+        layout.addWidget(QLabel("Generate:"))
+        self.template_file_btn = QPushButton("Choose template .xml file")
+        self.template_file_btn.clicked.connect(self.choose_template_file)
+        layout.addWidget(self.template_file_btn)
+
+        self.output_dir_btn = QPushButton("Choose output .xml directory")
+        self.output_dir_btn.clicked.connect(self.choose_output_dir)
+        layout.addWidget(self.output_dir_btn)
+
+        self.opp_output_dir_btn = QPushButton("Choose output .opp directory")
+        self.opp_output_dir_btn.clicked.connect(self.opp_choose_output_dir)
+        layout.addWidget(self.opp_output_dir_btn)
+
+        self.num_xml_input = QSpinBox()
+        self.num_xml_input.setRange(1, 10000)
+        self.num_xml_input.valueChanged.connect(self.on_num_xmls_changed)
         self.num_xml_input.setPrefix("# of XMLs: ")
         layout.addWidget(self.num_xml_input)
 
@@ -212,37 +401,45 @@ class OptimaSimulatorUI(QWidget):
         self.run_button.clicked.connect(self.create_xmls)
         layout.addWidget(self.run_button)
 
-        self.setLayout(layout)
-
     def choose_exp_file(self):
         file, _ = QFileDialog.getOpenFileName(self, "Select Experiment File", "", "Data Files (*.csv *.xlsx)")
         if file:
             self.exp_file_btn.setText(file)
 
-    def choose_range_file(self):
-        file, _ = QFileDialog.getOpenFileName(self, "Select Range File", "", "Data Files (*.csv *.xlsx)")
-        if file:
-            self.range_file_btn.setText(file)
+    def on_stress_inp_changed(self):
+        pass
 
-    def choose_template_file(self):
-        file, _ = QFileDialog.getOpenFileName(self, "Select Template XML", "", "XML Files (*.xml)")
-        if file:
-            self.template_file_btn.setText(file)
+    def on_num_xmls_changed(self):
+        self.num_xml = self.num_xml_input.value()
+        print(f"Number of XMLs: {self.num_xml}\n")
 
-    def choose_output_dir(self):
-        directory = QFileDialog.getExistingDirectory(self, "Select .xml Output Directory")
-        if directory:
-            self.output_dir_btn.setText(directory)
-    
-    def opp_choose_output_dir(self):
-        directory = QFileDialog.getExistingDirectory(self, "Select .opp Output Directory")
-        if directory:
-            self.opp_output_dir_btn.setText(directory)
+    def stress_parse(self):
+        stress_value = self.stress_value_le.text()
+        stress_type = self.stress_type_cb.currentText()
+        self.stresses = {}
+        if stress_type == "rapamycin":
+            txt = stress_value.strip()
+            print(">>> stress_value_le.text() repr:", repr(txt))
+            #val = float(txt)   # ← this is where it blows up
 
-# Define a function to generate .opp file content
-    def generate_opp_content(self, xml_folder: str, worksheet_name: str, mech_file: str = "7_Krisztian/mech/BCRN6.inp", 
+            if not txt:
+                QMessageBox.warning(self, "Input Error",
+                                    "Please enter a numeric concentration for rapamycin.")
+                return
+            try:
+                val = float(txt)
+            except ValueError:
+                QMessageBox.critical(self, "Input Error",
+                                     f"Cannot parse '{txt}' as a number.")
+                return
+            self.stresses = {stress_type: (val, "molecular_species")}
+        else:  # starvation
+            self.stresses = {stress_type: (0.0, "none")}
+
+# Define a function to generate .xml and .opp file contents
+    def generate_opp_content(self, xml_folder: str, worksheet_name: str, num_xml: int, mech_file: str = "7_Krisztian/mech/BCRN6.inp",
                             yaml_file: str = "7_Krisztian/mech/BCRN6.yaml", time_limit: int = 50, thread_limit: int = 32,
-                            settings_tag: str = "systems_biology", solver: str = "cantera", extension: str = ".xml") -> str:
+                            settings_tag: str = "systems_biology", solver: str = "cantera", extension: str = ".xml",) -> str:
         # Collect all matching XML files for this worksheet
         folder = Path(xml_folder)
         xml_files = sorted(f for f in folder.glob(f"*{worksheet_name}*{extension}"))
@@ -268,29 +465,26 @@ class OptimaSimulatorUI(QWidget):
     """
 
         # Add each XML file name
-        for xml in xml_files:
-            mechtest += f"      NAME {xml.as_posix()}\n"
+        for idx, xml in enumerate(xml_files):
+            if idx < num_xml:
+                mechtest += f"      NAME {xml.as_posix()}\n"
 
         mechtest += "END\n"
 
         return mechmod + "\n" + mechtest
 
-    def create_xmls(self):
+    def create_xmls_stress(self):
         try:
             exp_xlsx_path = self.exp_file_btn.text()
-            range_csv = self.range_file_btn.text()
-            xml_template = self.template_file_btn.text()
-            output_dir = self.output_dir_btn.text()
-            opp_output_dir = self.opp_output_dir_btn.text()
-            num_xml = self.num_xml_input.value()
-            scaling_factor = float(self.scaling_input.text())
+            range_csv = self.stress_widget.range_file_btn.text()  #self.range_file_btn.text()
+            xml_template = self.stress_widget.template_file_btn.text()
+            output_dir = self.stress_widget.output_dir_btn.text()
+            opp_output_dir = self.stress_widget.opp_output_dir_btn.text()
+            scaling_factor = float(self.stress_widget.scaling_input.text())
+            num_xml = self.stress_widget.num_xml_input.value()
 
             # Parse stresses
-            stress_parts = self.exp_info_input.text().split()
-            if len(stress_parts) == 3:
-                stresses = {stress_parts[0]: (stress_parts[1], float(stress_parts[2]))}
-            elif stress_parts[0] != "molecular_species":
-                stresses = {stress_parts[0]: ("", "")}
+            # --- parse stresses safely ---
 
             # Read all sheets from Excel
             all_sheets = pd.read_excel(exp_xlsx_path, sheet_name=None)  # dict of {sheet_name: DataFrame}
@@ -304,29 +498,31 @@ class OptimaSimulatorUI(QWidget):
             bibtex_lines = bibtex_df.iloc[:, 0].dropna().astype(str).tolist()
             bibtex_str = "\n".join(bibtex_lines)
 
-            #print("\n", bibtex_str, "\n")
+            print("\n", bibtex_str, "\n")
 
             if not bibtex_str.strip():  # If no BibTeX found, raise an error
                 raise ValueError(f"No valid BibTeX found in the last worksheet.\n"
                                  f"Extracted string was:\n{bibtex_str!r}")
 
-            
             date = datetime.datetime.now()
+            self.stress_parse()
 
             for sheet_name in list(all_sheets.keys())[:-1]:
                 df = all_sheets[sheet_name]
-                exp = Experiment(df, stresses, bibtex_str)
+                exp = Experiment(df, self.stresses, bibtex_str)
                 exp.name = sheet_name
                 rng = TheoreticalRanges(range_csv, scaling_factor)
                 sim = Simulation(rng, exp)
 
                 if sim.omitted:
-                    QMessageBox.warning(self,"Missing Ranges",
+                    QMessageBox.warning(self, "Missing Ranges",
                         f"The following species were not in your ranges file and will be skipped:\n\n"
                         + ", ".join(sim.omitted))
 
                 sim.create_xml_files(output_dir, num_xml, xml_template)
-                opp_content = self.generate_opp_content(output_dir, sheet_name)  # Create .opp file content
+                mech_file = self.stress_widget.inp_file_btn.text()
+                yaml_file = self.stress_widget.yaml_file_btn.text()
+                opp_content = self.generate_opp_content(output_dir, sheet_name, num_xml=num_xml, mech_file=mech_file, yaml_file=yaml_file)  # Create .opp file content
                 opp_filename = f"{date.year}{date.month}{date.day}_BCRN_{exp.bibtex['author'].split()[0][:-1]}_{sheet_name}.opp" # Define output .opp file path
                 with open(os.path.join(opp_output_dir, opp_filename), "w") as f:
                     f.write(opp_content)
@@ -335,6 +531,10 @@ class OptimaSimulatorUI(QWidget):
 
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
+
+    def create_xmls_basal(self):
+        # TODO: Implement basal state XML generation
+        pass
 
 
 if __name__ == '__main__':

@@ -1,0 +1,50 @@
+MECHMOD
+    USE_NAME         BCRN6
+    MECH_FILE        /home/szupernikusz/TDK/Opt/7_Krisztian/mech/BCRN6.inp
+    COMPILE_cantera  /home/szupernikusz/TDK/Opt/7_Krisztian/mech/BCRN6.yaml
+    END
+    
+MECHTEST
+        MECHANISM  BCRN6
+        TIME_LIMIT 50
+        THREAD_LIMIT 32
+        SETTINGS_TAG systems_biology
+        FALLBACK_TO_DEFAULT_SETTINGS
+
+        SOLVER cantera
+        SAVE_STATES      CSV
+          NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0001.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0002.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0003.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0004.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0005.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0006.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0007.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0008.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0009.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0010.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0011.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0012.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0013.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0014.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0015.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0016.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0017.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0018.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0019.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0020.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0021.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0022.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0023.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0024.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0025.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0026.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0027.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0028.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0029.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0030.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0031.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0032.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0033.xml
+      NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOP_UIgenned_Bibtex/Quan_2015_Bec_LC3_0034.xml
+END
