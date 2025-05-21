@@ -1,7 +1,7 @@
 MECHMOD
     USE_NAME         BCRN6
-    MECH_FILE        /home/szupernikusz/TDK/Opt/7_Krisztian/mech/BCRN6.inp
-    COMPILE_cantera  /home/szupernikusz/TDK/Opt/7_Krisztian/mech/BCRN6.yaml
+    MECH_FILE        7_Krisztian/mech/BCRN6.inp
+    COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
     END
     
 MECHTEST
