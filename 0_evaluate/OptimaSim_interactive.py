@@ -215,10 +215,10 @@ def main():
 
     stresses = {}
     print("""
-Define stresses for the experiment. Enter each stress in the format: NAME VALUE STRESS_TYPE
-STRESS_TYPE can be either 'molecular_species' (for stress caused by a molecule with a defined cc., e.g., RAP),
-or 'arbitrary_stress' (for stress that's more vague, e.g., aa. starvation)
-""")
+            Define stresses for the experiment. Enter each stress in the format: NAME VALUE STRESS_TYPE
+            STRESS_TYPE can be either 'molecular_species' (for stress caused by a molecule with a defined cc., e.g., RAP),
+            or 'arbitrary_stress' (for stress that's more vague, e.g., aa. starvation)
+        """)
 
     print("For example: RAP 100e-12 molecular_species")
     print("Type 'done' when finished.\n")
@@ -276,7 +276,7 @@ or 'arbitrary_stress' (for stress that's more vague, e.g., aa. starvation)
 
     # === GENERATE XML FILES ===
     while True:
-        output_xmls_path = input("Enter the directory path for the output XML files (name is generat): ").strip()
+        output_xmls_path = input("Enter the directory path for the output XML files (name is generated): ").strip()
         if not os.path.exists(output_xmls_path):
             os.makedirs(output_xmls_path)
             print("Directory created successfully!")
@@ -322,25 +322,25 @@ or 'arbitrary_stress' (for stress that's more vague, e.g., aa. starvation)
 # main() is executed when the script is run.
 # Comment this out if you want to run from code.
 # Important: the script was written so that it accepts input .csv files in the format of min_max_ranges.csv (for TheoreticalRanges), and rap.csv (for Experiment).
-#if __name__ == "__main__":
-#    main()
+if __name__ == "__main__":
+    main()
 
 
 # To run from code, uncomment the following lines:
 
-Holczer_rap = Experiment("/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/rap.csv", {"RAP": (100e-12, "molecular_species")}, "2019", "Holczer")
-ranges = TheoreticalRanges("/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/min_max_ranges.csv", 1e-12, 5)
-sim1 = Simulation(ranges, Holczer_rap)
-sim1.create_xml_files('/home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOPgovernor_Holczer2019', 20, "/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/data_w_std.xml")
-print(Holczer_rap)
-print(ranges)
-print(sim1)
+#Holczer_rap = Experiment("/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/rap.csv", {"RAP": (100e-12, "molecular_species")}, "2019", "Holczer")
+#ranges = TheoreticalRanges("/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/min_max_ranges.csv", 1e-12, 5)
+#sim1 = Simulation(ranges, Holczer_rap)
+#sim1.create_xml_files('/home/szupernikusz/TDK/Opt/7_Krisztian/xml/OOPgovernor_Holczer2019', 20, "/home/szupernikusz/TDK/Opt/7_Krisztian/0_evaluate/input_files/data_w_std.xml")
+#print(Holczer_rap)
+#print(ranges)
+#print(sim1)
 
-opt_runner = OptimaSimRunner(sim1, "/home/szupernikusz/TDK/Opt/7_Krisztian/1_mechtest/20250224_BCRN_OOPgoverned.opp")
+#opt_runner = OptimaSimRunner(sim1, "/home/szupernikusz/TDK/Opt/7_Krisztian/1_mechtest/20250224_BCRN_OOPgoverned.opp")
 
-print(opt_runner)
+#print(opt_runner)
 
-opt_runner.run_simulation()
+#opt_runner.run_simulation()
 
 
 # I have to be in the folder where 'bin' is, or rewrite the commands below!!!!!!
