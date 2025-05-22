@@ -1,0 +1,66 @@
+MECHMOD
+    USE_NAME         BCRN6
+    MECH_FILE        7_Krisztian/mech/BCRN6.inp
+    COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
+    END
+    
+MECHTEST
+        MECHANISM  BCRN6
+        TIME_LIMIT 50
+        THREAD_LIMIT 32
+        SETTINGS_TAG systems_biology
+        FALLBACK_TO_DEFAULT_SETTINGS
+
+        SOLVER cantera
+        SAVE_STATES      CSV
+          NAME ../xml/Stac_for_cov_corr/stac_0001.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0002.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0003.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0004.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0005.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0006.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0007.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0008.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0009.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0010.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0011.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0012.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0013.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0014.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0015.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0016.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0017.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0018.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0019.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0020.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0021.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0022.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0023.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0024.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0025.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0026.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0027.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0028.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0029.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0030.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0031.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0032.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0033.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0034.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0035.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0036.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0037.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0038.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0039.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0040.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0041.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0042.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0043.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0044.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0045.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0046.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0047.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0048.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0049.xml
+      NAME ../xml/Stac_for_cov_corr/stac_0050.xml
+END

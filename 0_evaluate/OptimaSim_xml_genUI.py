@@ -5,7 +5,6 @@ import pandas as pd
 import jinja2
 import bibtexparser
 import glob
-import subprocess
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
     QFileDialog, QLineEdit, QTextEdit, QMessageBox, QSpinBox, QTabWidget,
