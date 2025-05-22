@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+
 def sampleBounds(bounds, goLow):
     if bounds[0] != bounds[1] and bounds[0] > 0:
         l, b = bounds
