@@ -419,7 +419,7 @@ class OptimaSimulatorUI(QWidget):
         if stress_type == "rapamycin":
             txt = stress_value.strip()
             print(">>> stress_value_le.text() repr:", repr(txt))
-            #val = float(txt)   # ← this is where it blows up
+            # val = float(txt)   # ← this is where it blows up
 
             if not txt:
                 QMessageBox.warning(self, "Input Error",
@@ -436,9 +436,14 @@ class OptimaSimulatorUI(QWidget):
             self.stresses = {stress_type: (0.0, "none")}
 
 # Define a function to generate .xml and .opp file contents
-    def generate_opp_content(self, xml_folder: str, worksheet_name: str, num_xml: int, mech_file: str = "7_Krisztian/mech/BCRN6.inp",
-                            yaml_file: str = "7_Krisztian/mech/BCRN6.yaml", time_limit: int = 50, thread_limit: int = 32,
-                            settings_tag: str = "systems_biology", solver: str = "cantera", extension: str = ".xml",) -> str:
+    def generate_opp_content(self, xml_folder: str, worksheet_name: str,
+                             num_xml: int,
+                             mech_file: str = "7_Krisztian/mech/BCRN6.inp",
+                             yaml_file: str = "7_Krisztian/mech/BCRN6.yaml",
+                             time_limit: int = 50, thread_limit: int = 32,
+                             settings_tag: str = "systems_biology",
+                             solver: str = "cantera", extension: str = ".xml",
+                             ) -> str:
         # Collect all matching XML files for this worksheet
         folder = Path(xml_folder)
         xml_files = sorted(f for f in folder.glob(f"*{worksheet_name}*{extension}"))
@@ -475,7 +480,7 @@ class OptimaSimulatorUI(QWidget):
     def create_xmls_stress(self):
         try:
             exp_xlsx_path = self.exp_file_btn.text()
-            range_csv = self.stress_widget.range_file_btn.text()  #self.range_file_btn.text()
+            range_csv = self.stress_widget.range_file_btn.text()  # self.range_file_btn.text()
             xml_template = self.stress_widget.template_file_btn.text()
             output_dir = self.stress_widget.output_dir_btn.text()
             opp_output_dir = self.stress_widget.opp_output_dir_btn.text()
