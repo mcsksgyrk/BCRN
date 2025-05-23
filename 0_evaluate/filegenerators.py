@@ -74,7 +74,7 @@ def generate_file(file_index, directory, species, inputs, bounds, source_data, r
                 #ics[v] = origi_ics[v]*source_data[v][0]
 
     output = generateOutput(ics, vars_to_xml, inputs, dataPoints, rel)
-    print(f"ics length: {len(ics)}\nvariables length: {len(vars_to_xml)}\ninputs length: {len(inputs)}")
+    #print(f"ics length: {len(ics)}\nvariables length: {len(vars_to_xml)}\ninputs length: {len(inputs)}")
     filename = generateFileName(file_index, directory)
     #print(f"\n{filename}\n")
     # elmenti generált ic-ket df-be
