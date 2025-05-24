@@ -1,0 +1,66 @@
+MECHMOD
+    USE_NAME         BCRN6
+    MECH_FILE        7_Krisztian/mech/BCRN6.inp
+    COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
+    END
+    
+MECHTEST
+        MECHANISM  BCRN6
+        TIME_LIMIT 50
+        THREAD_LIMIT 32
+        SETTINGS_TAG systems_biology
+        FALLBACK_TO_DEFAULT_SETTINGS
+
+        SOLVER cantera
+        SAVE_STATES      CSV
+          NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0001.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0002.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0003.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0004.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0005.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0006.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0007.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0008.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0009.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0010.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0011.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0012.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0013.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0014.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0015.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0016.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0017.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0018.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0019.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0020.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0021.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0022.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0023.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0024.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0025.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0026.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0027.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0028.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0029.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0030.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0031.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0032.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0033.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0034.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0035.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0036.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0037.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0038.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0039.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0040.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0041.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0042.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0043.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0044.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0045.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0046.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0047.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0048.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0049.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Stac_corr2_seeded/stac_0050.xml
+END
