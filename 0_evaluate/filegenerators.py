@@ -3,6 +3,7 @@ import jinja2
 from parsers import generateICs, compileDataRow, generateBounds, getSpecies
 import time
 import os
+import numpy as np
 
 
 def scaleData(source_data, variables, ics):
@@ -25,9 +26,9 @@ def compileDataTable(ics, variables, source_data):
     # the dataPoints, the other the ic. There should be one constant value, for both the ic and the constant
     # dataPoints values, since the dataPoints values are constant in time and start from the ic value
 
-    dataDf = scaleData(source_data, variables, ics)
+    #dataDf = scaleData(source_data, variables, ics)
     dataPoints = []
-    for i, row in dataDf.iterrows():
+    for i, row in source_data.iterrows():
         dataPoints.append(compileDataRow(variables, row.values))
     return dataPoints
 
@@ -49,7 +50,7 @@ def generateOutput(ics, variables, inputs, dataPoints, rel):
     return output
 
 
-def generateFileName(file_index, directory, maxdigit=4):
+def generateFileName(file_index, directory, maxdigit):
     padded_number = str(file_index).zfill(maxdigit)
     file_name = 'stac'+'_'+padded_number+'.xml'
     path = os.path.join(directory, file_name)
@@ -57,7 +58,8 @@ def generateFileName(file_index, directory, maxdigit=4):
 
 
 # Define the function to generate a file with given content
-def generate_file(file_index, directory, species, inputs, bounds, source_data, rel):
+def generate_file(file_index: int, directory, species, inputs, bounds, source_data, rel, maxdigit: int = 4):
+    np.random.seed(file_index)
     origi_ics = generateICs(species, bounds)    # Gives me an ic for each of the 67 vars in only_vars
     variables = source_data.columns             # These are the columns of the dataPoint df --> i.e., the
                                                 # variables that will go to the bottom of the .xml to be tracked in time
@@ -75,7 +77,7 @@ def generate_file(file_index, directory, species, inputs, bounds, source_data, r
 
     output = generateOutput(ics, vars_to_xml, inputs, dataPoints, rel)
     #print(f"ics length: {len(ics)}\nvariables length: {len(vars_to_xml)}\ninputs length: {len(inputs)}")
-    filename = generateFileName(file_index, directory)
+    filename = generateFileName(file_index, directory, maxdigit)
     #print(f"\n{filename}\n")
     # elmenti generált ic-ket df-be
     with open(filename, 'w') as f:

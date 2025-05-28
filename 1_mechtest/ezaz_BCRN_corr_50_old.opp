@@ -1,0 +1,26 @@
+MECHMOD
+      USE_NAME         BCRN6
+      MECH_FILE        7_Krisztian/mech/BCRN6.inp
+      COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
+      END
+      
+MECHTEST
+      MECHANISM  BCRN6
+      TIME_LIMIT 50
+      THREAD_LIMIT 32
+      SETTINGS_TAG systems_biology
+      FALLBACK_TO_DEFAULT_SETTINGS
+
+      SOLVER cantera
+      SAVE_STATES      CSV
+            NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_41.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_42.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_43.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_44.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_45.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_46.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_47.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_48.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_49.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_50_old/stac_50.xml
+END

@@ -1,0 +1,41 @@
+MECHMOD
+    USE_NAME         BCRN6
+    MECH_FILE        7_Krisztian/mech/BCRN6.inp
+    COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
+    END
+    
+MECHTEST
+        MECHANISM  BCRN6
+        TIME_LIMIT 50
+        THREAD_LIMIT 32
+        SETTINGS_TAG systems_biology
+        FALLBACK_TO_DEFAULT_SETTINGS
+
+        SOLVER cantera
+        SAVE_STATES      CSV
+          NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0001.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0002.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0003.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0004.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0005.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0006.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0007.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0008.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0009.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0010.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0011.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0012.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0013.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0014.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0015.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0016.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0017.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0018.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0019.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0020.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0021.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0022.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0023.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0024.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Basal_corr_old_seeded/stac_0025.xml
+END

@@ -82,12 +82,12 @@ class OptimaMechtest(OptimaOutput):
 
         stac_eq_df = pd.concat({k: v.iloc[-1] for k, v in self.all_data.items()}, axis=1)       # makes a dict() with the
         followed34 = pd.concat({k: v.iloc[-1] for k, v in self.xml_dP.items()}, axis=1)         # same keys, the values is
-        self.df_basal = stac_eq_df.iloc[3:-1].T * 10e9                                          # the last element i.e.,
-        self.df_followed34 = followed34.T * 10e9             # igy nM-ben vannak                # t = last time_point
+        self.df_basal = stac_eq_df.iloc[3:-1].T * 1e12                                         # the last element i.e.,
+        self.df_followed34 = followed34.T * 1e12                                               # t = last time_point
 
     def __str__(self):
         if not self.df_basal.empty and not self.df_followed34.empty:
-            return f"Mech object was successfully generated with fields\ndf_basal: {self.df_basal.describe()}\ndf_followed34: {self.df_followed34.describe()}"
+            return f"Mech object was successfully generated with fields\ndf_basal: {self.df_basal.shape}\ndf_followed34: {self.df_followed34.shape}\nsigmas: {self.sigmas.shape}"
         elif self.df_basal.empty and not self.df_followed34.empty:
             return "Unsuccessful, error with df_basal"
         elif not self.df_basal.empty and self.df_followed34.empty:
@@ -96,7 +96,7 @@ class OptimaMechtest(OptimaOutput):
             return "Mech object was not successfully created"
 
     def get_the34(self, all_sheets_dP):
-        self.xml_dP: dict[str: pd.DataFrame] = {}
+        self.xml_dP: dict[str, pd.DataFrame] = {}
         time_point = 0
         species = 'ilyen_species_tuti_nem_lesz'
         for idx, row in all_sheets_dP.iterrows():
