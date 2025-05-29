@@ -165,16 +165,14 @@ num_xml = 15000
 
 # np.random.seed(0)
 
-for i in range(5001, num_xml+1):
+for i in range(1, num_xml+1):
     file_index = i
-    generate_file(file_index, output_directory, only_vars, inputs, bounds, dataPoints, rel)
-    generate_file(file_index, output_directory2, only_vars, inputs, bounds2, dataPoints, rel)
     generate_file(file_index, output_directory3, only_vars, inputs, bounds2, dataPoints, rel_wide)
 print("job finished")
 print(len(only_vars))
 print(len(input_names))
 
-xmls = [np.arange(5001, 6001, 1), np.arange(6001, 7001, 1),
+"""xmls = [np.arange(5001, 6001, 1), np.arange(6001, 7001, 1),
         np.arange(7001, 8001, 1), np.arange(8001, 9001, 1),
         np.arange(9001, 10001, 1), np.arange(10001, 11001, 1),
         np.arange(11001, 12001, 1), np.arange(12001, 13001, 1),
@@ -232,5 +230,5 @@ for idx, opp_file in enumerate(old_opps):
     command = ["bin/Release/OptimaPP", f"7_Krisztian/1_mechtest/{opp_file}"]
     print(f"Running: {' '.join(command)}")
     with open(f"../logs/2025526/run_log_old{xmls[idx][-1]}.txt", "w") as log:
-        subprocess.run(command, check=True, stdout=log, stderr=subprocess.STDOUT, cwd=parent_path)
+        subprocess.run(command, check=True, stdout=log, stderr=subprocess.STDOUT, cwd=parent_path)"""
 

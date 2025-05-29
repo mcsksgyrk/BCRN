@@ -10,11 +10,14 @@ import matplotlib.pyplot as plt
 import os
 import subprocess
 
-xmls = [np.arange(5001, 6001, 1), np.arange(6001, 7001, 1),
-        np.arange(7001, 8001, 1), np.arange(8001, 9001, 1),
-        np.arange(9001, 10001, 1), np.arange(10001, 11001, 1),
-        np.arange(11001, 12001, 1), np.arange(12001, 13001, 1),
-        np.arange(13001, 14001, 1), np.arange(14001, 15001, 1)]   # max(num_xmls) <= num_xml kell
+xmls = [np.arange(1, 1001, 1), np.arange(1001, 2001, 1),
+        np.arange(2001, 3001, 1), np.arange(3001, 4001, 1),
+        np.arange(4001, 5001, 1),np.arange(5001, 6001, 1),
+        np.arange(6001, 7001, 1), np.arange(7001, 8001, 1),
+        np.arange(8001, 9001, 1), np.arange(9001, 10001, 1),
+        np.arange(10001, 11001, 1), np.arange(11001, 12001, 1),
+        np.arange(12001, 13001, 1), np.arange(13001, 14001, 1),
+        np.arange(14001, 15001, 1)]   # max(num_xmls) <= num_xml kell
 
 opp_output_dir = "../1_mechtest"
 old_opps = []
@@ -30,29 +33,19 @@ for num in xmls:
     new_opps.append(opp_filename2)
     new_opps_wide.append(opp_filename3)
 
-print(f"old ones:\n{old_opps}\nnew ones:\n{new_opps}\nnew wide ones:\n{new_opps_wide}")
+print(f"new wide ones:\n{new_opps_wide}")
 
 parent_path = Path.cwd().parents[1]
 print(parent_path)
 
-command = ["bin/Release/OptimaPP", f"7_Krisztian/1_mechtest/{old_opps[-2]}"]
-print(f"Running: {' '.join(command)}")
-with open(f"../logs/2025526/run_log_old{xmls[-2][-1]}.txt", "w") as log:
-    subprocess.run(command, check=True, stdout=log, stderr=subprocess.STDOUT, cwd=parent_path)
 
-command = ["bin/Release/OptimaPP", f"7_Krisztian/1_mechtest/{old_opps[-1]}"]
-print(f"Running: {' '.join(command)}")
-with open(f"../logs/2025526/run_log_old{xmls[-1][-1]}.txt", "w") as log:
-    subprocess.run(command, check=True, stdout=log, stderr=subprocess.STDOUT, cwd=parent_path)
-
-
-"""for idx, opp_file in enumerate(old_opps):
+for idx, opp_file in enumerate(old_opps):
     command = ["bin/Release/OptimaPP", f"7_Krisztian/1_mechtest/{new_opps_wide[idx]}"]
     print(f"Running: {' '.join(command)}")
     with open(f"../logs/2025526/run_log_new_wide{xmls[idx][-1]}.txt", "w") as log:
         subprocess.run(command, check=True, stdout=log, stderr=subprocess.STDOUT, cwd=parent_path)
 
-for idx, opp_file in enumerate(old_opps):
+"""for idx, opp_file in enumerate(old_opps):
     command = ["bin/Release/OptimaPP", f"7_Krisztian/1_mechtest/{opp_file}"]
     print(f"Running: {' '.join(command)}")
     with open(f"../logs/2025526/run_log_old{xmls[idx][-1]}.txt", "w") as log:
