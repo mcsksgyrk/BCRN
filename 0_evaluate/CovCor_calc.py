@@ -59,7 +59,7 @@ class OptimaMechtest(OptimaOutput):
                 self.errfValues = pd.read_csv(                              # since according to the type def. above, it could
                     self.job_folder / file_name,                            # either be a string or a list of strings
                     header = 9,
-                    delim_whitespace = True                                 # reading the errfValues file as a .csv, omitting the first
+                    delimiter=r"\s+"                                        # reading the errfValues file as a .csv, omitting the first
                 )                                                           # 9 lines of the file (as the header)
             else:
                 self.errfValues = {}
@@ -68,14 +68,14 @@ class OptimaMechtest(OptimaOutput):
                     self.errfValues[e_type] = pd.read_csv(                      # .get(key, default_value) returns the key
                         self.job_folder / file_name,                            # if it's in the dict(), or the default_value
                         header = 9,                                             # if the key is not in the dict()
-                        delim_whitespace = True
+                        delimiter=r"\s+"
                     )
 
             if (self.job_folder / "sigmas").is_file():
                 self.sigmas = pd.read_csv(
                     self.job_folder / "sigmas",
                     skiprows = [0,2],
-                    delim_whitespace = True
+                    delimiter=r"\s+"
                 )
         except Exception as e:
             raise e
@@ -119,17 +119,17 @@ class OptimaSensitivity(OptimaOutput):
         super().__init__(job_name, optima_path)
         try:
             self.reactionList = pd.read_csv(self.job_folder / "reactionList.txt",
-                                            delim_whitespace = True
-                                            )
+                                            sep='\s+')
             self.sensitivityResults = pd.read_csv(self.job_folder / "sensitivityResults",
                                                   header = 6,
-                                                  delim_whitespace = True
-                                            )
+                                                  sep='\s+')
         except Exception as e:
             raise e
+    
     def _calc_overal_impact(self, sigma, data_m):
         I = sigma * np.sqrt(1/(N_cond*N_tim)*s**2)
         return I
+    
     def calc_normalised_sensitivity(self):
         return
 
