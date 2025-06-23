@@ -171,9 +171,14 @@ class Genesis:  # As in it creates the xmls ~ the cells {= life ;)} with differe
 
 class Simulation:
     def __init__(self, gen: Genesis, xmls_in_one_opp: int, opp_output_dir: str,
-                 opp_name_prefix: str, all_in_one=False, kiir=True) -> None:
+                 opp_name_prefix: str, all_in_one=False, kiir=True,
+                 mech_file: str = "7_Krisztian/mech/BCRN6.inp", xml_name: str = 'stac',
+                 yaml_file: str = "7_Krisztian/mech/BCRN6.yaml") -> None:
         self.gen = gen
         self.all_in_one = all_in_one
+        self.mech_file = mech_file
+        self.xml_name = xml_name
+        self.yaml_file = yaml_file
         self.get_xml_vec(xmls_in_one_opp)
         self.opp(opp_output_dir, opp_name_prefix, kiir)
 
@@ -190,25 +195,27 @@ class Simulation:
         self.opps = []
         self.indices = []
         if self.all_in_one:
-          opp_filename = f"{opp_name_prefix}_BCRN_corr_{self.xmls[-1]}_{self.gen.basal.sampling_type}.opp"
+          opp_filename = f"{opp_name_prefix}_BCRN_{self.xml_name}_{self.xmls[-1]}_{self.gen.basal.sampling_type}.opp"
           self.opps.append(opp_filename)
           self.indices.append(f"{self.xmls[-1]}")
           if kiir:
-            opp_content = self.generate_opp_content(self.gen.output_dir, name='stac', num_xmls=self.xmls)
+            opp_content = self.generate_opp_content(self.gen.output_dir, name=self.xml_name, num_xmls=self.xmls,
+                                                    mech_file=self.mech_file, yaml_file=self.yaml_file)
             with open(os.path.join(opp_output_dir, opp_filename), "w") as f:
               f.write(opp_content)
         else:
           for num in self.xmls:
-              opp_filename = f"{opp_name_prefix}_BCRN_corr_{num[-1]}_{self.gen.basal.sampling_type}.opp"
+              opp_filename = f"{opp_name_prefix}_BCRN_{self.xml_name}_{num[-1]}_{self.gen.basal.sampling_type}.opp"
               self.opps.append(opp_filename)
               self.indices.append(f"{num[-1]}")
               if kiir:
-                opp_content = self.generate_opp_content(self.gen.output_dir, name='stac', num_xmls=num)
+                opp_content = self.generate_opp_content(self.gen.output_dir, name=self.xml_name, num_xmls=num,
+                                                        mech_file=self.mech_file, yaml_file=self.yaml_file)
                 with open(os.path.join(opp_output_dir, opp_filename), "w") as f:
                   f.write(opp_content)
 
-    def generate_opp_content(self, xml_folder: str, num_xmls: Union[list[int], list[list[int]]], mech_file: str = "7_Krisztian/mech/BCRN6.inp", 
-                            name: str = 'stac', yaml_file: str = "7_Krisztian/mech/BCRN6.yaml", time_limit: int = 50, thread_limit: int = 32,
+    def generate_opp_content(self, xml_folder: str, num_xmls: Union[list[int], list[list[int]]], mech_file: str,
+                            name: str, yaml_file: str, time_limit: int = 50, thread_limit: int = 32,
                             settings_tag: str = "systems_biology", solver: str = "cantera", extension: str = ".xml") -> str:
 
       # Create MECHMOD section
