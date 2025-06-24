@@ -50,15 +50,16 @@ def generateOutput(ics, variables, inputs, dataPoints, rel):
     return output
 
 
-def generateFileName(file_index, directory, maxdigit):
+def generateFileName(file_index, directory, maxdigit, xml_name):
     padded_number = str(file_index).zfill(maxdigit)
-    file_name = 'stac'+'_'+padded_number+'.xml'
+    file_name = f'{xml_name}_{padded_number}.xml'
     path = os.path.join(directory, file_name)
     return path
 
 
 # Define the function to generate a file with given content
-def generate_file(file_index: int, directory, species, inputs, bounds, source_data, rel, maxdigit: int = 4):
+def generate_file(file_index: int, directory, species, inputs, bounds, source_data,
+                  rel, xml_name, maxdigit: int = 4):
     np.random.seed(file_index)
     origi_ics = generateICs(species, bounds)    # Gives me an ic for each of the 67 vars in only_vars
     variables = source_data.columns             # These are the columns of the dataPoint df --> i.e., the
@@ -77,7 +78,7 @@ def generate_file(file_index: int, directory, species, inputs, bounds, source_da
 
     output = generateOutput(ics, vars_to_xml, inputs, dataPoints, rel)
     #print(f"ics length: {len(ics)}\nvariables length: {len(vars_to_xml)}\ninputs length: {len(inputs)}")
-    filename = generateFileName(file_index, directory, maxdigit)
+    filename = generateFileName(file_index, directory, maxdigit, xml_name=xml_name)
     #print(f"\n{filename}\n")
     # elmenti generált ic-ket df-be
     with open(filename, 'w') as f:

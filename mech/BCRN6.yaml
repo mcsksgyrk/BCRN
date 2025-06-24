@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 2.6.0
-date: Mon, 23 Jun 2025 20:21:40 +0200
+date: Mon, 23 Jun 2025 21:04:06 +0200
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 
@@ -12,11 +12,12 @@ phases:
   species: [AC, AC_GA, AC_GAA, AKT, AKTA, AMPK, AMPKA, ATG5, ATG5T, ATG5_BCL2,
     AUT, BAX, BAXA, BCL2, BCL2_BAX, BCL2_PUMA, BEC1, BEC1A, BEC1_BCL2, BEC1_UVG,
     BID, CA2ER, CA2IC, CALPAIN, CALPAINA, CAMKKB, CAMKKBA, CAMP, CASP, CCH,
-    CYTC, CYTCM, DAPK, DAPKA, DRAM, DS, EPAC, EPACA, GA, GAA, GABC, GBC,
-    GPCRA, INSULIN, IP3, IP3R, IP3R_BCL2, IP3R_IP3, MDM2, MTOR, MTORA, MTOR_RAP,
-    NS, P53, P53A, P53A_BCL2, PHAG, PI3K, PI3KA, PIP2, PKA, PKAA, PKC, PKC_CA2IC,
-    PLCE, PLCEA, PREAUT, PROCASP, PUMA, RAP, REF, RHEB, RHEBA, SERCA, SERCAA,
-    TBID, TG, TG_SERCA, TSC, TSCA, ULK, ULKA, UVG, UVG_BAX]
+    CYTC, CYTCM, DAPK, DAPKA, DRAM, DS, EPAC, EPACA, FKBP12, GA, GAA, GABC,
+    GBC, GPCRA, INSULIN, IP3, IP3R, IP3R_BCL2, IP3R_IP3, MDM2, MTOR, MTORA,
+    MTOR_RAP, NS, P53, P53A, P53A_BCL2, PHAG, PI3K, PI3KA, PIP2, PKA, PKAA,
+    PKC, PKC_CA2IC, PLCE, PLCEA, PREAUT, PROCASP, PUMA, RAP, REF, RHEB,
+    RHEBA, RK, RKMTORA, SERCA, SERCAA, TBID, TG, TG_SERCA, TSC, TSCA, ULK,
+    ULKA, UVG, UVG_BAX]
   kinetics: gas
   state: {T: 300.0, P: 1 atm}
 
@@ -401,6 +402,16 @@ species:
       -1.02465983e+04, -4.63848842]
     - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
       -1.00095936e+04, 9.90506283]
+- name: FKBP12
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
 - name: GA
   composition: {H: 1}
   thermo:
@@ -751,6 +762,26 @@ species:
       -1.02465983e+04, -4.63848842]
     - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
       -1.00095936e+04, 9.90506283]
+- name: RK
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+- name: RKMTORA
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
 - name: SERCA
   composition: {H: 1}
   thermo:
@@ -1034,165 +1065,174 @@ reactions:
 - equation: GA + GBC => GABC + REF  # Reaction 57
   rate-constant: {A: 1.0721e+06, b: 0.0, Ea: 0.0}
   note: R0057
-- equation: RAP + MTORA => MTOR + RAP  # Reaction 58
-  rate-constant: {A: 3.5e+06, b: 0.0, Ea: 0.0}
-  note: R0058
-- equation: RAP => REF  # Reaction 59
+- equation: RAP => REF  # Reaction 58
   rate-constant: {A: 5.0e-04, b: 0.0, Ea: 0.0}
-  note: R0059
-- equation: AMPKA + MTORA => AMPKA + MTOR  # Reaction 60
+  note: R0058
+- equation: AMPKA + MTORA => AMPKA + MTOR  # Reaction 59
   rate-constant: {A: 6.0854e+07, b: 0.0, Ea: 0.0}
-  note: R0060
-- equation: MTORA => MTOR  # Reaction 61
+  note: R0059
+- equation: MTORA => MTOR  # Reaction 60
   rate-constant: {A: 3.5467e-04, b: 0.0, Ea: 0.0}
-  note: R0061
-- equation: MTORA + AMPKA => MTORA + AMPK  # Reaction 62
+  note: R0060
+- equation: MTORA + AMPKA => MTORA + AMPK  # Reaction 61
   rate-constant: {A: 3.8554e+04, b: 0.0, Ea: 0.0}
-  note: R0062
-- equation: ULKA + MTORA <=> MTORA + ULK  # Reaction 63
+  note: R0061
+- equation: ULKA + MTORA <=> MTORA + ULK  # Reaction 62
   rate-constant: {A: 1.6122e+08, b: 0.0, Ea: 0.0}
-  note: R0063
-- equation: ULKA + MTORA <=> MTOR + ULKA  # Reaction 64
+  note: R0062
+- equation: ULKA + MTORA <=> MTOR + ULKA  # Reaction 63
   rate-constant: {A: 1.9507e+05, b: 0.0, Ea: 0.0}
-  note: R0064
-- equation: AMPKA + TSC => AMPKA + TSCA  # Reaction 65
+  note: R0063
+- equation: AMPKA + TSC => AMPKA + TSCA  # Reaction 64
   rate-constant: {A: 1.8049e+04, b: 0.0, Ea: 0.0}
-  note: R0065
-- equation: RHEBA + TSCA => RHEB + TSCA  # Reaction 66
+  note: R0064
+- equation: RHEBA + TSCA => RHEB + TSCA  # Reaction 65
   rate-constant: {A: 5229.2, b: 0.0, Ea: 0.0}
-  note: R0066
-- equation: RHEBA + MTOR => RHEBA + MTORA  # Reaction 67
+  note: R0065
+- equation: RHEBA + MTOR => RHEBA + MTORA  # Reaction 66
   rate-constant: {A: 1.4312e+08, b: 0.0, Ea: 0.0}
-  note: R0067
-- equation: RHEB => RHEBA  # Reaction 68
+  note: R0066
+- equation: RHEB => RHEBA  # Reaction 67
   rate-constant: {A: 9.2104e-08, b: 0.0, Ea: 0.0}
-  note: R0068
-- equation: AKTA => AKT  # Reaction 69
+  note: R0067
+- equation: AKTA => AKT  # Reaction 68
   rate-constant: {A: 5.0667e-07, b: 0.0, Ea: 0.0}
-  note: R0069
-- equation: AKTA + TSCA => AKTA + TSC  # Reaction 70
+  note: R0068
+- equation: AKTA + TSCA => AKTA + TSC  # Reaction 69
   rate-constant: {A: 6.468e+09, b: 0.0, Ea: 0.0}
-  note: R0070
-- equation: ATG5T + BCL2 => ATG5_BCL2 + REF  # Reaction 71
+  note: R0069
+- equation: ATG5T + BCL2 => ATG5_BCL2 + REF  # Reaction 70
   rate-constant: {A: 7.3997e+04, b: 0.0, Ea: 0.0}
-  note: R0071
-- equation: ATG5_BCL2 + REF => ATG5T + BCL2  # Reaction 72
+  note: R0070
+- equation: ATG5_BCL2 + REF => ATG5T + BCL2  # Reaction 71
   rate-constant: {A: 2.1456e-09, b: 0.0, Ea: 0.0}
-  note: R0072
-- equation: CALPAINA + ATG5 => CALPAINA + ATG5T  # Reaction 73
+  note: R0071
+- equation: CALPAINA + ATG5 => CALPAINA + ATG5T  # Reaction 72
   rate-constant: {A: 2.2338e+06, b: 0.0, Ea: 0.0}
-  note: R0073
-- equation: CALPAINA + BEC1 => CALPAINA + REF  # Reaction 74
+  note: R0072
+- equation: CALPAINA + BEC1 => CALPAINA + REF  # Reaction 73
   rate-constant: {A: 1.1834e+05, b: 0.0, Ea: 0.0}
-  note: R0074
-- equation: IP3R + BCL2 => IP3R_BCL2 + REF  # Reaction 75
+  note: R0073
+- equation: IP3R + BCL2 => IP3R_BCL2 + REF  # Reaction 74
   rate-constant: {A: 2.5302e+05, b: 0.0, Ea: 0.0}
-  note: R0075
-- equation: IP3R_BCL2 + REF => IP3R + BCL2  # Reaction 76
+  note: R0074
+- equation: IP3R_BCL2 + REF => IP3R + BCL2  # Reaction 75
   rate-constant: {A: 5.5248e-07, b: 0.0, Ea: 0.0}
-  note: R0076
-- equation: BEC1 + BCL2 => BEC1_BCL2 + REF  # Reaction 77
+  note: R0075
+- equation: BEC1 + BCL2 => BEC1_BCL2 + REF  # Reaction 76
   rate-constant: {A: 1.2416e+04, b: 0.0, Ea: 0.0}
-  note: R0077
-- equation: BEC1_BCL2 + REF => BEC1 + BCL2  # Reaction 78
+  note: R0076
+- equation: BEC1_BCL2 + REF => BEC1 + BCL2  # Reaction 77
   rate-constant: {A: 0.11221, b: 0.0, Ea: 0.0}
-  note: R0078
-- equation: ULKA + REF => ULKA + PHAG  # Reaction 79
+  note: R0077
+- equation: ULKA + REF => ULKA + PHAG  # Reaction 78
   rate-constant: {A: 7.9957e-08, b: 0.0, Ea: 0.0}
-  note: R0079
-- equation: AMPKA + ULK => AMPKA + ULKA  # Reaction 80
+  note: R0078
+- equation: AMPKA + ULK => AMPKA + ULKA  # Reaction 79
   rate-constant: {A: 4027.0, b: 0.0, Ea: 0.0}
-  note: R0080
-- equation: AMPK + NS => AMPKA + NS  # Reaction 81
+  note: R0079
+- equation: AMPK + NS => AMPKA + NS  # Reaction 80
   rate-constant: {A: 2.73e+06, b: 0.0, Ea: 0.0}
-  note: R0081
-- equation: AMPKA => AMPK  # Reaction 82
+  note: R0080
+- equation: AMPKA => AMPK  # Reaction 81
   rate-constant: {A: 4.0934e-07, b: 0.0, Ea: 0.0}
-  note: R0082
-- equation: ULKA => ULK  # Reaction 83
+  note: R0081
+- equation: ULKA => ULK  # Reaction 82
   rate-constant: {A: 0.28119, b: 0.0, Ea: 0.0}
-  note: R0083
-- equation: AMPKA + ULKA => AMPK + ULKA  # Reaction 84
+  note: R0082
+- equation: AMPKA + ULKA => AMPK + ULKA  # Reaction 83
   rate-constant: {A: 1.6661e+05, b: 0.0, Ea: 0.0}
-  note: R0084
-- equation: PHAG + BEC1 => PREAUT + BEC1  # Reaction 85
+  note: R0083
+- equation: PHAG + BEC1 => PREAUT + BEC1  # Reaction 84
   rate-constant: {A: 2.6972e+05, b: 0.0, Ea: 0.0}
-  note: R0085
-- equation: PHAG + BEC1_UVG => PREAUT + BEC1_UVG  # Reaction 86
+  note: R0084
+- equation: PHAG + BEC1_UVG => PREAUT + BEC1_UVG  # Reaction 85
   rate-constant: {A: 2.523e+09, b: 0.0, Ea: 0.0}
-  note: R0086
-- equation: BEC1A + UVG => BEC1_UVG + REF  # Reaction 87
+  note: R0085
+- equation: BEC1A + UVG => BEC1_UVG + REF  # Reaction 86
   rate-constant: {A: 1.373e+07, b: 0.0, Ea: 0.0}
-  note: R0087
-- equation: BEC1_UVG + REF => BEC1A + UVG  # Reaction 88
+  note: R0086
+- equation: BEC1_UVG + REF => BEC1A + UVG  # Reaction 87
   rate-constant: {A: 3.7239e-04, b: 0.0, Ea: 0.0}
-  note: R0088
-- equation: REF => BEC1  # Reaction 89
+  note: R0087
+- equation: REF => BEC1  # Reaction 88
   rate-constant: {A: 1.1291e-19, b: 0.0, Ea: 0.0}
-  note: R0089
-- equation: PHAG => REF  # Reaction 90
+  note: R0088
+- equation: PHAG => REF  # Reaction 89
   rate-constant: {A: 2.97e-06, b: 0.0, Ea: 0.0}
-  note: R0090
-- equation: ATG5 + PHAG => ATG5 + AUT  # Reaction 91
+  note: R0089
+- equation: ATG5 + PHAG => ATG5 + AUT  # Reaction 90
   rate-constant: {A: 1.0032e+10, b: 0.0, Ea: 0.0}
-  note: R0091
-- equation: AUT => REF  # Reaction 92
+  note: R0090
+- equation: AUT => REF  # Reaction 91
   rate-constant: {A: 2.0175e-05, b: 0.0, Ea: 0.0}
+  note: R0091
+- equation: AUT + NS => AUT + REF  # Reaction 92
+  rate-constant: {A: 2.83e+08, b: 0.0, Ea: 0.0}
   note: R0092
-- equation: AUT + NS => AUT + REF  # Reaction 93
+- equation: AUT + DS => AUT + REF  # Reaction 93
   rate-constant: {A: 2.83e+08, b: 0.0, Ea: 0.0}
   note: R0093
-- equation: AUT + DS => AUT + REF  # Reaction 94
-  rate-constant: {A: 2.83e+08, b: 0.0, Ea: 0.0}
-  note: R0094
-- equation: REF => PHAG  # Reaction 95
+- equation: REF => PHAG  # Reaction 94
   rate-constant: {A: 2.9946e-19, b: 0.0, Ea: 0.0}
-  note: R0095
-- equation: PREAUT => REF  # Reaction 96
+  note: R0094
+- equation: PREAUT => REF  # Reaction 95
   rate-constant: {A: 5.906e-08, b: 0.0, Ea: 0.0}
-  note: R0096
-- equation: REF + P53A => P53A + DRAM  # Reaction 97
+  note: R0095
+- equation: REF + P53A => P53A + DRAM  # Reaction 96
   rate-constant: {A: 6.4421e-04, b: 0.0, Ea: 0.0}
-  note: R0097
-- equation: DRAM => REF  # Reaction 98
+  note: R0096
+- equation: DRAM => REF  # Reaction 97
   rate-constant: {A: 1.6721e-07, b: 0.0, Ea: 0.0}
-  note: R0098
-- equation: DRAM + PREAUT => DRAM + AUT  # Reaction 99
+  note: R0097
+- equation: DRAM + PREAUT => DRAM + AUT  # Reaction 98
   rate-constant: {A: 5.5519e+06, b: 0.0, Ea: 0.0}
-  note: R0099
-- equation: REF => ATG5  # Reaction 100
+  note: R0098
+- equation: REF => ATG5  # Reaction 99
   rate-constant: {A: 5.9288e-15, b: 0.0, Ea: 0.0}
-  note: R0100
-- equation: ATG5T => REF  # Reaction 101
+  note: R0099
+- equation: ATG5T => REF  # Reaction 100
   rate-constant: {A: 1.6338e-07, b: 0.0, Ea: 0.0}
-  note: R0101
-- equation: ATG5 => REF  # Reaction 102
+  note: R0100
+- equation: ATG5 => REF  # Reaction 101
   rate-constant: {A: 3.0972e-05, b: 0.0, Ea: 0.0}
-  note: R0102
-- equation: CAMP + PKA => PKAA + CAMP  # Reaction 103
+  note: R0101
+- equation: CAMP + PKA => PKAA + CAMP  # Reaction 102
   rate-constant: {A: 1.5503e+06, b: 0.0, Ea: 0.0}
-  note: R0103
-- equation: PKAA + PHAG => PKAA + REF  # Reaction 104
+  note: R0102
+- equation: PKAA + PHAG => PKAA + REF  # Reaction 103
   rate-constant: {A: 3.333e+08, b: 0.0, Ea: 0.0}
-  note: R0104
-- equation: PKAA => PKA  # Reaction 105
+  note: R0103
+- equation: PKAA => PKA  # Reaction 104
   rate-constant: {A: 6.6664e-06, b: 0.0, Ea: 0.0}
-  note: R0105
-- equation: PKC_CA2IC + PLCEA => PLCE + PKC_CA2IC  # Reaction 106
+  note: R0104
+- equation: PKC_CA2IC + PLCEA => PLCE + PKC_CA2IC  # Reaction 105
   rate-constant: {A: 3.8707e+08, b: 0.0, Ea: 0.0}
-  note: R0106
-- equation: PKC + CA2IC => PKC_CA2IC + REF  # Reaction 107
+  note: R0105
+- equation: PKC + CA2IC => PKC_CA2IC + REF  # Reaction 106
   rate-constant: {A: 1.464e+04, b: 0.0, Ea: 0.0}
-  note: R0107
-- equation: BEC1 + ULKA => BEC1A + ULKA  # Reaction 108
+  note: R0106
+- equation: BEC1 + ULKA => BEC1A + ULKA  # Reaction 107
   rate-constant: {A: 4027.3, b: 0.0, Ea: 0.0}
-  note: R0108
-- equation: INSULIN + PI3K => PI3KA + INSULIN  # Reaction 109
+  note: R0107
+- equation: INSULIN + PI3K => PI3KA + INSULIN  # Reaction 108
   rate-constant: {A: 8.1788e+07, b: 0.0, Ea: 0.0}
-  note: R0109
-- equation: PI3KA => PI3K  # Reaction 110
+  note: R0108
+- equation: PI3KA => PI3K  # Reaction 109
   rate-constant: {A: 0.15443, b: 3.7e-04, Ea: 0.0}
-  note: R0110
-- equation: PI3KA + AKT => AKTA + PI3K  # Reaction 111
+  note: R0109
+- equation: PI3KA + AKT => AKTA + PI3K  # Reaction 110
   rate-constant: {A: 6.8775e+10, b: 0.0, Ea: 0.0}
+  note: R0110
+- equation: RAP + FKBP12 => RK + REF  # Reaction 111
+  rate-constant: {A: 1.9e+09, b: 0.0, Ea: 0.0}
   note: R0111
+- equation: REF + RK => RAP + FKBP12  # Reaction 112
+  rate-constant: {A: 5.3e-04, b: 0.0, Ea: 0.0}
+  note: R0112
+- equation: RK + MTORA => RKMTORA + REF  # Reaction 113
+  rate-constant: {A: 2.6e+09, b: 0.0, Ea: 0.0}
+  note: R0113
+- equation: RKMTORA + REF => RK + MTORA  # Reaction 114
+  rate-constant: {A: 0.0308, b: 0.0, Ea: 0.0}
+  note: R0114

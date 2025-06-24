@@ -134,9 +134,11 @@ class Basal:
 
 class Genesis:  # As in it creates the xmls ~ the cells {= life ;)} with different initial conditions
     def __init__(self, basal: Basal, num_of_xmls: int, make_dirs = True,
-                 output_directory: str = '/home/nvme/Opt/7_Krisztian/xml/') -> None:
+                 output_directory: str = '/home/nvme/Opt/7_Krisztian/xml/',
+                 xml_name: str = 'stac') -> None:
         self.basal = basal
         self.num_xmls = num_of_xmls
+        self.xml_name = xml_name
         self.maxdigit = len(str(num_of_xmls))
         self.check_output_dir(output_directory, make_dirs=make_dirs)
 
@@ -164,7 +166,7 @@ class Genesis:  # As in it creates the xmls ~ the cells {= life ;)} with differe
             file_index = i
             generate_file(file_index, self.output_dir, only_vars, inputs,
                           self.basal.bounds, self.basal.dataPoints,
-                          self.basal.rel_sigmas, self.maxdigit)
+                          self.basal.rel_sigmas, self.xml_name, self.maxdigit)
 
         print("job finished")
 

@@ -1,6 +1,6 @@
 MECHMOD
       USE_NAME         BCRN6
-      MECH_FILE        7_Krisztian/mech/BCRN6.inp
+      MECH_FILE        7_Krisztian/mech/BCRN_Nitin_rap.inp
       COMPILE_cantera  7_Krisztian/mech/BCRN6.yaml
       END
       
