@@ -1,21 +1,3 @@
-!changes 2024.11.01. Tibor - Bence
-!  commented out
-!   ! R0058
-!   !RAP+MTOR=>MTOR_RAP+REF              3.5000E+06  0.00000         0.00
-!   ! R0059
-!   !MTOR_RAP+REF=>RAP+MTOR              3.2500E-04  0.00000         0.00
-!   ! R0060
-!   !RAP+MTORA=>MTOR_RAP+REF             3.5000E+06  0.00000         0.00
-!   ! R0061
-!   !MTOR_RAP+REF=>RAP+MTORA             3.2500E-04  0.00000         0.00
-!   ! R0062
-
-!  added
-!   ! R0058
-!   RAP+MTORA=>MTOR+RAP                 3.5000E+06  0.00000         0.00
-!   ! R0059
-!   RAP=>REF                            0.0005      0.00000         0.00
-
 ELEMENTS
 C H
 END
