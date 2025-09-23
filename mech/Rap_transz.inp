@@ -36,6 +36,8 @@ END
 !ide reakciókat, első oszlopba írd reakció param. mol/cm3!!!
 REACTIONS MOLES KELVINS
 ! R0001                             !reakció kinetikai állandó, csak első oszlop kell, mol/cm3-ben
+REF=>RAP                            3.3333E-13  0.00000         0.00
+RAP=>REF                            3.3333E-03  0.00000         0.00
 RAP+FKBP12=>RK+REF                  1.9000E+09  0.00000         0.00               
 REF+RK=>RAP+FKBP12                  5.3000E-04  0.00000         0.00
 RK+MTORA=>RKMTORA+REF               2.6000E+09  0.00000         0.00
