@@ -1,9 +1,9 @@
 MECHMOD
     USE_NAME         BCRN6
-    MECH_FILE        7_Krisztian/mech/BCRN6_strvation.inp
-    COMPILE_cantera  7_Krisztian/mech/BCRN6_strvation.yaml
+    MECH_FILE        7_Krisztian/mech/BCRN6_starvation.inp
+    COMPILE_cantera  7_Krisztian/mech/BCRN6_starvation.yaml
     END
-    
+
 MECHTEST
         MECHANISM  BCRN6
         TIME_LIMIT 50
@@ -13,5 +13,5 @@ MECHTEST
         
         SOLVER cantera
         SAVE_STATES      CSV
-          NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Zita/stac_0001.xml
+          NAME /home/nvme/Opt/7_Krisztian/xml/Zita/starvation_low_insulin.xml
 END
