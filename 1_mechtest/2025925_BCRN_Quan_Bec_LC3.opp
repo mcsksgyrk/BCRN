@@ -1,0 +1,31 @@
+MECHMOD
+      USE_NAME         BCRN6
+      MECH_FILE        7_Krisztian/mech/BCRN_Nitin_rap.inp
+      COMPILE_cantera  7_Krisztian/mech/BCRN_Nitin_rap.yaml
+      END
+      
+MECHTEST
+      MECHANISM  BCRN6
+      TIME_LIMIT 50
+      THREAD_LIMIT 32
+      SETTINGS_TAG systems_biology
+      FALLBACK_TO_DEFAULT_SETTINGS
+
+      SOLVER cantera
+      SAVE_STATES      CSV
+            NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0001.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0002.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0003.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0004.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0005.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0006.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0007.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0008.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0009.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0010.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0011.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0012.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0013.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0014.xml
+      NAME /home/nvme/Opt/7_Krisztian/xml/Quan_2015/Bec_LC3/stressful_life_0015.xml
+END
