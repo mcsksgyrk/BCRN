@@ -42,7 +42,6 @@
             <component><speciesLink preferredKey="AMPKa"         chemName="AMPKa"     /><amount units="mole fraction" >7.178508349134253e-14</amount></component>
             <component><speciesLink preferredKey="AKT"         chemName="AKT"     /><amount units="mole fraction" >3.589978047277139e-14</amount></component>
             <component><speciesLink preferredKey="AKTa"         chemName="AKTa"     /><amount units="mole fraction" >1.0893055369032842e-10</amount></component>
-            <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >0.0</amount></component>
             <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1.0</amount></component>
             <component><speciesLink preferredKey="Insulin"         chemName="Insulin"     /><amount units="mole fraction" >1e-7</amount></component>
         </property>

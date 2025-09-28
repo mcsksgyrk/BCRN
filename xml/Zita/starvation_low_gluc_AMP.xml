@@ -1,0 +1,115 @@
+<experiment>
+    <fileAuthor>Bence Hajdú and Tibor Nagy</fileAuthor>
+    <fileVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </fileVersion>
+    <ReSpecThVersion>
+        <major>2</major>
+        <minor>5</minor>
+    </ReSpecThVersion>
+    <bibliographyLink>
+        <description></description>
+        <referenceDOI>10.1038/s41598-020-75030-8</referenceDOI>
+        <details>
+            <author>Marianna Holczer, Bence Hajdú, Tamás Lőrincz, András Szarka, Gábor Bánhegyi, Orsolya Kapuy</author>
+            <journal>Scientific Reports</journal>
+            <number>1</number>
+            <title>Fine-tuning of AMPK–ULK1–mTORC1 regulatory triangle is crucial for autophagy oscillation</title>
+            <volume>10</volume>
+            <year>2020</year>
+        </details>
+    </bibliographyLink>
+    <experimentType>concentration time profile measurement</experimentType>
+    <apparatus>
+        <kind>flow reactor</kind>
+    </apparatus>
+    <commonProperties>
+        <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
+        <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
+        <property name="initial composition"  sourcetype="digitized" >
+            <component><speciesLink preferredKey="RHEBa"         chemName="RHEBa"     /><amount units="mole fraction" >1.5003431244520347e-10</amount></component>
+            <component><speciesLink preferredKey="AMPK"         chemName="AMPK"     /><amount units="mole fraction" >3.170852726411429e-10</amount></component>
+            <component><speciesLink preferredKey="AMP"         chemName="AMP"     /><amount units="mole fraction" >3.170852726411429e-12</amount></component>
+            <component><speciesLink preferredKey="ATP"         chemName="ATP"     /><amount units="mole fraction" >3.170852726411429e-10</amount></component>
+            <component><speciesLink preferredKey="ADP"         chemName="ADP"     /><amount units="mole fraction" >3.170852726411429e-11</amount></component>
+            <component><speciesLink preferredKey="ULKa"         chemName="ULKa"     /><amount units="mole fraction" >5.849350606030213e-14</amount></component>
+            <component><speciesLink preferredKey="ULK"         chemName="ULK"     /><amount units="mole fraction" >8.296536502777316e-11</amount></component>
+            <component><speciesLink preferredKey="RHEB"         chemName="RHEB"     /><amount units="mole fraction" >2.263482447357104e-14</amount></component>
+            <component><speciesLink preferredKey="mTOR"         chemName="mTOR"     /><amount units="mole fraction" >2.7829134017639092e-14</amount></component>
+            <component><speciesLink preferredKey="TSC"         chemName="TSC"     /><amount units="mole fraction" >2.6827258852559564e-10</amount></component>
+            <component><speciesLink preferredKey="TSCa"         chemName="TSCa"     /><amount units="mole fraction" >8.903282530864718e-14</amount></component>
+            <component><speciesLink preferredKey="mTORa"         chemName="mTORa"     /><amount units="mole fraction" >3.0581836162727356e-10</amount></component>
+            <component><speciesLink preferredKey="AMPKA"         chemName="AMPKA"     /><amount units="mole fraction" >7.178508349134253e-14</amount></component>
+            <component><speciesLink preferredKey="AKT"         chemName="AKT"     /><amount units="mole fraction" >3.589978047277139e-14</amount></component>
+            <component><speciesLink preferredKey="AKTa"         chemName="AKTa"     /><amount units="mole fraction" >1.0893055369032842e-10</amount></component>
+            <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1.0</amount></component>
+            <component><speciesLink preferredKey="GLUCOSE"         chemName="GLUCOSE"     /><amount units="mole fraction" >0</amount></component>
+        </property>
+        
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMP"  chemName="AMP" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="ATP"  chemName="ATP" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPKA"  chemName="AMPKA" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="ULKA"  chemName="ULKA" />
+            <value>2.5e-11</value>
+        </property>
+        
+    </commonProperties>
+    <dataGroup id="dg1">
+        <property name="time"                          id="time"    label="t"       sourcetype="reported"  units="min"     />
+        <property name="composition"  id="MTORA" label="MTORA"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
+        </property>
+        <property name="composition"  id="AMP" label="AMP"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="AMP"  chemName="AMP" />
+        </property>
+        <property name="composition"  id="ATP" label="ATP"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="ATP"  chemName="ATP" />
+        </property>
+        <property name="composition"  id="AMPKA" label="AMPKA"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="AMPKA"  chemName="AMPKA" />
+        </property>
+        <property name="composition"  id="ULKA" label="ULKA"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="ULKA"  chemName="ULKA" />
+        </property>
+            <dataPoint><time>0.00e+00</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>6.00e+01</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.20e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.80e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>2.40e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>3.00e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>3.60e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>4.20e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>4.80e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>5.40e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>6.00e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>6.60e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>7.20e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>7.80e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>8.40e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>9.00e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>9.60e+02</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.02e+03</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.08e+03</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.14e+03</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.20e+03</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.26e+03</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.32e+03</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.38e+03</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+            <dataPoint><time>1.44e+03</time><MTORA>2.00e-10</MTORA><AMP>3.75e-10</AMP><ATP>3.75e-10</ATP><AMPKA>3.75e-10</AMPKA><ULKA>3.75e-10</ULKA></dataPoint>
+    </dataGroup>
+</experiment>
