@@ -1,0 +1,19 @@
+MECHMOD
+  USE_NAME         Rap_transz
+  MECH_FILE        27_Krisztian/mech/Rap_transz.inp
+  COMPILE_cantera  27_Krisztian/mech/Rap_transz.yaml
+END
+
+MECHTEST
+    MECHANISM  Rap_transz
+    TIME_LIMIT 50
+    THREAD_LIMIT 32
+    FALLBACK_TO_DEFAULT_SETTINGS
+    
+    SOLVER cantera
+    SAVE_STATES      CSV
+    
+     NAME 27_Krisztian/xml/raptest/stac_0002.xml
+END
+!optima futtatása ezzel a sorral az OptimaPP mappából
+!./bin/Release/OptimaPP ./7_Krisztian/1_mechtest/futtatni kivant filename.opp 
