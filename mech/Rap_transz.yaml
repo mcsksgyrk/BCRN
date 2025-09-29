@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 2.6.0
-date: Mon, 22 Sep 2025 10:12:41 +0200
+date: Mon, 29 Sep 2025 13:58:52 +0200
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 
@@ -9,7 +9,7 @@ phases:
 - name: gas
   thermo: ideal-gas
   elements: [C, H]
-  species: [FKBP12, MTORA, RAP, REF, RK, RKMTORA]
+  species: [FKBP12, MTORA, RAP, RAPOUT, REF, RK, RKMTORA]
   kinetics: gas
   state: {T: 300.0, P: 1 atm}
 
@@ -35,6 +35,16 @@ species:
     - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
       -1.00095936e+04, 9.90506283]
 - name: RAP
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+- name: RAPOUT
   composition: {H: 1}
   thermo:
     model: NASA7
@@ -76,15 +86,21 @@ species:
       -1.00095936e+04, 9.90506283]
 
 reactions:
-- equation: RAP + FKBP12 => RK + REF  # Reaction 1
-  rate-constant: {A: 1.9e+09, b: 0.0, Ea: 0.0}
+- equation: RAPOUT => RAP  # Reaction 1
+  rate-constant: {A: 6.67e-09, b: 0.0, Ea: 0.0}
   note: R0001
-- equation: REF + RK => RAP + FKBP12  # Reaction 2
-  rate-constant: {A: 5.3e-04, b: 0.0, Ea: 0.0}
+- equation: RAP => RAPOUT  # Reaction 2
+  rate-constant: {A: 3.3333e-03, b: 0.0, Ea: 0.0}
   note: R0002
-- equation: RK + MTORA => RKMTORA + REF  # Reaction 3
-  rate-constant: {A: 2.6e+09, b: 0.0, Ea: 0.0}
+- equation: RAP + FKBP12 => RK + REF  # Reaction 3
+  rate-constant: {A: 1.9e+09, b: 0.0, Ea: 0.0}
   note: R0003
-- equation: RKMTORA + REF => RK + MTORA  # Reaction 4
-  rate-constant: {A: 0.0308, b: 0.0, Ea: 0.0}
+- equation: REF + RK => RAP + FKBP12  # Reaction 4
+  rate-constant: {A: 5.3e-04, b: 0.0, Ea: 0.0}
   note: R0004
+- equation: RK + MTORA => RKMTORA + REF  # Reaction 5
+  rate-constant: {A: 2.6e+09, b: 0.0, Ea: 0.0}
+  note: R0005
+- equation: RKMTORA + REF => RK + MTORA  # Reaction 6
+  rate-constant: {A: 0.0308, b: 0.0, Ea: 0.0}
+  note: R0006
