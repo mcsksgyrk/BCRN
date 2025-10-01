@@ -13,5 +13,5 @@ MECHTEST
         
         SOLVER cantera
         SAVE_STATES      CSV
-          NAME /home/nvme/Opt/7_Krisztian/xml/Zita/starvation_low_gluc_AMP.xml
+          NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/Zita/starvation_low_gluc_AMP.xml
 END
