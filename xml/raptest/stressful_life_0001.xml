@@ -1,0 +1,122 @@
+<experiment>
+    <fileAuthor>Bence Hajdu and Tibor Nagy</fileAuthor>
+    <fileVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </fileVersion>
+    <ReSpecThVersion>
+        <major>2</major>
+        <minor>5</minor>
+    </ReSpecThVersion>
+    <bibliographyLink>
+        <description></description>
+        <referenceDOI></referenceDOI>
+        <details>
+            <author></author>
+            <journal></journal>
+            <number></number>
+            <title><built-in method title of str object at 0x7f2ec65b5c50></title>
+            <volume></volume>
+            <year></year>
+        </details>
+    </bibliographyLink>
+    <experimentType>concentration time profile measurement</experimentType>
+    <apparatus>
+        <kind>flow reactor</kind>
+    </apparatus>
+    <commonProperties>
+        <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
+        <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
+        <property name="initial composition"  sourcetype="digitized" >
+            <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >1e-14</amount></component>
+            <component><speciesLink preferredKey="MTORA"         chemName="MTORA"     /><amount units="mole fraction" >3.438832517634652e-10</amount></component>
+            <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1.0</amount></component>
+            <component><speciesLink preferredKey="RK"         chemName="RK"     /><amount units="mole fraction" >1e-14</amount></component>
+            <component><speciesLink preferredKey="FKBP12"         chemName="FKBP12"     /><amount units="mole fraction" >1.001029373356104e-14</amount></component>
+            <component><speciesLink preferredKey="RKMTORA"         chemName="RKMTORA"     /><amount units="mole fraction" >1e-14</amount></component>
+            <component><speciesLink preferredKey="RAPOUT"         chemName="RAPOUT"     /><amount units="mole fraction" >5e-05</amount></component>
+        </property>
+    </commonProperties>
+    <dataGroup id="dg1">
+        <property name="time"                          id="time"    label="t"       sourcetype="reported"  units="min"     />
+        <property name="composition"                   id="RAP"   label="RAP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RAP"  chemName="RAP" />
+        </property>
+        <property name="evaluated standard deviation"  id="RAPstd"    label="RAPstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+            <speciesLink preferredKey="RAP"    chemName="RAP"   />
+        </property>
+        <property name="composition"                   id="MTORA"   label="MTORA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
+        </property>
+        <property name="evaluated standard deviation"  id="MTORAstd"    label="MTORAstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+            <speciesLink preferredKey="MTORA"    chemName="MTORA"   />
+        </property>
+        <property name="composition"                   id="REF"   label="REF"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="REF"  chemName="REF" />
+        </property>
+        <property name="evaluated standard deviation"  id="REFstd"    label="REFstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+            <speciesLink preferredKey="REF"    chemName="REF"   />
+        </property>
+        <property name="composition"                   id="RK"   label="RK"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RK"  chemName="RK" />
+        </property>
+        <property name="evaluated standard deviation"  id="RKstd"    label="RKstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+            <speciesLink preferredKey="RK"    chemName="RK"   />
+        </property>
+        <property name="composition"                   id="FKBP12"   label="FKBP12"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="FKBP12"  chemName="FKBP12" />
+        </property>
+        <property name="evaluated standard deviation"  id="FKBP12std"    label="FKBP12std"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+            <speciesLink preferredKey="FKBP12"    chemName="FKBP12"   />
+        </property>
+        <property name="composition"                   id="RKMTORA"   label="RKMTORA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RKMTORA"  chemName="RKMTORA" />
+        </property>
+        <property name="evaluated standard deviation"  id="RKMTORAstd"    label="RKMTORAstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+            <speciesLink preferredKey="RKMTORA"    chemName="RKMTORA"   />
+        </property>
+        <property name="composition"                   id="RAPOUT"   label="RAPOUT"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RAPOUT"  chemName="RAPOUT" />
+        </property>
+        <property name="evaluated standard deviation"  id="RAPOUTstd"    label="RAPOUTstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+            <speciesLink preferredKey="RAPOUT"    chemName="RAPOUT"   />
+        </property>
+            <dataPoint><time>0.0000e+00</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.0000e+01</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.0000e+01</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>3.0000e+01</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>4.0000e+01</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>5.0000e+01</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>6.0000e+01</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>7.0000e+01</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>8.0000e+01</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>9.0000e+01</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.0000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.1000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.2000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.3000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.4000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.5000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.6000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.7000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.8000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>1.9000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.0000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.1000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.2000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.3000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.4000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.5000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.6000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.7000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.8000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>2.9000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>3.0000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>3.1000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>3.2000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>3.3000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>3.4000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>3.5000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+            <dataPoint><time>3.6000e+02</time><MTORA>7.0000e-10</MTORA></dataPoint>
+    </dataGroup>
+</experiment>

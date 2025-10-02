@@ -10,14 +10,13 @@
     </ReSpecThVersion>
     <bibliographyLink>
         <description></description>
-        <referenceDOI>{{ bib.doi }}</referenceDOI>
         <details>
-            <author>{{ bib.author }}</author>
-            <journal>{{ bib.journal }}</journal>
-            <number>{{ bib.number }}</number>
-            <title>{{ bib.title }}</title>
-            <volume>{{ bib.volume }}</volume>
-            <year>{{ bib.year }}</year>
+            <author>{{ bib[author] }}</author>
+            <journal>{{ bib[journal] }}</journal>
+            <number>{{ bib[number] }}</number>
+            <title>{{ bib[title] }}</title>
+            <volume>{{ bib[volume] }}</volume>
+            <year>{{ bib[year] }}</year>
         </details>
     </bibliographyLink>
     <experimentType>concentration time profile measurement</experimentType>
@@ -32,15 +31,18 @@
             <component><speciesLink preferredKey="{{k}}"         chemName="{{k}}"     /><amount units="mole fraction" >{{v}}</amount></component>
             {%- endfor %}
         </property>
+        {%- for k,v in output_sigmas.items() %}
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="{{k}}"  chemName="{{k}}" />
+            <value>"{{v}}"</value>
+        </property>
+        {%- endfor %}
     </commonProperties>
     <dataGroup id="dg1">
         <property name="time"                          id="time"    label="t"       sourcetype="reported"  units="min"     />
         {%- for name in variables %}
         <property name="composition"                   id="{{name}}"   label="{{name}}"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="{{name}}"  chemName="{{name}}" />
-        </property>
-        <property name="evaluated standard deviation"  id="{{name}}std"    label="{{name}}std"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
-            <speciesLink preferredKey="{{name}}"    chemName="{{name}}"   />
         </property>
         {%- endfor %}
         {%- for dp in dataPoints %}

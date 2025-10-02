@@ -1,0 +1,10 @@
+@article{holczer2020fine,
+  title={Fine-tuning of AMPK--ULK1--mTORC1 regulatory triangle is crucial for autophagy oscillation},
+  author={Holczer, Marianna and Hajd{\'u}, Bence and L{\H{o}}rincz, Tam{\'a}s and Szarka, Andr{\'a}s and B{\'a}nhegyi, G{\'a}bor and Kapuy, Orsolya},
+  journal={Scientific Reports},
+  volume={10},
+  number={1},
+  pages={17803},
+  year={2020},
+  publisher={Nature Publishing Group UK London}
+}
