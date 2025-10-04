@@ -1,0 +1,128 @@
+generator: ck2yaml
+input-files: [chem.cnt.inp, therm.cnt.inp]
+cantera-version: 2.6.0
+date: Fri, 03 Oct 2025 12:08:17 +0200
+
+units: {length: cm, time: s, quantity: mol, activation-energy: K}
+
+phases:
+- name: gas
+  thermo: ideal-gas
+  elements: [C, H]
+  species: [ADP, AMP, AMPK, AMPKA, AMPK_ATP, ATP, GLUCOSE, REF]
+  kinetics: gas
+  state: {T: 300.0, P: 1 atm}
+
+species:
+- name: ADP
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+- name: AMP
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+- name: AMPK
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+- name: AMPKA
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+- name: AMPK_ATP
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+- name: ATP
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+- name: GLUCOSE
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+- name: REF
+  composition: {H: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 6000.0]
+    data:
+    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
+      -1.02465983e+04, -4.63848842]
+    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
+      -1.00095936e+04, 9.90506283]
+
+reactions:
+- equation: GLUCOSE + ADP => 2 ATP  # Reaction 1
+  rate-constant: {A: 16.661, b: 0.0, Ea: 0.0}
+  note: R0001
+- equation: ATP => ADP  # Reaction 2
+  rate-constant: {A: 1.4, b: 0.0, Ea: 0.0}
+  note: R0002
+- equation: 2 ADP => ATP + AMP  # Reaction 3
+  rate-constant: {A: 0.016, b: 0.0, Ea: 0.0}
+  note: R0003
+- equation: ATP + AMP => 2 ADP  # Reaction 4
+  rate-constant: {A: 0.016, b: 0.0, Ea: 0.0}
+  note: R0004
+- equation: ATP + AMPK => AMPK_ATP + REF  # Reaction 5
+  rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}
+  note: R0005
+- equation: AMPK_ATP + REF => ATP + AMPK  # Reaction 6
+  rate-constant: {A: 0.22, b: 0.0, Ea: 0.0}
+  note: R0006
+- equation: ADP + AMPK => AMPKA + REF  # Reaction 7
+  rate-constant: {A: 15.0, b: 0.0, Ea: 0.0}
+  note: R0007
+- equation: AMPKA + REF => ADP + AMPK  # Reaction 8
+  rate-constant: {A: 2.25e-13, b: 0.0, Ea: 0.0}
+  note: R0008
+- equation: AMP + AMPK => AMPKA + REF  # Reaction 9
+  rate-constant: {A: 250.0, b: 0.0, Ea: 0.0}
+  note: R0009
+- equation: AMPKA + REF => AMP + AMPK  # Reaction 10
+  rate-constant: {A: 3.75e-13, b: 0.0, Ea: 0.0}
+  note: R0010
