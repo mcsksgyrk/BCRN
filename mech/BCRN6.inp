@@ -491,16 +491,22 @@ RAP+MTORA=>MTOR+RAP                 3.5000E+06  0.00000         0.00
 RAP=>REF                            0.0005      0.00000         0.00
 ! R0062
 AMPKA+MTORA=>AMPKA+MTOR             6.0854E+07  0.00000         0.00
+!AMPK_AMP+MTORA=>AMPK_AMP+MTOR             6.0854E+07  0.00000         0.00
+!AMPK_ADP+MTORA=>AMPK_ADP+MTOR             6.0854E+07  0.00000         0.00
 ! R0063
 MTORA=>MTOR                         3.5467E-04  0.00000         0.00
 ! R0064
 MTORA+AMPKA=>MTORA+AMPK             3.8554E+04  0.00000         0.00
+!MTORA+AMPK_AMP=>MTORA+AMPK+AMP             3.8554E+04  0.00000         0.00
+!MTORA+AMPK_ADP=>MTORA+AMPK+ADP             3.8554E+04  0.00000         0.00
 ! R0065
 ULKA+MTORA=MTORA+ULK                1.6122E+08  0.00000         0.00
 ! R0066
 ULKA+MTORA=MTOR+ULKA                1.9507E+05  0.00000         0.00
 ! R0067
 AMPKA+TSC=>AMPKA+TSCA               1.8049E+04  0.00000         0.00
+!AMPK_AMP+TSC=>AMPK_AMP+TSCA               1.8049E+04  0.00000         0.00
+!AMPK_ADP+TSC=>AMPK_ADP+TSCA               1.8049E+04  0.00000         0.00
 ! R0068
 RHEBA+TSCA=>RHEB+TSCA               5.2292E+03  0.00000         0.00
 ! R0069
@@ -531,10 +537,13 @@ BEC1_BCL2+REF=>BEC1+BCL2            1.1221E-01  0.00000         0.00
 ULKA+REF=>ULKA+PHAG                 7.9957E-08  0.00000         0.00
 ! R0082
 AMPKA+ULK=>AMPKA+ULKA               4.0270E+03  0.00000         0.00
-! R0083
-AMPK+NS=>AMPKA+NS                   2.7300E+06  0.00000         0.00
+!AMPK_AMP+ULK=>AMPK_AMP+ULKA               4.0270E+03  0.00000         0.00
+!AMPK_ADP+ULK=>AMPK_ADP+ULKA               4.0270E+03  0.00000         0.00
+! R0083 NS=nutrition stress, in the small model
+!AMPK+NS=>AMPKA+NS                   2.7300E+06  0.00000         0.00
 ! R0084
-AMPKA=>AMPK                         4.0934E-07  0.00000         0.00
+!AMPKA=>AMPK                         4.0934E-07  0.00000         0.00
+!kis modellben benne
 ! R0085
 ULKA=>ULK                           2.8119E-01  0.00000         0.00
 ! R0086

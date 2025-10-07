@@ -28,14 +28,14 @@
         <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
         <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
         <property name="initial composition"  sourcetype="digitized" >
-            <component><speciesLink preferredKey="GLUCOSE"         chemName="GLUCOSE"     /><amount units="mole fraction" >5E-5</amount></component>
+            <component><speciesLink preferredKey="GLUCOSE"         chemName="GLUCOSE"     /><amount units="mole fraction" >1</amount></component>
             <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1</amount></component>
-            <component><speciesLink preferredKey="AMP"         chemName="AMP"     /><amount units="mole fraction" >4.4e-9</amount></component>
-            <component><speciesLink preferredKey="ADP"         chemName="ADP"     /><amount units="mole fraction" >5.6e-8</amount></component>
-            <component><speciesLink preferredKey="ATP"         chemName="ATP"     /><amount units="mole fraction" >7.6E-8</amount></component>
-            <component><speciesLink preferredKey="AMPK"         chemName="AMPK"     /><amount units="mole fraction" >2E-7</amount></component>
-            <component><speciesLink preferredKey="AMPKA"         chemName="AMPKA"     /><amount units="mole fraction" >1E-7</amount></component>
-            <component><speciesLink preferredKey="AMPK_ATP"         chemName="AMPK_ATP"     /><amount units="mole fraction" >3E-7</amount></component>
+            <component><speciesLink preferredKey="AMP"         chemName="AMP"     /><amount units="mole fraction" >4.4e-12</amount></component>
+            <component><speciesLink preferredKey="ADP"         chemName="ADP"     /><amount units="mole fraction" >5.6e-11</amount></component>
+            <component><speciesLink preferredKey="ATP"         chemName="ATP"     /><amount units="mole fraction" >7.6E-11</amount></component>
+            <component><speciesLink preferredKey="AMPK"         chemName="AMPK"     /><amount units="mole fraction" >2E-10</amount></component>
+            <component><speciesLink preferredKey="AMPKA"         chemName="AMPKA"     /><amount units="mole fraction" >1E-10</amount></component>
+            <component><speciesLink preferredKey="AMPK_ATP"         chemName="AMPK_ATP"     /><amount units="mole fraction" >3E-10</amount></component>
         </property>
         
         <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >

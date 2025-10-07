@@ -13,5 +13,5 @@ MECHTEST
 
         SOLVER cantera
         SAVE_STATES      CSV
-          NAME /home/szupernikusz/TDK/Opt/7_Krisztian/xml/starvation/starve.xml
+          NAME /home/nvme/Opt/7_Krisztian/xml/starvation/starve.xml
 END
