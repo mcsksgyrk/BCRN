@@ -1,4 +1,0 @@
-AMPKA --> AMPk_AMP, AMPK_ADP -re atir
-GLUC+ADP --> 2ATP reaction tisztaz
-k-kat atir az uj kezdeti cc-khez
-Excel workflow-t megir

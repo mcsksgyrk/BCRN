@@ -28,8 +28,8 @@
         <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
         <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
         <property name="initial composition"  sourcetype="digitized" >
-            <component><speciesLink preferredKey="GLUCOSE"         chemName="GLUCOSE"     /><amount units="mole fraction" >5E-7</amount></component>
-            <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1</amount></component>
+            <component><speciesLink preferredKey="GLUCOSE"         chemName="GLUCOSE"     /><amount units="mole fraction" >5E-5</amount></component>
+            <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >5E-5</amount></component>
             <component><speciesLink preferredKey="AMP"         chemName="AMP"     /><amount units="mole fraction" >4.4e-10</amount></component>
             <component><speciesLink preferredKey="ADP"         chemName="ADP"     /><amount units="mole fraction" >5.7e-8</amount></component>
             <component><speciesLink preferredKey="ATP"         chemName="ATP"     /><amount units="mole fraction" >7.7E-6</amount></component>
@@ -38,6 +38,12 @@
             <component><speciesLink preferredKey="AMPK_AMP"         chemName="AMPK_AMP"     /><amount units="mole fraction" >0</amount></component>
             <component><speciesLink preferredKey="AMPK_ATP"         chemName="AMPK_ATP"     /><amount units="mole fraction" >0</amount></component>
             <component><speciesLink preferredKey="PYRUVATE"         chemName="PYRUVATE"     /><amount units="mole fraction" >5E-7</amount></component>
+            <component><speciesLink preferredKey="RAPOUT"         chemName="RAPOUT"     /><amount units="mole fraction" >5e-5</amount></component>
+            <component><speciesLink preferredKey="MTORA"         chemName="MTORA"     /><amount units="mole fraction" >7e-10</amount></component>
+            <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >0</amount></component>
+            <component><speciesLink preferredKey="FKBP12"         chemName="FKBP12"     /><amount units="mole fraction" >7e-10</amount></component>
+            <component><speciesLink preferredKey="RK"         chemName="RK"     /><amount units="mole fraction" >0</amount></component>
+            <component><speciesLink preferredKey="RKMTORA"         chemName="RKMTORA"     /><amount units="mole fraction" >0</amount></component>
         </property>
         <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
             <speciesLink preferredKey="AMPK"  chemName="AMPK" />
@@ -69,6 +75,10 @@
         </property>
         <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
             <speciesLink preferredKey="PYRUVATE"  chemName="PYRUVATE" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
             <value>2.5e-11</value>
         </property>
     </commonProperties>
@@ -95,8 +105,11 @@
         <property name="composition"  id="AMP" label="AMP"  sourcetype="reported"  units="mole fraction">
             <speciesLink preferredKey="AMP"  chemName="AMP" />
         </property>
-         <property name="composition"  id="PYRUVATE" label="PYRUVATE"  sourcetype="reported"  units="mole fraction">
+        <property name="composition"  id="PYRUVATE" label="PYRUVATE"  sourcetype="reported"  units="mole fraction">
             <speciesLink preferredKey="PYRUVATE"  chemName="PYRUVATE" />
+        </property>
+        <property name="composition"  id="MTORA" label="MTORA"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
         </property>
             
             <dataPoint><time>0.0e+00</time><AMPK>7e-10</AMPK><AMPK_ATP>7e-10</AMPK_ATP><AMPK_ADP>7e-10</AMPK_ADP><AMPK_AMP>7e-10</AMPK_AMP><ATP>7e-10</ATP><ADP>7e-10</ADP><AMP>7e-10</AMP><PYRUVATE>7e-10</PYRUVATE></dataPoint>
