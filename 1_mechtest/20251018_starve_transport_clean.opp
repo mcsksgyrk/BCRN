@@ -1,11 +1,11 @@
 MECHMOD
-    USE_NAME         Minimal_gluc_phos_transport
-    MECH_FILE        7_Krisztian/mech/Minimal_gluc_phos_transport.inp
-    COMPILE_cantera  7_Krisztian/mech/Minimal_gluc_phos_transport.yaml
+    USE_NAME         Minimal_gluc_phos_transport_clean
+    MECH_FILE        7_Krisztian/mech/Minimal_gluc_phos_transport_clean.inp
+    COMPILE_cantera  7_Krisztian/mech/Minimal_gluc_phos_transport_clean.yaml
     END
 
 MECHTEST
-        MECHANISM  Minimal_gluc_phos_transport
+        MECHANISM  Minimal_gluc_phos_transport_clean
         TIME_LIMIT 50
         THREAD_LIMIT 32
         SETTINGS_TAG systems_biology
