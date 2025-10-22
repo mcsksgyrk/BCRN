@@ -287,7 +287,7 @@ AMPK_AMP_LKB1 + REF => AMPKA_AMP + LKB1           3E+02        0.00000         0
 ! ------- AMPKA_AMP Dephosphorylation -------
 AMPKA_AMP + PP2A => AMPKA_AMP_PP2A + REF          8.21E+04     0.00000         0.00 !8.21E+04
 AMPKA_AMP_PP2A + REF => AMPKA_AMP + PP2A          5E+00        0.00000         0.00 !5E+00   
-AMPKA_AMP_PP2A + REF => AMPK_ATP + PP2A           1E+00        0.00000         0.00 !1E+00   
+AMPKA_AMP_PP2A + REF => AMPK_AMP + PP2A           1E+00        0.00000         0.00 !1E+00   
 !
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AMPK-mTOR-ULK Triangle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

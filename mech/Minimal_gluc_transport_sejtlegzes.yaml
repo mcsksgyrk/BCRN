@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 2.6.0
-date: Mon, 20 Oct 2025 19:39:20 +0200
+date: Wed, 22 Oct 2025 12:26:02 +0200
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 
@@ -497,6 +497,6 @@ reactions:
 - equation: AMPKA_AMP_PP2A + REF => AMPKA_AMP + PP2A  # Reaction 49
   rate-constant: {A: 5.0, b: 0.0, Ea: 0.0}
   note: R0049
-- equation: AMPKA_AMP_PP2A + REF => AMPK_ATP + PP2A  # Reaction 50
+- equation: AMPKA_AMP_PP2A + REF => AMPK_AMP + PP2A  # Reaction 50
   rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}
   note: R0050
