@@ -228,8 +228,8 @@ GLUT1_GLUCIN + REF => GLUT1 + GLUCIN              1.553        0.00000         0
 GLUT1_GLUCIN + REF => GLUT1 + GLUCOUT             0.111        0.00000         0.00 !0.111   
 ! -------------------- Vibe Coding -----------------
 ! ------- GLUCOSE-AXP Module -------              Substrate level ATP
-GLUCIN + 5 REF => 2 PYRUVATE + 2 NADH + 2 Q       1E-4      0.00000          0.00 !why not 2 ATP instead of 2 Q?
-2 PYRUVATE + 10 REF => 8 NADH + 2 FADH2 + 2 Q     1E+01     0.00000          0.00 !if we add 2 ATP instead of Q --> 2 ADP needs to appear
+GLUCIN + 5 REF => 2 PYRUVATE + 2 NADH + 2 Q       1.4e-02      0.00000          0.00 !1E-4why not 2 ATP instead of 2 Q?
+2 PYRUVATE + 10 REF => 8 NADH + 2 FADH2 + 2 Q     5e-03     0.00000          0.00 !1E+01 if we add 2 ATP instead of Q --> 2 ADP needs to appear
 ! Is 10 REF 10*[1]*k, or is it [1]^10=1k, with [1] being REF cc.                    !on the left side --> much higher order reaciton
 !                                                 Oxidative Phosphorylation
 NADH + 5 REF   => NAD  + 5 Q                      5.0E-03     0.00000          0.00 !s^-1 per NADH - Build proton-motive tokens (Q); make these unimolecular in NADH/FADH2

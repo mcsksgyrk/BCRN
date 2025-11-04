@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 2.6.0
-date: Wed, 22 Oct 2025 12:23:46 +0200
+date: Tue, 04 Nov 2025 11:53:52 +0100
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 
@@ -520,10 +520,10 @@ reactions:
   rate-constant: {A: 0.111, b: 0.0, Ea: 0.0}
   note: R0006
 - equation: GLUCIN + 5 REF => 2 PYRUVATE + 2 NADH + 2 Q  # Reaction 7
-  rate-constant: {A: 1.0e-04, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 0.014, b: 0.0, Ea: 0.0}
   note: R0007
 - equation: 2 PYRUVATE + 10 REF => 8 NADH + 2 FADH2 + 2 Q  # Reaction 8
-  rate-constant: {A: 10.0, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 5.0e-03, b: 0.0, Ea: 0.0}
   note: R0008
 - equation: NADH + 5 REF => NAD + 5 Q  # Reaction 9
   rate-constant: {A: 5.0e-03, b: 0.0, Ea: 0.0}

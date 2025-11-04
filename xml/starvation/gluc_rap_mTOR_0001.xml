@@ -55,9 +55,9 @@
             <component><speciesLink preferredKey="AMPKA_ATP_PP2A"         chemName="AMPKA_ATP_PP2A"     /><amount units="mole fraction" >0.0</amount></component>
             <component><speciesLink preferredKey="AMPKA_ADP_PP2A"         chemName="AMPKA_ADP_PP2A"     /><amount units="mole fraction" >0.0</amount></component>
             <component><speciesLink preferredKey="AMPKA_AMP_PP2A"         chemName="AMPKA_AMP_PP2A"     /><amount units="mole fraction" >0.0</amount></component>
-            <component><speciesLink preferredKey="GLUCOUT"         chemName="GLUCOUT"     /><amount units="mole fraction" >5e-05</amount></component>
+            <component><speciesLink preferredKey="GLUCOUT"         chemName="GLUCOUT"     /><amount units="mole fraction" >1e-06</amount></component>
             <component><speciesLink preferredKey="GLUT1"         chemName="GLUT1"     /><amount units="mole fraction" >3e-08</amount></component>
-            <component><speciesLink preferredKey="GLUCIN"         chemName="GLUCIN"     /><amount units="mole fraction" >5e-06</amount></component>
+            <component><speciesLink preferredKey="GLUCIN"         chemName="GLUCIN"     /><amount units="mole fraction" >5e-07</amount></component>
             <component><speciesLink preferredKey="GLUT1_GLUCOUT"         chemName="GLUT1_GLUCOUT"     /><amount units="mole fraction" >0.0</amount></component>
             <component><speciesLink preferredKey="GLUT1_GLUCIN"         chemName="GLUT1_GLUCIN"     /><amount units="mole fraction" >0.0</amount></component>
             <component><speciesLink preferredKey="AKT"         chemName="AKT"     /><amount units="mole fraction" >0.0</amount></component>
@@ -272,131 +272,29 @@
     </commonProperties>
     <dataGroup id="dg1">
         <property name="time"                          id="time"    label="t"       sourcetype="reported"  units="min"     />
-        <property name="composition"                   id="AMPKA_ADP_PP2A"   label="AMPKA_ADP_PP2A"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPKA_ADP_PP2A"  chemName="AMPKA_ADP_PP2A" />
+        <property name="composition"                   id="AMPKA"   label="AMPKA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA"  chemName="AMPKA" />
         </property>
-        <property name="composition"                   id="AMPK_AMP"   label="AMPK_AMP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPK_AMP"  chemName="AMPK_AMP" />
+        <property name="composition"                   id="AMPK_ADP_LKB1"   label="AMPK_ADP_LKB1"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_ADP_LKB1"  chemName="AMPK_ADP_LKB1" />
         </property>
         <property name="composition"                   id="ULK"   label="ULK"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="ULK"  chemName="ULK" />
         </property>
-        <property name="composition"                   id="PYRUVATE"   label="PYRUVATE"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="PYRUVATE"  chemName="PYRUVATE" />
-        </property>
-        <property name="composition"                   id="PP2A"   label="PP2A"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="PP2A"  chemName="PP2A" />
-        </property>
-        <property name="composition"                   id="AMPKA_ADP"   label="AMPKA_ADP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPKA_ADP"  chemName="AMPKA_ADP" />
-        </property>
-        <property name="composition"                   id="RAP"   label="RAP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="RAP"  chemName="RAP" />
-        </property>
-        <property name="composition"                   id="RK"   label="RK"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="RK"  chemName="RK" />
-        </property>
-        <property name="composition"                   id="FAD"   label="FAD"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="FAD"  chemName="FAD" />
+        <property name="composition"                   id="GLUT1_GLUCOUT"   label="GLUT1_GLUCOUT"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="GLUT1_GLUCOUT"  chemName="GLUT1_GLUCOUT" />
         </property>
         <property name="composition"                   id="AMPKA_PP2A"   label="AMPKA_PP2A"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="AMPKA_PP2A"  chemName="AMPKA_PP2A" />
         </property>
-        <property name="composition"                   id="AMPK"   label="AMPK"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPK"  chemName="AMPK" />
-        </property>
-        <property name="composition"                   id="RKMTORA"   label="RKMTORA"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="RKMTORA"  chemName="RKMTORA" />
-        </property>
-        <property name="composition"                   id="NADH"   label="NADH"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="NADH"  chemName="NADH" />
-        </property>
-        <property name="composition"                   id="GLUT1"   label="GLUT1"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="GLUT1"  chemName="GLUT1" />
-        </property>
-        <property name="composition"                   id="TSC"   label="TSC"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="TSC"  chemName="TSC" />
-        </property>
-        <property name="composition"                   id="ULKA"   label="ULKA"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="ULKA"  chemName="ULKA" />
-        </property>
-        <property name="composition"                   id="NAD"   label="NAD"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="NAD"  chemName="NAD" />
-        </property>
-        <property name="composition"                   id="AMPKA_ATP_PP2A"   label="AMPKA_ATP_PP2A"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPKA_ATP_PP2A"  chemName="AMPKA_ATP_PP2A" />
-        </property>
-        <property name="composition"                   id="LKB1"   label="LKB1"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="LKB1"  chemName="LKB1" />
-        </property>
-        <property name="composition"                   id="GLUT1_GLUCOUT"   label="GLUT1_GLUCOUT"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="GLUT1_GLUCOUT"  chemName="GLUT1_GLUCOUT" />
+        <property name="composition"                   id="AMPK_ATP_LKB1"   label="AMPK_ATP_LKB1"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_ATP_LKB1"  chemName="AMPK_ATP_LKB1" />
         </property>
         <property name="composition"                   id="MTOR"   label="MTOR"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="MTOR"  chemName="MTOR" />
         </property>
-        <property name="composition"                   id="AMPK_ATP"   label="AMPK_ATP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPK_ATP"  chemName="AMPK_ATP" />
-        </property>
-        <property name="composition"                   id="RHEBA"   label="RHEBA"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="RHEBA"  chemName="RHEBA" />
-        </property>
-        <property name="composition"                   id="TSCA"   label="TSCA"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="TSCA"  chemName="TSCA" />
-        </property>
-        <property name="composition"                   id="AMPK_LKB1"   label="AMPK_LKB1"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPK_LKB1"  chemName="AMPK_LKB1" />
-        </property>
-        <property name="composition"                   id="AMPKA_AMP"   label="AMPKA_AMP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPKA_AMP"  chemName="AMPKA_AMP" />
-        </property>
-        <property name="composition"                   id="FKBP12"   label="FKBP12"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="FKBP12"  chemName="FKBP12" />
-        </property>
-        <property name="composition"                   id="ADP"   label="ADP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="ADP"  chemName="ADP" />
-        </property>
-        <property name="composition"                   id="GLUCIN"   label="GLUCIN"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="GLUCIN"  chemName="GLUCIN" />
-        </property>
         <property name="composition"                   id="AKT"   label="AKT"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="AKT"  chemName="AKT" />
-        </property>
-        <property name="composition"                   id="GLUCOUT"   label="GLUCOUT"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="GLUCOUT"  chemName="GLUCOUT" />
-        </property>
-        <property name="composition"                   id="MTORA"   label="MTORA"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
-        </property>
-        <property name="composition"                   id="AMPKA_AMP_PP2A"   label="AMPKA_AMP_PP2A"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPKA_AMP_PP2A"  chemName="AMPKA_AMP_PP2A" />
-        </property>
-        <property name="composition"                   id="AMP"   label="AMP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMP"  chemName="AMP" />
-        </property>
-        <property name="composition"                   id="AKTA"   label="AKTA"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AKTA"  chemName="AKTA" />
-        </property>
-        <property name="composition"                   id="AMPK_AMP_LKB1"   label="AMPK_AMP_LKB1"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPK_AMP_LKB1"  chemName="AMPK_AMP_LKB1" />
-        </property>
-        <property name="composition"                   id="AMPKA_ATP"   label="AMPKA_ATP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPKA_ATP"  chemName="AMPKA_ATP" />
-        </property>
-        <property name="composition"                   id="Q"   label="Q"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="Q"  chemName="Q" />
-        </property>
-        <property name="composition"                   id="GLUT1_GLUCIN"   label="GLUT1_GLUCIN"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="GLUT1_GLUCIN"  chemName="GLUT1_GLUCIN" />
-        </property>
-        <property name="composition"                   id="RAPOUT"   label="RAPOUT"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="RAPOUT"  chemName="RAPOUT" />
-        </property>
-        <property name="composition"                   id="AMPK_ADP"   label="AMPK_ADP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPK_ADP"  chemName="AMPK_ADP" />
-        </property>
-        <property name="composition"                   id="AMPK_ATP_LKB1"   label="AMPK_ATP_LKB1"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPK_ATP_LKB1"  chemName="AMPK_ATP_LKB1" />
         </property>
         <property name="composition"                   id="RHEB"   label="RHEB"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="RHEB"  chemName="RHEB" />
@@ -404,17 +302,119 @@
         <property name="composition"                   id="REF"   label="REF"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="REF"  chemName="REF" />
         </property>
-        <property name="composition"                   id="ATP"   label="ATP"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="ATP"  chemName="ATP" />
+        <property name="composition"                   id="GLUCOUT"   label="GLUCOUT"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="GLUCOUT"  chemName="GLUCOUT" />
         </property>
-        <property name="composition"                   id="AMPK_ADP_LKB1"   label="AMPK_ADP_LKB1"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPK_ADP_LKB1"  chemName="AMPK_ADP_LKB1" />
+        <property name="composition"                   id="GLUT1"   label="GLUT1"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="GLUT1"  chemName="GLUT1" />
+        </property>
+        <property name="composition"                   id="GLUT1_GLUCIN"   label="GLUT1_GLUCIN"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="GLUT1_GLUCIN"  chemName="GLUT1_GLUCIN" />
+        </property>
+        <property name="composition"                   id="AMPKA_ADP_PP2A"   label="AMPKA_ADP_PP2A"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA_ADP_PP2A"  chemName="AMPKA_ADP_PP2A" />
+        </property>
+        <property name="composition"                   id="AKTA"   label="AKTA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AKTA"  chemName="AKTA" />
+        </property>
+        <property name="composition"                   id="AMPKA_ATP_PP2A"   label="AMPKA_ATP_PP2A"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA_ATP_PP2A"  chemName="AMPKA_ATP_PP2A" />
+        </property>
+        <property name="composition"                   id="RAP"   label="RAP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RAP"  chemName="RAP" />
+        </property>
+        <property name="composition"                   id="MTORA"   label="MTORA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
+        </property>
+        <property name="composition"                   id="ADP"   label="ADP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="ADP"  chemName="ADP" />
+        </property>
+        <property name="composition"                   id="AMPKA_ADP"   label="AMPKA_ADP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA_ADP"  chemName="AMPKA_ADP" />
+        </property>
+        <property name="composition"                   id="AMPK_AMP_LKB1"   label="AMPK_AMP_LKB1"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_AMP_LKB1"  chemName="AMPK_AMP_LKB1" />
+        </property>
+        <property name="composition"                   id="RKMTORA"   label="RKMTORA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RKMTORA"  chemName="RKMTORA" />
+        </property>
+        <property name="composition"                   id="AMPK_ATP"   label="AMPK_ATP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_ATP"  chemName="AMPK_ATP" />
+        </property>
+        <property name="composition"                   id="AMP"   label="AMP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMP"  chemName="AMP" />
+        </property>
+        <property name="composition"                   id="LKB1"   label="LKB1"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="LKB1"  chemName="LKB1" />
+        </property>
+        <property name="composition"                   id="AMPKA_ATP"   label="AMPKA_ATP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA_ATP"  chemName="AMPKA_ATP" />
+        </property>
+        <property name="composition"                   id="FKBP12"   label="FKBP12"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="FKBP12"  chemName="FKBP12" />
+        </property>
+        <property name="composition"                   id="AMPKA_AMP_PP2A"   label="AMPKA_AMP_PP2A"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA_AMP_PP2A"  chemName="AMPKA_AMP_PP2A" />
+        </property>
+        <property name="composition"                   id="GLUCIN"   label="GLUCIN"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="GLUCIN"  chemName="GLUCIN" />
+        </property>
+        <property name="composition"                   id="RAPOUT"   label="RAPOUT"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RAPOUT"  chemName="RAPOUT" />
+        </property>
+        <property name="composition"                   id="AMPKA_AMP"   label="AMPKA_AMP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA_AMP"  chemName="AMPKA_AMP" />
+        </property>
+        <property name="composition"                   id="PYRUVATE"   label="PYRUVATE"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="PYRUVATE"  chemName="PYRUVATE" />
+        </property>
+        <property name="composition"                   id="FAD"   label="FAD"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="FAD"  chemName="FAD" />
+        </property>
+        <property name="composition"                   id="AMPK_LKB1"   label="AMPK_LKB1"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_LKB1"  chemName="AMPK_LKB1" />
+        </property>
+        <property name="composition"                   id="TSC"   label="TSC"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="TSC"  chemName="TSC" />
+        </property>
+        <property name="composition"                   id="RHEBA"   label="RHEBA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RHEBA"  chemName="RHEBA" />
+        </property>
+        <property name="composition"                   id="RK"   label="RK"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RK"  chemName="RK" />
+        </property>
+        <property name="composition"                   id="PP2A"   label="PP2A"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="PP2A"  chemName="PP2A" />
         </property>
         <property name="composition"                   id="FADH2"   label="FADH2"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="FADH2"  chemName="FADH2" />
         </property>
-        <property name="composition"                   id="AMPKA"   label="AMPKA"   sourcetype="reported"  units="mole fraction" >
-            <speciesLink preferredKey="AMPKA"  chemName="AMPKA" />
+        <property name="composition"                   id="AMPK_ADP"   label="AMPK_ADP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_ADP"  chemName="AMPK_ADP" />
+        </property>
+        <property name="composition"                   id="Q"   label="Q"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="Q"  chemName="Q" />
+        </property>
+        <property name="composition"                   id="TSCA"   label="TSCA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="TSCA"  chemName="TSCA" />
+        </property>
+        <property name="composition"                   id="AMPK_AMP"   label="AMPK_AMP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_AMP"  chemName="AMPK_AMP" />
+        </property>
+        <property name="composition"                   id="ATP"   label="ATP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="ATP"  chemName="ATP" />
+        </property>
+        <property name="composition"                   id="AMPK"   label="AMPK"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK"  chemName="AMPK" />
+        </property>
+        <property name="composition"                   id="NAD"   label="NAD"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="NAD"  chemName="NAD" />
+        </property>
+        <property name="composition"                   id="NADH"   label="NADH"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="NADH"  chemName="NADH" />
+        </property>
+        <property name="composition"                   id="ULKA"   label="ULKA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="ULKA"  chemName="ULKA" />
         </property>
             <dataPoint><time>0.0000e+00</time><PYRUVATE>7.0000e-10</PYRUVATE><NAD>7.0000e-10</NAD><NADH>7.0000e-10</NADH><FAD>7.0000e-10</FAD><FADH2>7.0000e-10</FADH2><Q>7.0000e-10</Q><ATP>7.0000e-10</ATP><ADP>7.0000e-10</ADP><AMP>7.0000e-10</AMP><AMPK>7.0000e-10</AMPK><LKB1>7.0000e-10</LKB1><PP2A>7.0000e-10</PP2A><AMPK_ATP>7.0000e-10</AMPK_ATP><AMPK_ADP>7.0000e-10</AMPK_ADP><AMPK_AMP>7.0000e-10</AMPK_AMP><AMPKA>7.0000e-10</AMPKA><AMPKA_ATP>7.0000e-10</AMPKA_ATP><AMPKA_ADP>7.0000e-10</AMPKA_ADP><AMPKA_AMP>7.0000e-10</AMPKA_AMP><AMPK_LKB1>7.0000e-10</AMPK_LKB1><AMPK_ATP_LKB1>7.0000e-10</AMPK_ATP_LKB1><AMPK_ADP_LKB1>7.0000e-10</AMPK_ADP_LKB1><AMPK_AMP_LKB1>7.0000e-10</AMPK_AMP_LKB1><AMPKA_PP2A>7.0000e-10</AMPKA_PP2A><AMPKA_ATP_PP2A>7.0000e-10</AMPKA_ATP_PP2A><AMPKA_ADP_PP2A>7.0000e-10</AMPKA_ADP_PP2A><AMPKA_AMP_PP2A>7.0000e-10</AMPKA_AMP_PP2A><GLUCOUT>7.0000e-10</GLUCOUT><GLUT1>7.0000e-10</GLUT1><GLUCIN>7.0000e-10</GLUCIN><GLUT1_GLUCOUT>7.0000e-10</GLUT1_GLUCOUT><GLUT1_GLUCIN>7.0000e-10</GLUT1_GLUCIN><AKT>7.0000e-10</AKT><AKTA>7.0000e-10</AKTA><MTOR>7.0000e-10</MTOR><MTORA>7.0000e-10</MTORA><RHEB>7.0000e-10</RHEB><RHEBA>7.0000e-10</RHEBA><TSC>7.0000e-10</TSC><TSCA>7.0000e-10</TSCA><ULK>7.0000e-10</ULK><ULKA>7.0000e-10</ULKA><RAP>7.0000e-10</RAP><RK>7.0000e-10</RK><FKBP12>7.0000e-10</FKBP12><RKMTORA>7.0000e-10</RKMTORA><RAPOUT>7.0000e-10</RAPOUT><REF>7.0000e-10</REF></dataPoint>
             <dataPoint><time>5.0000e+01</time><PYRUVATE>7.0000e-10</PYRUVATE><NAD>7.0000e-10</NAD><NADH>7.0000e-10</NADH><FAD>7.0000e-10</FAD><FADH2>7.0000e-10</FADH2><Q>7.0000e-10</Q><ATP>7.0000e-10</ATP><ADP>7.0000e-10</ADP><AMP>7.0000e-10</AMP><AMPK>7.0000e-10</AMPK><LKB1>7.0000e-10</LKB1><PP2A>7.0000e-10</PP2A><AMPK_ATP>7.0000e-10</AMPK_ATP><AMPK_ADP>7.0000e-10</AMPK_ADP><AMPK_AMP>7.0000e-10</AMPK_AMP><AMPKA>7.0000e-10</AMPKA><AMPKA_ATP>7.0000e-10</AMPKA_ATP><AMPKA_ADP>7.0000e-10</AMPKA_ADP><AMPKA_AMP>7.0000e-10</AMPKA_AMP><AMPK_LKB1>7.0000e-10</AMPK_LKB1><AMPK_ATP_LKB1>7.0000e-10</AMPK_ATP_LKB1><AMPK_ADP_LKB1>7.0000e-10</AMPK_ADP_LKB1><AMPK_AMP_LKB1>7.0000e-10</AMPK_AMP_LKB1><AMPKA_PP2A>7.0000e-10</AMPKA_PP2A><AMPKA_ATP_PP2A>7.0000e-10</AMPKA_ATP_PP2A><AMPKA_ADP_PP2A>7.0000e-10</AMPKA_ADP_PP2A><AMPKA_AMP_PP2A>7.0000e-10</AMPKA_AMP_PP2A><GLUCOUT>7.0000e-10</GLUCOUT><GLUT1>7.0000e-10</GLUT1><GLUCIN>7.0000e-10</GLUCIN><GLUT1_GLUCOUT>7.0000e-10</GLUT1_GLUCOUT><GLUT1_GLUCIN>7.0000e-10</GLUT1_GLUCIN><AKT>7.0000e-10</AKT><AKTA>7.0000e-10</AKTA><MTOR>7.0000e-10</MTOR><MTORA>7.0000e-10</MTORA><RHEB>7.0000e-10</RHEB><RHEBA>7.0000e-10</RHEBA><TSC>7.0000e-10</TSC><TSCA>7.0000e-10</TSCA><ULK>7.0000e-10</ULK><ULKA>7.0000e-10</ULKA><RAP>7.0000e-10</RAP><RK>7.0000e-10</RK><FKBP12>7.0000e-10</FKBP12><RKMTORA>7.0000e-10</RKMTORA><RAPOUT>7.0000e-10</RAPOUT><REF>7.0000e-10</REF></dataPoint>
