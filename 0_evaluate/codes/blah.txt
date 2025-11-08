@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[version=4]{mhchem}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{setspace}
+\setstretch{1.2}
+
+\begin{document}
+
+\begin{center}
+{\LARGE \textbf{Reaction Network and Rate Equations}}\\[1em]
+\end{center}
+
+\vspace{1em}
+
+\section*{\centering Reactions}
+\begin{center}
+\begin{enumerate}[label=\textbf{R\arabic*}, leftmargin=*, itemsep=0.4em]
+
+% ---------- GLUCOSE Transport ----------
+\ce{GLUT1 + GLUCOUT <=>[k_1][k_{-1}] GLUT1_GLUCOUT}
+\ce{GLUT1_GLUCOUT ->[k_2] GLUT1 + GLUCIN}
+\ce{GLUT1 + GLUCIN <=>[k_3][k_{-3}] GLUT1_GLUCIN}
+\ce{GLUT1_GLUCIN ->[k_4] GLUT1 + GLUCOUT}
+
+% ---------- GLUCOSE–AXP ----------
+\ce{GLUCIN ->[k_5] 2 PYRUVATE + 2 NADH + 2 Q}
+\ce{2 PYRUVATE ->[k_6] 8 NADH + 2 FADH2 + 2 Q}
+\ce{NADH ->[k_7] NAD + 5 Q}
+\ce{FADH2 ->[k_8] FAD + 3 Q}
+\ce{2 Q + ADP ->[k_9] ATP}
+
+% ---------- Metabolism ----------
+\ce{ATP ->[k_{10}] ADP}
+\ce{2 ADP <=>[k_{11}][k_{-11}] ATP + AMP}
+
+% ---------- AMPK–AXP complexes ----------
+\ce{ATP + AMPK <=>[k_{12}][k_{-12}] AMPK_ATP}
+\ce{ADP + AMPK <=>[k_{13}][k_{-13}] AMPK_ADP}
+\ce{AMP + AMPK <=>[k_{14}][k_{-14}] AMPK_AMP}
+
+% ---------- AMPKA–AXP complexes ----------
+\ce{ATP + AMPKA <=>[k_{15}][k_{-15}] AMPKA_ATP}
+\ce{ADP + AMPKA <=>[k_{16}][k_{-16}] AMPKA_ADP}
+\ce{AMP + AMPKA <=>[k_{17}][k_{-17}] AMPKA_AMP}
+
+% ---------- AMPK Phosphorylation / Dephosphorylation ----------
+\ce{AMPK + LKB1 <=>[k_{18}][k_{-18}] AMPK_LKB1}
+\ce{AMPK_LKB1 ->[k_{19}] AMPKA + LKB1}
+\ce{AMPKA + PP2A <=>[k_{20}][k_{-20}] AMPKA_PP2A}
+\ce{AMPKA_PP2A ->[k_{21}] AMPK + PP2A}
+\ce{AMPK_ATP + LKB1 <=>[k_{22}][k_{-22}] AMPK_ATP_LKB1}
+\ce{AMPK_ATP_LKB1 ->[k_{23}] AMPKA_ATP + LKB1}
+\ce{AMPKA_ATP + PP2A <=>[k_{24}][k_{-24}] AMPKA_ATP_PP2A}
+\ce{AMPKA_ATP_PP2A ->[k_{25}] AMPK_ATP + PP2A}
+\ce{AMPK_ADP + LKB1 <=>[k_{26}][k_{-26}] AMPK_ADP_LKB1}
+\ce{AMPK_ADP_LKB1 ->[k_{27}] AMPKA_ADP + LKB1}
+\ce{AMPKA_ADP + PP2A <=>[k_{28}][k_{-28}] AMPKA_ADP_PP2A}
+\ce{AMPKA_ADP_PP2A ->[k_{29}] AMPK_ADP + PP2A}
+\ce{AMPK_AMP + LKB1 <=>[k_{30}][k_{-30}] AMPK_AMP_LKB1}
+\ce{AMPK_AMP_LKB1 ->[k_{31}] AMPKA_AMP + LKB1}
+\ce{AMPKA_AMP + PP2A <=>[k_{32}][k_{-32}] AMPKA_AMP_PP2A}
+\ce{AMPKA_AMP_PP2A ->[k_{33}] AMPK_AMP + PP2A}
+
+% ---------- AMPK–mTOR–ULK ----------
+\ce{AMPKA + MTORA ->[k_{34}] AMPKA + MTOR}
+\ce{AMPKA_ATP + MTORA ->[k_{35}] AMPKA_ATP + MTOR}
+\ce{AMPKA_ADP + MTORA ->[k_{36}] AMPKA_ADP + MTOR}
+\ce{AMPKA_AMP + MTORA ->[k_{37}] AMPKA_AMP + MTOR}
+\ce{MTORA ->[k_{38}] MTOR}
+\ce{MTORA + AMPKA ->[k_{39}] MTORA + AMPK}
+\ce{MTORA + AMPKA_ATP ->[k_{40}] MTORA + AMPK_ATP}
+\ce{MTORA + AMPKA_ADP ->[k_{41}] MTORA + AMPK_ADP}
+\ce{MTORA + AMPKA_AMP ->[k_{42}] MTORA + AMPK_AMP}
+\ce{ULKA + MTORA ->[k_{43}] MTORA + ULK}
+\ce{ULKA + MTORA ->[k_{44}] MTOR + ULKA}
+\ce{AMPKA + TSC ->[k_{45}] AMPKA + TSCA}
+\ce{AMPKA_ATP + TSC ->[k_{46}] AMPKA_ATP + TSCA}
+\ce{AMPKA_ADP + TSC ->[k_{47}] AMPKA_ADP + TSCA}
+\ce{AMPKA_AMP + TSC ->[k_{48}] AMPKA_AMP + TSCA}
+\ce{RHEBA + TSCA ->[k_{49}] RHEB + TSCA}
+\ce{RHEBA + MTOR &->[k_{50}] RHEBA + MTORA}
+\ce{RHEB &->[k_{51}] RHEBA}
+\ce{AKTA &->[k_{52}] AKT}
+\ce{AKTA + TSCA &->[k_{53}] AKTA + TSC}
+\ce{AMPKA + ULK &->[k_{54}] AMPKA + ULKA}
+\ce{AMPKA_ATP + ULK &->[k_{55}] AMPKA_ATP + ULKA}
+\ce{AMPKA_ADP + ULK &->[k_{56}] AMPKA_ADP + ULKA}
+\ce{AMPKA_AMP + ULK &->[k_{57}] AMPKA_AMP + ULKA}
+\ce{ULKA &->[k_{58}] ULK} \\
+\ce{AMPKA + ULKA &->[k_{59}] AMPK + ULKA} \\
+\ce{AMPKA_ATP + ULKA &->[k_{60}] AMPK_ATP + ULKA} \\
+\ce{AMPKA_ADP + ULKA &->[k_{61}] AMPK_ADP + ULKA} \\
+\ce{AMPKA_AMP + ULKA &->[k_{62}] AMPK_AMP + ULKA} \\
+\ce{RAPOUT &<=>[k_{63}][k_{-63}] RAP} \\
+\ce{RAP + FKBP12 &<=>[k_{64}][k_{-64}] RK} \\
+\ce{RK + MTORA &<=>[k_{65}][k_{-65}] RKMTORA} \\
+
+\end{enumerate}
+\end{center}
+
+\vspace{1em}
+\section*{\centering Rate Equations}
+
+\begin{align}
+    \frac{d[\text{GLUT1\_GLUCOUT}]}{dt} = k_{1}[\text{GLUT1}][\text{GLUCOUT}] - k_{-1}[\text{GLUT1\_GLUCOUT}]
+    \frac{d[\text{GLUCIN}]}{dt} = k_{2}[\text{GLUT1\_GLUCOUT}]
+    \frac{d[\text{GLUT1\_GLUCIN}]}{dt} = k_{3}[\text{GLUT1}][\text{GLUCIN}] - k_{-3}[\text{GLUT1\_GLUCIN}]
+    \frac{d[\text{GLUCOUT}]}{dt} = k_{4}[\text{GLUT1\_GLUCIN}]
+    \frac{d[\text{PYRUVATE}]}{dt} = 2k_{5}[\text{GLUCIN}]
+    \frac{d[\text{NADH}]}{dt} = 8k_{6}[\text{PYRUVATE}]^{2}
+    \frac{d[\text{Q}]}{dt} = 5k_{7}[\text{NADH}]
+    \frac{d[\text{Q}]}{dt} = 3k_{8}[\text{FADH2}]
+    \frac{d[\text{ATP}]}{dt} = k_{9}[\text{Q}]^{2}[\text{ADP}]
+    \frac{d[\text{ADP}]}{dt} = k_{10}[\text{ATP}]
+    \frac{d[\text{ATP}]}{dt} = k_{11}[\text{ADP}]^{2} - k_{-11}[\text{ATP}][\text{AMP}]
+    \frac{d[\text{AMPK\_ATP}]}{dt} = k_{12}[\text{ATP}][\text{AMPK}] - k_{-12}[\text{AMPK\_ATP}]
+    \frac{d[\text{AMPK\_ADP}]}{dt} = k_{13}[\text{ADP}][\text{AMPK}] - k_{-13}[\text{AMPK\_ADP}]
+    \frac{d[\text{AMPK\_AMP}]}{dt} = k_{14}[\text{AMP}][\text{AMPK}] - k_{-14}[\text{AMPK\_AMP}]
+    \frac{d[\text{AMPKA\_ATP}]}{dt} = k_{15}[\text{ATP}][\text{AMPKA}] - k_{-15}[\text{AMPKA\_ATP}]
+    \frac{d[\text{AMPKA\_ADP}]}{dt} = k_{16}[\text{ADP}][\text{AMPKA}] - k_{-16}[\text{AMPKA\_ADP}]
+    \frac{d[\text{AMPKA\_AMP}]}{dt} = k_{17}[\text{AMP}][\text{AMPKA}] - k_{-17}[\text{AMPKA\_AMP}]
+    \frac{d[\text{AMPK\_LKB1}]}{dt} = k_{18}[\text{AMPK}][\text{LKB1}] - k_{-18}[\text{AMPK\_LKB1}]
+    \frac{d[\text{AMPKA}]}{dt} = k_{19}[\text{AMPK\_LKB1}]
+    \frac{d[\text{AMPKA\_PP2A}]}{dt} = k_{20}[\text{AMPKA}][\text{PP2A}] - k_{-20}[\text{AMPKA\_PP2A}]
+\end{align}
+
+\end{document}

@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 2.6.0
-date: Tue, 04 Nov 2025 11:53:52 +0100
+date: Sat, 08 Nov 2025 23:46:28 +0100
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 
@@ -12,9 +12,9 @@ phases:
   species: [ADP, AKT, AKTA, AMP, AMPK, AMPKA, AMPKA_ADP, AMPKA_ADP_PP2A,
     AMPKA_AMP, AMPKA_AMP_PP2A, AMPKA_ATP, AMPKA_ATP_PP2A, AMPKA_PP2A, AMPK_ADP,
     AMPK_ADP_LKB1, AMPK_AMP, AMPK_AMP_LKB1, AMPK_ATP, AMPK_ATP_LKB1, AMPK_LKB1,
-    ATP, FAD, FADH2, FKBP12, GLUCIN, GLUCOUT, GLUT1, GLUT1_GLUCIN, GLUT1_GLUCOUT,
-    LKB1, MTOR, MTORA, NAD, NADH, PP2A, PYRUVATE, Q, RAP, RAPOUT, REF, RHEB,
-    RHEBA, RK, RKMTORA, TSC, TSCA, ULK, ULKA]
+    ATP, FKBP12, GLUCIN, GLUCOUT, GLUT1, GLUT1_GLUCIN, GLUT1_GLUCOUT, LKB1,
+    MTOR, MTORA, PP2A, PYRUVATE, Q, RAP, RAPOUT, REF, RHEB, RHEBA, RK, RKMTORA,
+    TSC, TSCA, ULK, ULKA]
   kinetics: gas
   state: {T: 300.0, P: 1 atm}
 
@@ -229,26 +229,6 @@ species:
       -1.02465983e+04, -4.63848842]
     - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
       -1.00095936e+04, 9.90506283]
-- name: FAD
-  composition: {H: 1}
-  thermo:
-    model: NASA7
-    temperature-ranges: [200.0, 1000.0, 6000.0]
-    data:
-    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
-      -1.02465983e+04, -4.63848842]
-    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
-      -1.00095936e+04, 9.90506283]
-- name: FADH2
-  composition: {H: 1}
-  thermo:
-    model: NASA7
-    temperature-ranges: [200.0, 1000.0, 6000.0]
-    data:
-    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
-      -1.02465983e+04, -4.63848842]
-    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
-      -1.00095936e+04, 9.90506283]
 - name: FKBP12
   composition: {H: 1}
   thermo:
@@ -330,26 +310,6 @@ species:
     - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
       -1.00095936e+04, 9.90506283]
 - name: MTORA
-  composition: {H: 1}
-  thermo:
-    model: NASA7
-    temperature-ranges: [200.0, 1000.0, 6000.0]
-    data:
-    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
-      -1.02465983e+04, -4.63848842]
-    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
-      -1.00095936e+04, 9.90506283]
-- name: NAD
-  composition: {H: 1}
-  thermo:
-    model: NASA7
-    temperature-ranges: [200.0, 1000.0, 6000.0]
-    data:
-    - [5.14911468, -0.0136622009, 4.91453921e-05, -4.84246767e-08, 1.66603441e-11,
-      -1.02465983e+04, -4.63848842]
-    - [1.65326226, 0.0100263099, -3.31661238e-06, 5.36483138e-10, -3.14696758e-14,
-      -1.00095936e+04, 9.90506283]
-- name: NADH
   composition: {H: 1}
   thermo:
     model: NASA7
@@ -501,258 +461,255 @@ species:
       -1.00095936e+04, 9.90506283]
 
 reactions:
-- equation: GLUT1 + GLUCOUT => GLUT1_GLUCOUT + REF  # Reaction 1
-  rate-constant: {A: 1.28e+06, b: 0.0, Ea: 0.0}
+- equation: GLUCOUT => REF  # Reaction 1
+  rate-constant: {A: 2.0e-05, b: 0.0, Ea: 0.0}
   note: R0001
-- equation: GLUT1_GLUCOUT + REF => GLUT1 + GLUCOUT  # Reaction 2
-  rate-constant: {A: 1.553, b: 0.0, Ea: 0.0}
-  note: R0002
-- equation: GLUT1_GLUCOUT + REF => GLUT1 + GLUCIN  # Reaction 3
-  rate-constant: {A: 0.111, b: 0.0, Ea: 0.0}
-  note: R0003
-- equation: GLUT1 + GLUCIN => GLUT1_GLUCIN + REF  # Reaction 4
+- equation: GLUT1 + GLUCOUT => GLUT1_GLUCOUT + REF  # Reaction 2
   rate-constant: {A: 1.28e+06, b: 0.0, Ea: 0.0}
-  note: R0004
-- equation: GLUT1_GLUCIN + REF => GLUT1 + GLUCIN  # Reaction 5
+  note: R0002
+- equation: GLUT1_GLUCOUT + REF => GLUT1 + GLUCOUT  # Reaction 3
   rate-constant: {A: 1.553, b: 0.0, Ea: 0.0}
-  note: R0005
-- equation: GLUT1_GLUCIN + REF => GLUT1 + GLUCOUT  # Reaction 6
+  note: R0003
+- equation: GLUT1_GLUCOUT + REF => GLUT1 + GLUCIN  # Reaction 4
   rate-constant: {A: 0.111, b: 0.0, Ea: 0.0}
+  note: R0004
+- equation: GLUT1 + GLUCIN => GLUT1_GLUCIN + REF  # Reaction 5
+  rate-constant: {A: 1.28e+06, b: 0.0, Ea: 0.0}
+  note: R0005
+- equation: GLUT1_GLUCIN + REF => GLUT1 + GLUCIN  # Reaction 6
+  rate-constant: {A: 1.553, b: 0.0, Ea: 0.0}
   note: R0006
-- equation: GLUCIN + 5 REF => 2 PYRUVATE + 2 NADH + 2 Q  # Reaction 7
-  rate-constant: {A: 0.014, b: 0.0, Ea: 0.0}
+- equation: GLUT1_GLUCIN + REF => GLUT1 + GLUCOUT  # Reaction 7
+  rate-constant: {A: 0.111, b: 0.0, Ea: 0.0}
   note: R0007
-- equation: 2 PYRUVATE + 10 REF => 8 NADH + 2 FADH2 + 2 Q  # Reaction 8
-  rate-constant: {A: 5.0e-03, b: 0.0, Ea: 0.0}
+- equation: GLUCIN + 8 REF => 2 PYRUVATE + 7 Q  # Reaction 8
+  rate-constant: {A: 1.0e-04, b: 0.0, Ea: 0.0}
   note: R0008
-- equation: NADH + 5 REF => NAD + 5 Q  # Reaction 9
-  rate-constant: {A: 5.0e-03, b: 0.0, Ea: 0.0}
+- equation: PYRUVATE + 11.5 REF => 12.5 Q  # Reaction 9
+  rate-constant: {A: 1.0e-04, b: 0.0, Ea: 0.0}
   note: R0009
-- equation: FADH2 + 3 REF => FAD + 3 Q  # Reaction 10
-  rate-constant: {A: 5.0e-03, b: 0.0, Ea: 0.0}
+- equation: Q + ADP => ATP + REF  # Reaction 10
+  rate-constant: {A: 1.0e+08, b: 0.0, Ea: 0.0}
   note: R0010
-- equation: 2 Q + ADP => ATP + 2 REF  # Reaction 11
-  rate-constant: {A: 1.0e+06, b: 0.0, Ea: 0.0}
+- equation: ATP => ADP  # Reaction 11
+  rate-constant: {A: 1.3e-04, b: 0.0, Ea: 0.0}
   note: R0011
-- equation: ATP => ADP  # Reaction 12
-  rate-constant: {A: 1.3e-03, b: 0.0, Ea: 0.0}
+- equation: 2 ADP => ATP + AMP  # Reaction 12
+  rate-constant: {A: 1.67e+05, b: 0.0, Ea: 0.0}
   note: R0012
-- equation: 2 ADP => ATP + AMP  # Reaction 13
-  rate-constant: {A: 1.67e+05, b: 0.0, Ea: 0.0}
+- equation: ATP + AMP => 2 ADP  # Reaction 13
+  rate-constant: {A: 1.67e+04, b: 0.0, Ea: 0.0}
   note: R0013
-- equation: ATP + AMP => 2 ADP  # Reaction 14
-  rate-constant: {A: 1.67e+05, b: 0.0, Ea: 0.0}
+- equation: ATP + AMPK => AMPK_ATP + REF  # Reaction 14
+  rate-constant: {A: 1.0e+06, b: 0.0, Ea: 0.0}
   note: R0014
-- equation: ATP + AMPK => AMPK_ATP + REF  # Reaction 15
-  rate-constant: {A: 1.0e+06, b: 0.0, Ea: 0.0}
-  note: R0015
-- equation: AMPK_ATP + REF => ATP + AMPK  # Reaction 16
+- equation: AMPK_ATP + REF => ATP + AMPK  # Reaction 15
   rate-constant: {A: 0.22, b: 0.0, Ea: 0.0}
+  note: R0015
+- equation: ADP + AMPK => AMPK_ADP + REF  # Reaction 16
+  rate-constant: {A: 1.5e+06, b: 0.0, Ea: 0.0}
   note: R0016
-- equation: ADP + AMPK => AMPK_ADP + REF  # Reaction 17
-  rate-constant: {A: 1.5e+06, b: 0.0, Ea: 0.0}
+- equation: AMPK_ADP + REF => ADP + AMPK  # Reaction 17
+  rate-constant: {A: 2.25e-03, b: 0.0, Ea: 0.0}
   note: R0017
-- equation: AMPK_ADP + REF => ADP + AMPK  # Reaction 18
-  rate-constant: {A: 2.25e-03, b: 0.0, Ea: 0.0}
+- equation: AMP + AMPK => AMPK_AMP + REF  # Reaction 18
+  rate-constant: {A: 1.5e+06, b: 0.0, Ea: 0.0}
   note: R0018
-- equation: AMP + AMPK => AMPK_AMP + REF  # Reaction 19
-  rate-constant: {A: 1.5e+06, b: 0.0, Ea: 0.0}
+- equation: AMPK_AMP + REF => AMP + AMPK  # Reaction 19
+  rate-constant: {A: 3.75e-03, b: 0.0, Ea: 0.0}
   note: R0019
-- equation: AMPK_AMP + REF => AMP + AMPK  # Reaction 20
-  rate-constant: {A: 3.75e-03, b: 0.0, Ea: 0.0}
+- equation: ATP + AMPKA => AMPKA_ATP + REF  # Reaction 20
+  rate-constant: {A: 1.0e+06, b: 0.0, Ea: 0.0}
   note: R0020
-- equation: ATP + AMPKA => AMPKA_ATP + REF  # Reaction 21
-  rate-constant: {A: 1.0e+06, b: 0.0, Ea: 0.0}
-  note: R0021
-- equation: AMPKA_ATP + REF => ATP + AMPKA  # Reaction 22
+- equation: AMPKA_ATP + REF => ATP + AMPKA  # Reaction 21
   rate-constant: {A: 0.4, b: 0.0, Ea: 0.0}
-  note: R0022
-- equation: ADP + AMPKA => AMPKA_ADP + REF  # Reaction 23
+  note: R0021
+- equation: ADP + AMPKA => AMPKA_ADP + REF  # Reaction 22
   rate-constant: {A: 1.5e+06, b: 0.0, Ea: 0.0}
-  note: R0023
-- equation: AMPKA_ADP + REF => ADP + AMPKA  # Reaction 24
+  note: R0022
+- equation: AMPKA_ADP + REF => ADP + AMPKA  # Reaction 23
   rate-constant: {A: 2.25e-03, b: 0.0, Ea: 0.0}
-  note: R0024
-- equation: AMP + AMPKA => AMPKA_AMP + REF  # Reaction 25
+  note: R0023
+- equation: AMP + AMPKA => AMPKA_AMP + REF  # Reaction 24
   rate-constant: {A: 1.0e+06, b: 0.0, Ea: 0.0}
-  note: R0025
-- equation: AMPKA_AMP + REF => AMP + AMPKA  # Reaction 26
+  note: R0024
+- equation: AMPKA_AMP + REF => AMP + AMPKA  # Reaction 25
   rate-constant: {A: 3.75e-03, b: 0.0, Ea: 0.0}
+  note: R0025
+- equation: AMPK + LKB1 => AMPK_LKB1 + REF  # Reaction 26
+  rate-constant: {A: 3.61e+06, b: 0.0, Ea: 0.0}
   note: R0026
-- equation: AMPK + LKB1 => AMPK_LKB1 + REF  # Reaction 27
-  rate-constant: {A: 3.61e+06, b: 0.0, Ea: 0.0}
+- equation: AMPK_LKB1 + REF => AMPK + LKB1  # Reaction 27
+  rate-constant: {A: 5000.0, b: 0.0, Ea: 0.0}
   note: R0027
-- equation: AMPK_LKB1 + REF => AMPK + LKB1  # Reaction 28
-  rate-constant: {A: 5000.0, b: 0.0, Ea: 0.0}
+- equation: AMPK_LKB1 + REF => AMPKA + LKB1  # Reaction 28
+  rate-constant: {A: 50.0, b: 0.0, Ea: 0.0}
   note: R0028
-- equation: AMPK_LKB1 + REF => AMPKA + LKB1  # Reaction 29
-  rate-constant: {A: 50.0, b: 0.0, Ea: 0.0}
+- equation: AMPKA + PP2A => AMPKA_PP2A + REF  # Reaction 29
+  rate-constant: {A: 8.21e+06, b: 0.0, Ea: 0.0}
   note: R0029
-- equation: AMPKA + PP2A => AMPKA_PP2A + REF  # Reaction 30
-  rate-constant: {A: 8.21e+06, b: 0.0, Ea: 0.0}
-  note: R0030
-- equation: AMPKA_PP2A + REF => AMPKA + PP2A  # Reaction 31
+- equation: AMPKA_PP2A + REF => AMPKA + PP2A  # Reaction 30
   rate-constant: {A: 500.0, b: 0.0, Ea: 0.0}
-  note: R0031
-- equation: AMPKA_PP2A + REF => AMPK + PP2A  # Reaction 32
+  note: R0030
+- equation: AMPKA_PP2A + REF => AMPK + PP2A  # Reaction 31
   rate-constant: {A: 50.0, b: 0.0, Ea: 0.0}
-  note: R0032
-- equation: AMPK_ATP + LKB1 => AMPK_ATP_LKB1 + REF  # Reaction 33
+  note: R0031
+- equation: AMPK_ATP + LKB1 => AMPK_ATP_LKB1 + REF  # Reaction 32
   rate-constant: {A: 3.61e+06, b: 0.0, Ea: 0.0}
-  note: R0033
-- equation: AMPK_ATP_LKB1 + REF => AMPK_ATP + LKB1  # Reaction 34
+  note: R0032
+- equation: AMPK_ATP_LKB1 + REF => AMPK_ATP + LKB1  # Reaction 33
   rate-constant: {A: 5000.0, b: 0.0, Ea: 0.0}
-  note: R0034
-- equation: AMPK_ATP_LKB1 + REF => AMPKA_ATP + LKB1  # Reaction 35
+  note: R0033
+- equation: AMPK_ATP_LKB1 + REF => AMPKA_ATP + LKB1  # Reaction 34
   rate-constant: {A: 5.0, b: 0.0, Ea: 0.0}
-  note: R0035
-- equation: AMPKA_ATP + PP2A => AMPKA_ATP_PP2A + REF  # Reaction 36
+  note: R0034
+- equation: AMPKA_ATP + PP2A => AMPKA_ATP_PP2A + REF  # Reaction 35
   rate-constant: {A: 8.21e+06, b: 0.0, Ea: 0.0}
+  note: R0035
+- equation: AMPKA_ATP_PP2A + REF => AMPKA_ATP + PP2A  # Reaction 36
+  rate-constant: {A: 500.0, b: 0.0, Ea: 0.0}
   note: R0036
-- equation: AMPKA_ATP_PP2A + REF => AMPKA_ATP + PP2A  # Reaction 37
+- equation: AMPKA_ATP_PP2A + REF => AMPK_ATP + PP2A  # Reaction 37
   rate-constant: {A: 500.0, b: 0.0, Ea: 0.0}
   note: R0037
-- equation: AMPKA_ATP_PP2A + REF => AMPK_ATP + PP2A  # Reaction 38
-  rate-constant: {A: 500.0, b: 0.0, Ea: 0.0}
-  note: R0038
-- equation: AMPK_ADP + LKB1 => AMPK_ADP_LKB1 + REF  # Reaction 39
+- equation: AMPK_ADP + LKB1 => AMPK_ADP_LKB1 + REF  # Reaction 38
   rate-constant: {A: 5.41e+06, b: 0.0, Ea: 0.0}
-  note: R0039
-- equation: AMPK_ADP_LKB1 + REF => AMPK_ADP + LKB1  # Reaction 40
+  note: R0038
+- equation: AMPK_ADP_LKB1 + REF => AMPK_ADP + LKB1  # Reaction 39
   rate-constant: {A: 75.0, b: 0.0, Ea: 0.0}
-  note: R0040
-- equation: AMPK_ADP_LKB1 + REF => AMPKA_ADP + LKB1  # Reaction 41
+  note: R0039
+- equation: AMPK_ADP_LKB1 + REF => AMPKA_ADP + LKB1  # Reaction 40
   rate-constant: {A: 150.0, b: 0.0, Ea: 0.0}
+  note: R0040
+- equation: AMPKA_ADP + PP2A => AMPKA_ADP_PP2A + REF  # Reaction 41
+  rate-constant: {A: 8.21e+04, b: 0.0, Ea: 0.0}
   note: R0041
-- equation: AMPKA_ADP + PP2A => AMPKA_ADP_PP2A + REF  # Reaction 42
-  rate-constant: {A: 8.21e+04, b: 0.0, Ea: 0.0}
+- equation: AMPKA_ADP_PP2A + REF => AMPKA_ADP + PP2A  # Reaction 42
+  rate-constant: {A: 5.0, b: 0.0, Ea: 0.0}
   note: R0042
-- equation: AMPKA_ADP_PP2A + REF => AMPKA_ADP + PP2A  # Reaction 43
-  rate-constant: {A: 5.0, b: 0.0, Ea: 0.0}
+- equation: AMPKA_ADP_PP2A + REF => AMPK_ADP + PP2A  # Reaction 43
+  rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}
   note: R0043
-- equation: AMPKA_ADP_PP2A + REF => AMPK_ADP + PP2A  # Reaction 44
-  rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}
-  note: R0044
-- equation: AMPK_AMP + LKB1 => AMPK_AMP_LKB1 + REF  # Reaction 45
+- equation: AMPK_AMP + LKB1 => AMPK_AMP_LKB1 + REF  # Reaction 44
   rate-constant: {A: 1.44e+07, b: 0.0, Ea: 0.0}
-  note: R0045
-- equation: AMPK_AMP_LKB1 + REF => AMPK_AMP + LKB1  # Reaction 46
+  note: R0044
+- equation: AMPK_AMP_LKB1 + REF => AMPK_AMP + LKB1  # Reaction 45
   rate-constant: {A: 20.0, b: 0.0, Ea: 0.0}
-  note: R0046
-- equation: AMPK_AMP_LKB1 + REF => AMPKA_AMP + LKB1  # Reaction 47
+  note: R0045
+- equation: AMPK_AMP_LKB1 + REF => AMPKA_AMP + LKB1  # Reaction 46
   rate-constant: {A: 300.0, b: 0.0, Ea: 0.0}
-  note: R0047
-- equation: AMPKA_AMP + PP2A => AMPKA_AMP_PP2A + REF  # Reaction 48
+  note: R0046
+- equation: AMPKA_AMP + PP2A => AMPKA_AMP_PP2A + REF  # Reaction 47
   rate-constant: {A: 8.21e+04, b: 0.0, Ea: 0.0}
-  note: R0048
-- equation: AMPKA_AMP_PP2A + REF => AMPKA_AMP + PP2A  # Reaction 49
+  note: R0047
+- equation: AMPKA_AMP_PP2A + REF => AMPKA_AMP + PP2A  # Reaction 48
   rate-constant: {A: 5.0, b: 0.0, Ea: 0.0}
-  note: R0049
-- equation: AMPKA_AMP_PP2A + REF => AMPK_AMP + PP2A  # Reaction 50
+  note: R0048
+- equation: AMPKA_AMP_PP2A + REF => AMPK_AMP + PP2A  # Reaction 49
   rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}
+  note: R0049
+- equation: AMPKA + MTORA => AMPKA + MTOR  # Reaction 50
+  rate-constant: {A: 1.0142e+09, b: 0.0, Ea: 0.0}
   note: R0050
-- equation: AMPKA + MTORA => AMPKA + MTOR  # Reaction 51
+- equation: AMPKA_ATP + MTORA => AMPKA_ATP + MTOR  # Reaction 51
   rate-constant: {A: 1.0142e+09, b: 0.0, Ea: 0.0}
   note: R0051
-- equation: AMPKA_ATP + MTORA => AMPKA_ATP + MTOR  # Reaction 52
+- equation: AMPKA_ADP + MTORA => AMPKA_ADP + MTOR  # Reaction 52
   rate-constant: {A: 1.0142e+09, b: 0.0, Ea: 0.0}
   note: R0052
-- equation: AMPKA_ADP + MTORA => AMPKA_ADP + MTOR  # Reaction 53
-  rate-constant: {A: 1.0142e+09, b: 0.0, Ea: 0.0}
-  note: R0053
-- equation: AMPKA_AMP + MTORA => AMPKA_AMP + MTOR  # Reaction 54
+- equation: AMPKA_AMP + MTORA => AMPKA_AMP + MTOR  # Reaction 53
   rate-constant: {A: 3.0427e+09, b: 0.0, Ea: 0.0}
-  note: R0054
-- equation: MTORA => MTOR  # Reaction 55
+  note: R0053
+- equation: MTORA => MTOR  # Reaction 54
   rate-constant: {A: 3.5467e-04, b: 0.0, Ea: 0.0}
+  note: R0054
+- equation: MTORA + AMPKA => MTORA + AMPK  # Reaction 55
+  rate-constant: {A: 9638.5, b: 0.0, Ea: 0.0}
   note: R0055
-- equation: MTORA + AMPKA => MTORA + AMPK  # Reaction 56
+- equation: MTORA + AMPKA_ATP => MTORA + AMPK_ATP  # Reaction 56
   rate-constant: {A: 9638.5, b: 0.0, Ea: 0.0}
   note: R0056
-- equation: MTORA + AMPKA_ATP => MTORA + AMPK_ATP  # Reaction 57
+- equation: MTORA + AMPKA_ADP => MTORA + AMPK_ADP  # Reaction 57
   rate-constant: {A: 9638.5, b: 0.0, Ea: 0.0}
   note: R0057
-- equation: MTORA + AMPKA_ADP => MTORA + AMPK_ADP  # Reaction 58
+- equation: MTORA + AMPKA_AMP => MTORA + AMPK_AMP  # Reaction 58
   rate-constant: {A: 9638.5, b: 0.0, Ea: 0.0}
   note: R0058
-- equation: MTORA + AMPKA_AMP => MTORA + AMPK_AMP  # Reaction 59
-  rate-constant: {A: 9638.5, b: 0.0, Ea: 0.0}
-  note: R0059
-- equation: ULKA + MTORA => MTORA + ULK  # Reaction 60
+- equation: ULKA + MTORA => MTORA + ULK  # Reaction 59
   rate-constant: {A: 1.6122e+08, b: 0.0, Ea: 0.0}
-  note: R0060
-- equation: ULKA + MTORA => MTOR + ULKA  # Reaction 61
+  note: R0059
+- equation: ULKA + MTORA => MTOR + ULKA  # Reaction 60
   rate-constant: {A: 1.9507e+05, b: 0.0, Ea: 0.0}
+  note: R0060
+- equation: AMPKA + TSC => AMPKA + TSCA  # Reaction 61
+  rate-constant: {A: 1489.0, b: 0.0, Ea: 0.0}
   note: R0061
-- equation: AMPKA + TSC => AMPKA + TSCA  # Reaction 62
+- equation: AMPKA_ATP + TSC => AMPKA_ATP + TSCA  # Reaction 62
   rate-constant: {A: 1489.0, b: 0.0, Ea: 0.0}
   note: R0062
-- equation: AMPKA_ATP + TSC => AMPKA_ATP + TSCA  # Reaction 63
-  rate-constant: {A: 1489.0, b: 0.0, Ea: 0.0}
-  note: R0063
-- equation: AMPKA_ADP + TSC => AMPKA_ADP + TSCA  # Reaction 64
+- equation: AMPKA_ADP + TSC => AMPKA_ADP + TSCA  # Reaction 63
   rate-constant: {A: 1534.2, b: 0.0, Ea: 0.0}
-  note: R0064
-- equation: AMPKA_AMP + TSC => AMPKA_AMP + TSCA  # Reaction 65
+  note: R0063
+- equation: AMPKA_AMP + TSC => AMPKA_AMP + TSCA  # Reaction 64
   rate-constant: {A: 1.3537e+04, b: 0.0, Ea: 0.0}
-  note: R0065
-- equation: RHEBA + TSCA => RHEB + TSCA  # Reaction 66
+  note: R0064
+- equation: RHEBA + TSCA => RHEB + TSCA  # Reaction 65
   rate-constant: {A: 5229.2, b: 0.0, Ea: 0.0}
-  note: R0066
-- equation: RHEBA + MTOR => RHEBA + MTORA  # Reaction 67
+  note: R0065
+- equation: RHEBA + MTOR => RHEBA + MTORA  # Reaction 66
   rate-constant: {A: 1.4312e+08, b: 0.0, Ea: 0.0}
-  note: R0067
-- equation: RHEB => RHEBA  # Reaction 68
+  note: R0066
+- equation: RHEB => RHEBA  # Reaction 67
   rate-constant: {A: 9.2104e-08, b: 0.0, Ea: 0.0}
-  note: R0068
-- equation: AKTA => AKT  # Reaction 69
+  note: R0067
+- equation: AKTA => AKT  # Reaction 68
   rate-constant: {A: 5.0667e-07, b: 0.0, Ea: 0.0}
-  note: R0069
-- equation: AKTA + TSCA => AKTA + TSC  # Reaction 70
+  note: R0068
+- equation: AKTA + TSCA => AKTA + TSC  # Reaction 69
   rate-constant: {A: 6.468e+09, b: 0.0, Ea: 0.0}
+  note: R0069
+- equation: AMPKA + ULK => AMPKA + ULKA  # Reaction 70
+  rate-constant: {A: 332.23, b: 0.0, Ea: 0.0}
   note: R0070
-- equation: AMPKA + ULK => AMPKA + ULKA  # Reaction 71
+- equation: AMPKA_ATP + ULK => AMPKA_ATP + ULKA  # Reaction 71
   rate-constant: {A: 332.23, b: 0.0, Ea: 0.0}
   note: R0071
-- equation: AMPKA_ATP + ULK => AMPKA_ATP + ULKA  # Reaction 72
-  rate-constant: {A: 332.23, b: 0.0, Ea: 0.0}
-  note: R0072
-- equation: AMPKA_ADP + ULK => AMPKA_ADP + ULKA  # Reaction 73
+- equation: AMPKA_ADP + ULK => AMPKA_ADP + ULKA  # Reaction 72
   rate-constant: {A: 342.3, b: 0.0, Ea: 0.0}
-  note: R0073
-- equation: AMPKA_AMP + ULK => AMPKA_AMP + ULKA  # Reaction 74
+  note: R0072
+- equation: AMPKA_AMP + ULK => AMPKA_AMP + ULKA  # Reaction 73
   rate-constant: {A: 3020.3, b: 0.0, Ea: 0.0}
-  note: R0074
-- equation: ULKA => ULK  # Reaction 75
+  note: R0073
+- equation: ULKA => ULK  # Reaction 74
   rate-constant: {A: 0.28119, b: 0.0, Ea: 0.0}
+  note: R0074
+- equation: AMPKA + ULKA => AMPK + ULKA  # Reaction 75
+  rate-constant: {A: 4.1653e+04, b: 0.0, Ea: 0.0}
   note: R0075
-- equation: AMPKA + ULKA => AMPK + ULKA  # Reaction 76
+- equation: AMPKA_ATP + ULKA => AMPK_ATP + ULKA  # Reaction 76
   rate-constant: {A: 4.1653e+04, b: 0.0, Ea: 0.0}
   note: R0076
-- equation: AMPKA_ATP + ULKA => AMPK_ATP + ULKA  # Reaction 77
+- equation: AMPKA_ADP + ULKA => AMPK_ADP + ULKA  # Reaction 77
   rate-constant: {A: 4.1653e+04, b: 0.0, Ea: 0.0}
   note: R0077
-- equation: AMPKA_ADP + ULKA => AMPK_ADP + ULKA  # Reaction 78
+- equation: AMPKA_AMP + ULKA => AMPK_AMP + ULKA  # Reaction 78
   rate-constant: {A: 4.1653e+04, b: 0.0, Ea: 0.0}
   note: R0078
-- equation: AMPKA_AMP + ULKA => AMPK_AMP + ULKA  # Reaction 79
-  rate-constant: {A: 4.1653e+04, b: 0.0, Ea: 0.0}
-  note: R0079
-- equation: RAPOUT => RAP  # Reaction 80
+- equation: RAPOUT => RAP  # Reaction 79
   rate-constant: {A: 6.67e-09, b: 0.0, Ea: 0.0}
-  note: R0080
-- equation: RAP => RAPOUT  # Reaction 81
+  note: R0079
+- equation: RAP => RAPOUT  # Reaction 80
   rate-constant: {A: 3.3333e-03, b: 0.0, Ea: 0.0}
-  note: R0081
-- equation: RAP + FKBP12 => RK + REF  # Reaction 82
+  note: R0080
+- equation: RAP + FKBP12 => RK + REF  # Reaction 81
   rate-constant: {A: 1.9e+09, b: 0.0, Ea: 0.0}
-  note: R0082
-- equation: REF + RK => RAP + FKBP12  # Reaction 83
+  note: R0081
+- equation: REF + RK => RAP + FKBP12  # Reaction 82
   rate-constant: {A: 5.3e-04, b: 0.0, Ea: 0.0}
-  note: R0083
-- equation: RK + MTORA => RKMTORA + REF  # Reaction 84
+  note: R0082
+- equation: RK + MTORA => RKMTORA + REF  # Reaction 83
   rate-constant: {A: 2.6e+09, b: 0.0, Ea: 0.0}
-  note: R0084
-- equation: RKMTORA + REF => RK + MTORA  # Reaction 85
+  note: R0083
+- equation: RKMTORA + REF => RK + MTORA  # Reaction 84
   rate-constant: {A: 0.0308, b: 0.0, Ea: 0.0}
-  note: R0085
+  note: R0084
