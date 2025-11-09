@@ -1,7 +1,0 @@
-NADH + 5 REF   => NAD  + 5 Q     5.0E-03     0.00000          0.00 !s^-1 per NADH - Build proton-motive tokens (Q); make these unimolecular in NADH/FADH2
-FADH2 + 3 REF  => FAD  + 3 Q     5.0E-03     0.00000          0.00 !s^-1 per FADH2
-2 Q + ADP    => ATP + 2 REF      1.0E+08     0.00000          0.00 !orig: 1.0E+06cm^3·mol^-1·s^-1 - ATP synthase: each ATP consumes 2 Q + ADP
-!                                Metabolism
-ATP => ADP                       1.3E-04     0.00000            0.00 !1E-04 !2.6E-02  ! k_rest coccimigliio2020
-2 ADP => ATP + AMP               1.67E+05     0.00000            0.00 !1.67E+07
-ATP + AMP => 2 ADP               1.67E+04     0.00000            0.00 !1.67E+07

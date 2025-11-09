@@ -202,7 +202,7 @@ REACTIONS MOLES KELVINS
 !REF => GLUCOUT          1E-09     0.00000         0.00
 !GLUCOUT => REF          1E-03     0.00000         0.00
 ! -------------------- Zhou2022 --------------------
-GLUCOUT => REF          2E-05     0.00000         0.00
+!GLUCOUT => REF          2E-05     0.00000         0.00
 ! GLUCOSE Transport Module
 GLUT1 + GLUCOUT => GLUT1_GLUCOUT + REF            1.28E+06     0.00000         0.00 !1.28E+06
 GLUT1_GLUCOUT + REF => GLUT1 + GLUCOUT            1.553        0.00000         0.00 !0.0555   ! K_in MM constant = 1.3 [mM]

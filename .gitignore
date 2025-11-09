@@ -1,3 +1,6 @@
 xml/old_xmls/
+xml/stac_starvation_model
+xml/testing_stac
+xml/testing_starvation
 logs/
 0_evaluate/pics

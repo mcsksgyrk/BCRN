@@ -14,5 +14,5 @@ MECHTEST
 
         SOLVER cantera
         SAVE_STATES      CSV
-          NAME /home/nvme/Opt/7_Krisztian/xml/starvation/gluc_rap_mTOR_0001.xml
+          NAME /home/nvme/Opt/7_Krisztian/xml/starvation/gluc_rap_mTOR_0002.xml
 END

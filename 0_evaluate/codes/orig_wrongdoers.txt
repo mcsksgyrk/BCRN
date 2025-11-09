@@ -1,0 +1,11 @@
+'RHEBA': 0,
+ 'PP2A': 154,
+ 'AKTA': 0,
+ 'ADP': 4577,
+ 'TSC': 0,
+ 'AMP': 61,
+ 'MTORA': 0,
+ 'LKB1': 7,
+ 'ATP': 0,
+ 'ULK': 0,
+ 'GLUCIN': 0

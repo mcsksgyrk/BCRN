@@ -3,7 +3,7 @@ C H
 END
 
 SPECIES
-PYRUVATE NAD NADH FAD FADH2 Q
+PYRUVATE Q
 ATP ADP AMP
 AMPK LKB1 PP2A
 AMPK_ATP AMPK_ADP AMPK_AMP
@@ -19,22 +19,6 @@ END
 THERMO ALL
 300.000000 1000.000000 5000.000000
 PYRUVATE                H   1C   0    0    0G    200      6000     1000        1
- 1.65326226E+00 1.00263099E-02-3.31661238E-06 5.36483138E-10-3.14696758E-14    2
--1.00095936E+04 9.90506283E+00 5.14911468E+00-1.36622009E-02 4.91453921E-05    3
--4.84246767E-08 1.66603441E-11-1.02465983E+04-4.63848842E+00 0.00000000E+00    4
-NAD                     H   1C   0    0    0G    200      6000     1000        1
- 1.65326226E+00 1.00263099E-02-3.31661238E-06 5.36483138E-10-3.14696758E-14    2
--1.00095936E+04 9.90506283E+00 5.14911468E+00-1.36622009E-02 4.91453921E-05    3
--4.84246767E-08 1.66603441E-11-1.02465983E+04-4.63848842E+00 0.00000000E+00    4
-NADH                    H   1C   0    0    0G    200      6000     1000        1
- 1.65326226E+00 1.00263099E-02-3.31661238E-06 5.36483138E-10-3.14696758E-14    2
--1.00095936E+04 9.90506283E+00 5.14911468E+00-1.36622009E-02 4.91453921E-05    3
--4.84246767E-08 1.66603441E-11-1.02465983E+04-4.63848842E+00 0.00000000E+00    4
-FAD                     H   1C   0    0    0G    200      6000     1000        1
- 1.65326226E+00 1.00263099E-02-3.31661238E-06 5.36483138E-10-3.14696758E-14    2
--1.00095936E+04 9.90506283E+00 5.14911468E+00-1.36622009E-02 4.91453921E-05    3
--4.84246767E-08 1.66603441E-11-1.02465983E+04-4.63848842E+00 0.00000000E+00    4
-FADH2                   H   1C   0    0    0G    200      6000     1000        1
  1.65326226E+00 1.00263099E-02-3.31661238E-06 5.36483138E-10-3.14696758E-14    2
 -1.00095936E+04 9.90506283E+00 5.14911468E+00-1.36622009E-02 4.91453921E-05    3
 -4.84246767E-08 1.66603441E-11-1.02465983E+04-4.63848842E+00 0.00000000E+00    4
@@ -218,29 +202,26 @@ REACTIONS MOLES KELVINS
 !REF => GLUCOUT          1E-09     0.00000         0.00
 !GLUCOUT => REF          1E-03     0.00000         0.00
 ! -------------------- Zhou2022 --------------------
+GLUCOUT => REF          2.5E-06     0.00000         0.00 ! Other cells eat GLUCOUT as well
 ! GLUCOSE Transport Module
 GLUT1 + GLUCOUT => GLUT1_GLUCOUT + REF            1.28E+06     0.00000         0.00 !1.28E+06
-GLUT1_GLUCOUT + REF => GLUT1 + GLUCOUT            1.553        0.00000         0.00 !0.0555   ! K_in MM constant = 0.13 [mM]
+GLUT1_GLUCOUT + REF => GLUT1 + GLUCOUT            0.555        0.00000         0.00 !0.0555, 1.553   ! K_in MM constant = 1.3 [mM]
 GLUT1_GLUCOUT + REF => GLUT1 + GLUCIN             0.111        0.00000         0.00 !0.111   
 ! Efflux
 GLUT1 + GLUCIN => GLUT1_GLUCIN + REF              1.28E+06     0.00000         0.00 !1.28E+06
-GLUT1_GLUCIN + REF => GLUT1 + GLUCIN              1.553        0.00000         0.00 !0.0555  
+GLUT1_GLUCIN + REF => GLUT1 + GLUCIN              0.555        0.00000         0.00 !0.0555, 1.553  
 GLUT1_GLUCIN + REF => GLUT1 + GLUCOUT             0.111        0.00000         0.00 !0.111   
-! -------------------- Vibe Coding -----------------
-! ------- GLUCOSE-AXP Module -------              Substrate level ATP
-GLUCIN + 5 REF => 2 PYRUVATE + 2 NADH + 2 Q       1E-4      0.00000            0.00 !GPT: 1.4e-02, why not 2 ATP instead of 2 Q?
-2 PYRUVATE + 10 REF => 8 NADH + 2 FADH2 + 2 Q     1E+01     0.00000            0.00 !GPT: 5e-03 if we add 2 ATP instead of Q --> 2 ADP needs to appear
-! Is 10 REF 10*[1]*k, or is it [1]^10=1k, with [1] being REF cc.                    !on the left side --> much higher order reaciton
+! ------- GLUCOSE-AXP Module -------              Glycolisis
+GLUCIN + 8 REF => 2 PYRUVATE + 7 Q                4E-05      0.00000           0.00 !Tibor sejeong cikk illesztés: 1.7E-05, !GPT: 1.4e-02, why not 2 ATP instead of 2 Q?
+!                                                 Citric Cycle
+PYRUVATE + 11.5 REF => 12.5 Q                     4E-05        0.00000         0.00 !GPT: 5e-03 if we add 2 ATP instead of Q --> 2 ADP needs to appear
 !                                                 Oxidative Phosphorylation
-NADH + 5 REF   => NAD  + 5 Q                      5.0E-03     0.00000          0.00 !s^-1 per NADH - Build proton-motive tokens (Q); make these unimolecular in NADH/FADH2
-FADH2 + 3 REF  => FAD  + 3 Q                      5.0E-03     0.00000          0.00 !s^-1 per FADH2
-2 Q + ADP    => ATP + 2 REF                       1.0E+06     0.00000          0.00 !orig: 1.0E+06cm^3·mol^-1·s^-1 - ATP synthase: each ATP consumes 2 Q + ADP
+Q + ADP    => ATP + REF                           1.0E+06      0.00000         0.00 !orig: 1.0E+06cm^3·mol^-1·s^-1 - ATP synthase: each ATP consumes 2 Q + ADP
 ! 10 NADH + 2 FADH2 --> 56 Q --> 28 ATP
-! ----------------- Vibe Coding End ----------------
 !                                                 Metabolism
-ATP => ADP                                        1.3E-03     0.00000            0.00 !1E-04 !2.6E-02  ! k_rest coccimigliio2020
-2 ADP => ATP + AMP                                1.67E+05     0.00000            0.00 !1.67E+07
-ATP + AMP => 2 ADP                                1.67E+05     0.00000            0.00 !1.67E+07
+ATP => ADP                                        6.15E-05      0.00000         0.00 !1.3E-04, 1E-04 !2.6E-02  ! k_rest coccimigliio2020
+2 ADP => ATP + AMP                                1.67E+05     0.00000         0.00 !1.67E+07
+ATP + AMP => 2 ADP                                1.67E+04     0.00000         0.00 !1.67E+07
 ! -------------------- Coccimiglio2020 --------------------
 ! ------- AMPK-AXP complexes -------                                                      Coccimiglio et al. (2020)
 ATP + AMPK => AMPK_ATP + REF                      1E+06        0.00000         0.00 !k6f, https://doi.org/10.1371/journal.pcbi.1008079
@@ -293,10 +274,10 @@ AMPKA_AMP_PP2A + REF => AMPK_AMP + PP2A           1E+00        0.00000         0
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AMPK-mTOR-ULK Triangle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !
 !
-AMPKA + MTORA => AMPKA + MTOR                     1.01423E+09  0.00000         0.00!6.0854E+09 *1/6
-AMPKA_ATP + MTORA => AMPKA_ATP + MTOR             1.01423E+09  0.00000         0.00!6.0854E+09 *1/6
-AMPKA_ADP + MTORA => AMPKA_ADP + MTOR             1.01423E+09  0.00000         0.00!6.0854E+09 *1/6
-AMPKA_AMP + MTORA => AMPKA_AMP + MTOR             3.04269E+09  0.00000         0.00!6.0854E+09 *3/6
+AMPKA + MTORA => AMPKA + MTOR                     1.01423E+01  0.00000         0.00!6.0854E+09 *1/6
+AMPKA_ATP + MTORA => AMPKA_ATP + MTOR             1.01423E+01  0.00000         0.00!6.0854E+09 *1/6
+AMPKA_ADP + MTORA => AMPKA_ADP + MTOR             1.01423E+01  0.00000         0.00!6.0854E+09 *1/6
+AMPKA_AMP + MTORA => AMPKA_AMP + MTOR             3.04269E+01  0.00000         0.00!6.0854E+09 *3/6
 MTORA => MTOR                                     3.5467E-04   0.00000         0.00
 MTORA + AMPKA => MTORA + AMPK                     9.6385E+03   0.00000         0.00!3.8554E+04 *1/4
 MTORA + AMPKA_ATP => MTORA + AMPK_ATP             9.6385E+03   0.00000         0.00!3.8554E+04 *1/4

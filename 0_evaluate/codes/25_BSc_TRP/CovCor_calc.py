@@ -1,10 +1,8 @@
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from typing import Dict, List, Union, Optional
+from typing import List, Union, Optional
 import matplotlib.pyplot as plt
-from IPython.display import display
-from scipy import stats
 
 
 class OptimaOutput:
@@ -12,7 +10,7 @@ class OptimaOutput:
                  optima_path: Optional[Union[str, Path]] = None):
 
         self.job_name = str(job_name)
-        if optima_path == None:
+        if optima_path is None:
             self.optima_path = Path("/home/nvme/Opt/outputs")
         self.job_folder = self.optima_path / job_name
         file_path = self.job_folder / "mechanismInfo.txt"

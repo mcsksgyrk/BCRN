@@ -205,21 +205,21 @@ REACTIONS MOLES KELVINS
 GLUCOUT => REF          2.5E-06     0.00000         0.00 ! Other cells eat GLUCOUT as well
 ! GLUCOSE Transport Module
 GLUT1 + GLUCOUT => GLUT1_GLUCOUT + REF            1.28E+06     0.00000         0.00 !1.28E+06
-GLUT1_GLUCOUT + REF => GLUT1 + GLUCOUT            0.0555        0.00000         0.00 !0.0555   ! K_in MM constant = 1.3 [mM]
+GLUT1_GLUCOUT + REF => GLUT1 + GLUCOUT            0.555        0.00000         0.00 !0.0555, 1.553   ! K_in MM constant = 1.3 [mM]
 GLUT1_GLUCOUT + REF => GLUT1 + GLUCIN             0.111        0.00000         0.00 !0.111   
 ! Efflux
 GLUT1 + GLUCIN => GLUT1_GLUCIN + REF              1.28E+06     0.00000         0.00 !1.28E+06
-GLUT1_GLUCIN + REF => GLUT1 + GLUCIN              0.0555        0.00000         0.00 !0.0555  
+GLUT1_GLUCIN + REF => GLUT1 + GLUCIN              0.555        0.00000         0.00 !0.0555, 1.553  
 GLUT1_GLUCIN + REF => GLUT1 + GLUCOUT             0.111        0.00000         0.00 !0.111   
 ! ------- GLUCOSE-AXP Module -------              Glycolisis
-GLUCIN + 8 REF => 2 PYRUVATE + 7 Q                1E-04      0.00000           0.00 !Tibor sejeong cikk illesztés: 1.7E-05, !GPT: 1.4e-02, why not 2 ATP instead of 2 Q?
+GLUCIN + 8 REF => 2 PYRUVATE + 7 Q                4E-05      0.00000           0.00 !Tibor sejeong cikk illesztés: 1.7E-05, !GPT: 1.4e-02, why not 2 ATP instead of 2 Q?
 !                                                 Citric Cycle
-PYRUVATE + 11.5 REF => 12.5 Q                     1E-04        0.00000         0.00 !GPT: 5e-03 if we add 2 ATP instead of Q --> 2 ADP needs to appear
+PYRUVATE + 11.5 REF => 12.5 Q                     4E-05        0.00000         0.00 !GPT: 5e-03 if we add 2 ATP instead of Q --> 2 ADP needs to appear
 !                                                 Oxidative Phosphorylation
-Q + ADP    => ATP + REF                           1.0E+08      0.00000         0.00 !orig: 1.0E+06cm^3·mol^-1·s^-1 - ATP synthase: each ATP consumes 2 Q + ADP
+Q + ADP    => ATP + REF                           1.0E+06      0.00000         0.00 !orig: 1.0E+06cm^3·mol^-1·s^-1 - ATP synthase: each ATP consumes 2 Q + ADP
 ! 10 NADH + 2 FADH2 --> 56 Q --> 28 ATP
 !                                                 Metabolism
-ATP => ADP                                        1.3E-04      0.00000         0.00 !1E-04 !2.6E-02  ! k_rest coccimigliio2020
+ATP => ADP                                        6.15E-05      0.00000         0.00 !1.3E-04, 1E-04 !2.6E-02  ! k_rest coccimigliio2020
 2 ADP => ATP + AMP                                1.67E+05     0.00000         0.00 !1.67E+07
 ATP + AMP => 2 ADP                                1.67E+04     0.00000         0.00 !1.67E+07
 ! -------------------- Coccimiglio2020 --------------------
@@ -274,17 +274,17 @@ AMPKA_AMP_PP2A + REF => AMPK_AMP + PP2A           1E+00        0.00000         0
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AMPK-mTOR-ULK Triangle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !
 !
-AMPKA + MTORA => AMPKA + MTOR                     1.01423E+09  0.00000         0.00!6.0854E+09 *1/6
-AMPKA_ATP + MTORA => AMPKA_ATP + MTOR             1.01423E+09  0.00000         0.00!6.0854E+09 *1/6
-AMPKA_ADP + MTORA => AMPKA_ADP + MTOR             1.01423E+09  0.00000         0.00!6.0854E+09 *1/6
-AMPKA_AMP + MTORA => AMPKA_AMP + MTOR             3.04269E+09  0.00000         0.00!6.0854E+09 *3/6
-MTORA => MTOR                                     3.5467E-04   0.00000         0.00
+AMPKA + MTORA => AMPKA + MTOR                     1.01423E+00  0.00000         0.00!6.0854E+09 *1/6
+AMPKA_ATP + MTORA => AMPKA_ATP + MTOR             1.01423E+00  0.00000         0.00!6.0854E+09 *1/6
+AMPKA_ADP + MTORA => AMPKA_ADP + MTOR             1.01423E+00  0.00000         0.00!6.0854E+09 *1/6
+AMPKA_AMP + MTORA => AMPKA_AMP + MTOR             3.04269E+00  0.00000         0.00!6.0854E+09 *3/6
+!MTORA => MTOR                                     3.5467E-04   0.00000         0.00
 MTORA + AMPKA => MTORA + AMPK                     9.6385E+03   0.00000         0.00!3.8554E+04 *1/4
 MTORA + AMPKA_ATP => MTORA + AMPK_ATP             9.6385E+03   0.00000         0.00!3.8554E+04 *1/4
 MTORA + AMPKA_ADP => MTORA + AMPK_ADP             9.6385E+03   0.00000         0.00!3.8554E+04 *1/4
 MTORA + AMPKA_AMP => MTORA + AMPK_AMP             9.6385E+03   0.00000         0.00!3.8554E+04 *1/4
 ULKA + MTORA => MTORA + ULK                       1.6122E+08   0.00000         0.00
-ULKA + MTORA => MTOR + ULKA                       1.9507E+05   0.00000         0.00
+ULKA + MTORA => MTOR + ULKA                       1.9507E+02   0.00000         0.00!1.9507E+05
 AMPKA + TSC => AMPKA + TSCA                       1.489E+03    0.00000         0.00!1.8049E+04 *0.33/4
 AMPKA_ATP + TSC => AMPKA_ATP + TSCA               1.489E+03    0.00000         0.00!1.8049E+04 *0.33/4
 AMPKA_ADP + TSC => AMPKA_ADP + TSCA               1.5342E+03   0.00000         0.00!1.8049E+04 *0.34/4

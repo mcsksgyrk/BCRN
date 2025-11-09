@@ -1,15 +1,16 @@
 MECHMOD
-    USE_NAME         Minimal_gluc_rap_mTOR_old_version
-    MECH_FILE        7_Krisztian/mech/Minimal_gluc_rap_mTOR_old_version.inp
-    COMPILE_cantera  7_Krisztian/mech/Minimal_gluc_rap_mTOR_old_version.yaml
+    USE_NAME         Minimal_gluc_rap_mTOR_v0
+    MECH_FILE        7_Krisztian/mech/Minimal_gluc_rap_mTOR_v0.inp
+    COMPILE_cantera  7_Krisztian/mech/Minimal_gluc_rap_mTOR_v0.yaml
     END
 
 MECHTEST
-        MECHANISM  Minimal_gluc_rap_mTOR_old_version
+        MECHANISM  Minimal_gluc_rap_mTOR_v0
         TIME_LIMIT 50
         THREAD_LIMIT 32
         SETTINGS_TAG systems_biology
         FALLBACK_TO_DEFAULT_SETTINGS
+        PLOTS FALSE
 
         SOLVER cantera
         SAVE_STATES      CSV
