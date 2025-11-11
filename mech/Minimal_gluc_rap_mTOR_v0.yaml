@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 2.6.0
-date: Sun, 09 Nov 2025 22:42:30 +0100
+date: Mon, 10 Nov 2025 19:13:30 +0100
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 
@@ -606,16 +606,16 @@ reactions:
   rate-constant: {A: 1.0, b: 0.0, Ea: 0.0}
   note: R0048
 - equation: AMPKA + MTORA => AMPKA + MTOR  # Reaction 49
-  rate-constant: {A: 1.0142e+09, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 10.142, b: 0.0, Ea: 0.0}
   note: R0049
 - equation: AMPKA_ATP + MTORA => AMPKA_ATP + MTOR  # Reaction 50
-  rate-constant: {A: 1.0142e+09, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 10.142, b: 0.0, Ea: 0.0}
   note: R0050
 - equation: AMPKA_ADP + MTORA => AMPKA_ADP + MTOR  # Reaction 51
-  rate-constant: {A: 1.0142e+09, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 10.142, b: 0.0, Ea: 0.0}
   note: R0051
 - equation: AMPKA_AMP + MTORA => AMPKA_AMP + MTOR  # Reaction 52
-  rate-constant: {A: 3.0427e+09, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 30.427, b: 0.0, Ea: 0.0}
   note: R0052
 - equation: MTORA => MTOR  # Reaction 53
   rate-constant: {A: 3.5467e-04, b: 0.0, Ea: 0.0}

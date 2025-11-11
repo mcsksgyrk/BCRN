@@ -202,7 +202,7 @@ REACTIONS MOLES KELVINS
 !REF => GLUCOUT          1E-09     0.00000         0.00
 !GLUCOUT => REF          1E-03     0.00000         0.00
 ! -------------------- Zhou2022 --------------------
-GLUCOUT => REF          2.5E-06     0.00000         0.00 ! Other cells eat GLUCOUT as well
+GLUCOUT => REF          2.5E-08     0.00000         0.00 ! Other cells eat GLUCOUT as well
 ! GLUCOSE Transport Module
 GLUT1 + GLUCOUT => GLUT1_GLUCOUT + REF            1.28E+06     0.00000         0.00 !1.28E+06
 GLUT1_GLUCOUT + REF => GLUT1 + GLUCOUT            0.555        0.00000         0.00 !0.0555, 1.553   ! K_in MM constant = 1.3 [mM]
@@ -274,17 +274,17 @@ AMPKA_AMP_PP2A + REF => AMPK_AMP + PP2A           1E+00        0.00000         0
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AMPK-mTOR-ULK Triangle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !
 !
-AMPKA + MTORA => AMPKA + MTOR                     1.01423E+00  0.00000         0.00!6.0854E+09 *1/6
-AMPKA_ATP + MTORA => AMPKA_ATP + MTOR             1.01423E+00  0.00000         0.00!6.0854E+09 *1/6
-AMPKA_ADP + MTORA => AMPKA_ADP + MTOR             1.01423E+00  0.00000         0.00!6.0854E+09 *1/6
-AMPKA_AMP + MTORA => AMPKA_AMP + MTOR             3.04269E+00  0.00000         0.00!6.0854E+09 *3/6
-!MTORA => MTOR                                     3.5467E-04   0.00000         0.00
+AMPKA + MTORA => AMPKA + MTOR                     8.01423E+07  0.00000         0.00!6.0854E+09 *1/6
+AMPKA_ATP + MTORA => AMPKA_ATP + MTOR             8.01423E+07  0.00000         0.00!6.0854E+09 *1/6
+AMPKA_ADP + MTORA => AMPKA_ADP + MTOR             8.01423E+07  0.00000         0.00!6.0854E+09 *1/6
+AMPKA_AMP + MTORA => AMPKA_AMP + MTOR             4.54269E+08  0.00000         0.00!6.0854E+09 *3/6
+!MTORA => MTOR                                    3.5467E-04   0.00000         0.00
 MTORA + AMPKA => MTORA + AMPK                     9.6385E+03   0.00000         0.00!3.8554E+04 *1/4
 MTORA + AMPKA_ATP => MTORA + AMPK_ATP             9.6385E+03   0.00000         0.00!3.8554E+04 *1/4
 MTORA + AMPKA_ADP => MTORA + AMPK_ADP             9.6385E+03   0.00000         0.00!3.8554E+04 *1/4
 MTORA + AMPKA_AMP => MTORA + AMPK_AMP             9.6385E+03   0.00000         0.00!3.8554E+04 *1/4
-ULKA + MTORA => MTORA + ULK                       1.6122E+08   0.00000         0.00
-ULKA + MTORA => MTOR + ULKA                       1.9507E+02   0.00000         0.00!1.9507E+05
+ULKA + MTORA => MTORA + ULK                       1.6122E+03   0.00000         0.00
+ULKA + MTORA => MTOR + ULKA                       1.9507E+05   0.00000         0.00!1.9507E+05
 AMPKA + TSC => AMPKA + TSCA                       1.489E+03    0.00000         0.00!1.8049E+04 *0.33/4
 AMPKA_ATP + TSC => AMPKA_ATP + TSCA               1.489E+03    0.00000         0.00!1.8049E+04 *0.33/4
 AMPKA_ADP + TSC => AMPKA_ADP + TSCA               1.5342E+03   0.00000         0.00!1.8049E+04 *0.34/4
@@ -294,15 +294,15 @@ RHEBA + MTOR => RHEBA + MTORA                     1.4312E+08   0.00000         0
 RHEB => RHEBA                                     9.2104E-08   0.00000         0.00
 AKTA => AKT                                       5.0667E-07   0.00000         0.00
 AKTA + TSCA => AKTA + TSC                         6.4680E+09   0.00000         0.00
-AMPKA + ULK => AMPKA + ULKA                       3.3223E+02   0.00000         0.00!4.0270E+03 *0.33/4
-AMPKA_ATP + ULK => AMPKA_ATP + ULKA               3.3223E+02   0.00000         0.00!4.0270E+03 *0.33/4
-AMPKA_ADP + ULK => AMPKA_ADP + ULKA               3.423E+02    0.00000         0.00!4.0270E+03 *0.34/4
-AMPKA_AMP + ULK => AMPKA_AMP + ULKA               3.0203E+03   0.00000         0.00!4.0270E+03 *3/4   
-ULKA => ULK                                       2.8119E-01   0.00000         0.00
-AMPKA + ULKA => AMPK + ULKA                       4.1653E+04   0.00000         0.00!1.6661E+05 *1/4
-AMPKA_ATP + ULKA => AMPK_ATP + ULKA               4.1653E+04   0.00000         0.00!1.6661E+05 *1/4
-AMPKA_ADP + ULKA => AMPK_ADP + ULKA               4.1653E+04   0.00000         0.00!1.6661E+05 *1/4
-AMPKA_AMP + ULKA => AMPK_AMP + ULKA               4.1653E+04   0.00000         0.00!1.6661E+05 *1/4
+AMPKA + ULK => AMPKA + ULKA                       3.3223E+05   0.00000         0.00!4.0270E+03 *0.33/4
+AMPKA_ATP + ULK => AMPKA_ATP + ULKA               3.3223E+05   0.00000         0.00!4.0270E+03 *0.33/4
+AMPKA_ADP + ULK => AMPKA_ADP + ULKA               3.423E+05    0.00000         0.00!4.0270E+03 *0.34/4
+AMPKA_AMP + ULK => AMPKA_AMP + ULKA               1.2203E+06   0.00000         0.00!4.0270E+03 *3/4   
+!ULKA => ULK                                       2.8119E-03   0.00000         0.00
+AMPKA + ULKA => AMPK + ULKA                       4.1653E+01   0.00000         0.00!1.6661E+05 *1/4
+AMPKA_ATP + ULKA => AMPK_ATP + ULKA               4.1653E+01   0.00000         0.00!1.6661E+05 *1/4
+AMPKA_ADP + ULKA => AMPK_ADP + ULKA               4.1653E+01   0.00000         0.00!1.6661E+05 *1/4
+AMPKA_AMP + ULKA => AMPK_AMP + ULKA               4.1653E+01   0.00000         0.00!1.6661E+05 *1/4
 !
 !AMPKA=>AMPK                         4.0934E-07  0.00000         0.00 <-- Already implemented above
 !
