@@ -1,0 +1,310 @@
+<experiment>
+    <fileAuthor>Bence Hajdú and Tibor Nagy</fileAuthor>
+    <fileVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </fileVersion>
+    <ReSpecThVersion>
+        <major>2</major>
+        <minor>5</minor>
+    </ReSpecThVersion>
+    <bibliographyLink>
+        <description></description>
+        <referenceDOI>10.1038/s41598-020-75030-8</referenceDOI>
+        <details>
+            <author>Marianna Holczer, Bence Hajdú, Tamás Lőrincz, András Szarka, Gábor Bánhegyi, Orsolya Kapuy</author>
+            <journal>Scientific Reports</journal>
+            <number>1</number>
+            <title>Fine-tuning of AMPK–ULK1–mTORC1 regulatory triangle is crucial for autophagy oscillation</title>
+            <volume>10</volume>
+            <year>2020</year>
+        </details>
+    </bibliographyLink>
+    <experimentType>concentration time profile measurement</experimentType>
+    <apparatus>
+        <kind>flow reactor</kind>
+    </apparatus>
+    <commonProperties>
+        <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
+        <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
+        <property name="initial composition"  sourcetype="digitized" >
+            <component><speciesLink preferredKey="PYRUVATE"         chemName="PYRUVATE"     /><amount units="mole fraction" >3.960024185595772e-08</amount></component>
+            <component><speciesLink preferredKey="Q"         chemName="Q"     /><amount units="mole fraction" >3e-06</amount></component>
+            <component><speciesLink preferredKey="ATP"         chemName="ATP"     /><amount units="mole fraction" >5.216399344388907e-06</amount></component>
+            <component><speciesLink preferredKey="ADP"         chemName="ADP"     /><amount units="mole fraction" >1.3657062897502382e-07</amount></component>
+            <component><speciesLink preferredKey="AMP"         chemName="AMP"     /><amount units="mole fraction" >1.8435779126018486e-09</amount></component>
+            <component><speciesLink preferredKey="AMPK"         chemName="AMPK"     /><amount units="mole fraction" >1.234821712833782e-10</amount></component>
+            <component><speciesLink preferredKey="AMPK_ATP"         chemName="AMPK_ATP"     /><amount units="mole fraction" >9.558128603630188e-11</amount></component>
+            <component><speciesLink preferredKey="AMPK_ADP"         chemName="AMPK_ADP"     /><amount units="mole fraction" >1.2137186631737384e-10</amount></component>
+            <component><speciesLink preferredKey="AMPK_AMP"         chemName="AMPK_AMP"     /><amount units="mole fraction" >8.779081691522903e-11</amount></component>
+            <component><speciesLink preferredKey="AMPKA"         chemName="AMPKA"     /><amount units="mole fraction" >1.7249555306398625e-14</amount></component>
+            <component><speciesLink preferredKey="AMPKA_ATP"         chemName="AMPKA_ATP"     /><amount units="mole fraction" >5.901010843988479e-14</amount></component>
+            <component><speciesLink preferredKey="AMPKA_ADP"         chemName="AMPKA_ADP"     /><amount units="mole fraction" >1.6635427279445347e-14</amount></component>
+            <component><speciesLink preferredKey="AMPKA_AMP"         chemName="AMPKA_AMP"     /><amount units="mole fraction" >9.082072564506683e-14</amount></component>
+            <component><speciesLink preferredKey="AMPK_LKB1"         chemName="AMPK_LKB1"     /><amount units="mole fraction" >3.2089973732176375e-14</amount></component>
+            <component><speciesLink preferredKey="AMPK_ATP_LKB1"         chemName="AMPK_ATP_LKB1"     /><amount units="mole fraction" >5.402448672376697e-14</amount></component>
+            <component><speciesLink preferredKey="AMPK_ADP_LKB1"         chemName="AMPK_ADP_LKB1"     /><amount units="mole fraction" >7.354445156005761e-14</amount></component>
+            <component><speciesLink preferredKey="AMPK_AMP_LKB1"         chemName="AMPK_AMP_LKB1"     /><amount units="mole fraction" >2.7252593389065388e-14</amount></component>
+            <component><speciesLink preferredKey="AMPKA_PP2A"         chemName="AMPKA_PP2A"     /><amount units="mole fraction" >7.96110059783239e-14</amount></component>
+            <component><speciesLink preferredKey="AMPKA_ATP_PP2A"         chemName="AMPKA_ATP_PP2A"     /><amount units="mole fraction" >8.285165360352718e-14</amount></component>
+            <component><speciesLink preferredKey="AMPKA_ADP_PP2A"         chemName="AMPKA_ADP_PP2A"     /><amount units="mole fraction" >8.736627145780246e-14</amount></component>
+            <component><speciesLink preferredKey="AMPKA_AMP_PP2A"         chemName="AMPKA_AMP_PP2A"     /><amount units="mole fraction" >5.393584248653e-14</amount></component>
+            <component><speciesLink preferredKey="LKB1"         chemName="LKB1"     /><amount units="mole fraction" >2.9333969277452334e-11</amount></component>
+            <component><speciesLink preferredKey="PP2A"         chemName="PP2A"     /><amount units="mole fraction" >3.0941592917483597e-10</amount></component>
+            <component><speciesLink preferredKey="GLUT1"         chemName="GLUT1"     /><amount units="mole fraction" >1.846559236563529e-10</amount></component>
+            <component><speciesLink preferredKey="GLUCOUT"         chemName="GLUCOUT"     /><amount units="mole fraction" >6e-06</amount></component>
+            <component><speciesLink preferredKey="GLUCIN"         chemName="GLUCIN"     /><amount units="mole fraction" >2.3556846022303898e-07</amount></component>
+            <component><speciesLink preferredKey="GLUT1_GLUCOUT"         chemName="GLUT1_GLUCOUT"     /><amount units="mole fraction" >5.825635656602875e-14</amount></component>
+            <component><speciesLink preferredKey="GLUT1_GLUCIN"         chemName="GLUT1_GLUCIN"     /><amount units="mole fraction" >5.610816040123729e-14</amount></component>
+            <component><speciesLink preferredKey="AKT"         chemName="AKT"     /><amount units="mole fraction" >6.626936628512936e-14</amount></component>
+            <component><speciesLink preferredKey="AKTA"         chemName="AKTA"     /><amount units="mole fraction" >1.0321229797128154e-10</amount></component>
+            <component><speciesLink preferredKey="MTOR"         chemName="MTOR"     /><amount units="mole fraction" >4.0571823578241914e-14</amount></component>
+            <component><speciesLink preferredKey="MTORA"         chemName="MTORA"     /><amount units="mole fraction" >4.978657585611137e-10</amount></component>
+            <component><speciesLink preferredKey="RHEB"         chemName="RHEB"     /><amount units="mole fraction" >4.8309895768179716e-14</amount></component>
+            <component><speciesLink preferredKey="RHEBA"         chemName="RHEBA"     /><amount units="mole fraction" >4.269011451529794e-10</amount></component>
+            <component><speciesLink preferredKey="TSC"         chemName="TSC"     /><amount units="mole fraction" >2.460065138454753e-10</amount></component>
+            <component><speciesLink preferredKey="TSCA"         chemName="TSCA"     /><amount units="mole fraction" >3.126958392532e-14</amount></component>
+            <component><speciesLink preferredKey="ULK"         chemName="ULK"     /><amount units="mole fraction" >1.7692447283766897e-10</amount></component>
+            <component><speciesLink preferredKey="ULKA"         chemName="ULKA"     /><amount units="mole fraction" >2.7837198930482545e-14</amount></component>
+            <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >0</amount></component>
+            <component><speciesLink preferredKey="RK"         chemName="RK"     /><amount units="mole fraction" >0</amount></component>
+            <component><speciesLink preferredKey="FKBP12"         chemName="FKBP12"     /><amount units="mole fraction" >7e-10</amount></component>
+            <component><speciesLink preferredKey="RKMTORA"         chemName="RKMTORA"     /><amount units="mole fraction" >0</amount></component>
+            <component><speciesLink preferredKey="RAPOUT"         chemName="RAPOUT"     /><amount units="mole fraction" >0</amount></component>
+            <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1.0</amount></component>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="PYRUVATE"  chemName="PYRUVATE" />
+            <value>2.5e-09</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="ATP"  chemName="ATP" />
+            <value>3e-07</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="ADP"  chemName="ADP" />
+            <value>1.5625000000000003e-08</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMP"  chemName="AMP" />
+            <value>2.4999999999999996e-10</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPK"  chemName="AMPK" />
+            <value>6.250000000000001e-12</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPK_ATP"  chemName="AMPK_ATP" />
+            <value>6.250000000000001e-12</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPK_ADP"  chemName="AMPK_ADP" />
+            <value>6.250000000000001e-12</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPK_AMP"  chemName="AMPK_AMP" />
+            <value>6.250000000000001e-12</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPKA"  chemName="AMPKA" />
+            <value>1.1250000000000001e-14</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPKA_ATP"  chemName="AMPKA_ATP" />
+            <value>1.1250000000000001e-14</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPKA_ADP"  chemName="AMPKA_ADP" />
+            <value>1.1250000000000001e-14</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPKA_AMP"  chemName="AMPKA_AMP" />
+            <value>1.1250000000000001e-14</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="LKB1"  chemName="LKB1" />
+            <value>1.9874999999999998e-12</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="PP2A"  chemName="PP2A" />
+            <value>2.6500000000000005e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="GLUT1"  chemName="GLUT1" />
+            <value>1.3749999999999998e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="GLUCOUT"  chemName="GLUCOUT" />
+            <value>5e-13</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="GLUCIN"  chemName="GLUCIN" />
+            <value>3.75e-08</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AKT"  chemName="AKT" />
+            <value>1.1250000000000001e-14</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AKTA"  chemName="AKTA" />
+            <value>1.2499999999999999e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="MTOR"  chemName="MTOR" />
+            <value>1.1250000000000001e-14</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
+            <value>4.68125e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RHEB"  chemName="RHEB" />
+            <value>1.1250000000000001e-14</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RHEBA"  chemName="RHEBA" />
+            <value>3.75e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="TSC"  chemName="TSC" />
+            <value>2.8062500000000003e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="TSCA"  chemName="TSCA" />
+            <value>1.1250000000000001e-14</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="ULK"  chemName="ULK" />
+            <value>1.625e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="ULKA"  chemName="ULKA" />
+            <value>1.1250000000000001e-14</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RAP"  chemName="RAP" />
+            <value>5e-18</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RK"  chemName="RK" />
+            <value>5e-18</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RKMTORA"  chemName="RKMTORA" />
+            <value>5e-18</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RAPOUT"  chemName="RAPOUT" />
+            <value>5e-18</value>
+        </property>
+    </commonProperties>
+    <dataGroup id="dg1">
+        <property name="time"                          id="time"    label="t"       sourcetype="reported"  units="min"     />
+        <property name="composition"                   id="ATP"   label="ATP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="ATP"  chemName="ATP" />
+        </property>
+        <property name="composition"                   id="AMPK"   label="AMPK"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK"  chemName="AMPK" />
+        </property>
+        <property name="composition"                   id="GLUT1"   label="GLUT1"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="GLUT1"  chemName="GLUT1" />
+        </property>
+        <property name="composition"                   id="MTOR"   label="MTOR"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="MTOR"  chemName="MTOR" />
+        </property>
+        <property name="composition"                   id="AKT"   label="AKT"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AKT"  chemName="AKT" />
+        </property>
+        <property name="composition"                   id="RHEBA"   label="RHEBA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RHEBA"  chemName="RHEBA" />
+        </property>
+        <property name="composition"                   id="PYRUVATE"   label="PYRUVATE"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="PYRUVATE"  chemName="PYRUVATE" />
+        </property>
+        <property name="composition"                   id="AMPKA_ATP"   label="AMPKA_ATP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA_ATP"  chemName="AMPKA_ATP" />
+        </property>
+        <property name="composition"                   id="AMPKA"   label="AMPKA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA"  chemName="AMPKA" />
+        </property>
+        <property name="composition"                   id="AMP"   label="AMP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMP"  chemName="AMP" />
+        </property>
+        <property name="composition"                   id="GLUCIN"   label="GLUCIN"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="GLUCIN"  chemName="GLUCIN" />
+        </property>
+        <property name="composition"                   id="AMPK_ADP"   label="AMPK_ADP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_ADP"  chemName="AMPK_ADP" />
+        </property>
+        <property name="composition"                   id="AKTA"   label="AKTA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AKTA"  chemName="AKTA" />
+        </property>
+        <property name="composition"                   id="MTORA"   label="MTORA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
+        </property>
+        <property name="composition"                   id="ULKA"   label="ULKA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="ULKA"  chemName="ULKA" />
+        </property>
+        <property name="composition"                   id="AMPK_AMP"   label="AMPK_AMP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_AMP"  chemName="AMPK_AMP" />
+        </property>
+        <property name="composition"                   id="RHEB"   label="RHEB"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="RHEB"  chemName="RHEB" />
+        </property>
+        <property name="composition"                   id="ULK"   label="ULK"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="ULK"  chemName="ULK" />
+        </property>
+        <property name="composition"                   id="TSCA"   label="TSCA"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="TSCA"  chemName="TSCA" />
+        </property>
+        <property name="composition"                   id="AMPK_ATP"   label="AMPK_ATP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPK_ATP"  chemName="AMPK_ATP" />
+        </property>
+        <property name="composition"                   id="ADP"   label="ADP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="ADP"  chemName="ADP" />
+        </property>
+        <property name="composition"                   id="AMPKA_ADP"   label="AMPKA_ADP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA_ADP"  chemName="AMPKA_ADP" />
+        </property>
+        <property name="composition"                   id="TSC"   label="TSC"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="TSC"  chemName="TSC" />
+        </property>
+        <property name="composition"                   id="GLUCOUT"   label="GLUCOUT"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="GLUCOUT"  chemName="GLUCOUT" />
+        </property>
+        <property name="composition"                   id="AMPKA_AMP"   label="AMPKA_AMP"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="AMPKA_AMP"  chemName="AMPKA_AMP" />
+        </property>
+        <property name="composition"                   id="LKB1"   label="LKB1"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="LKB1"  chemName="LKB1" />
+        </property>
+        <property name="composition"                   id="PP2A"   label="PP2A"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="PP2A"  chemName="PP2A" />
+        </property>
+            <dataPoint><time>0.0000e+00</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>6.0000e+01</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.2000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.8000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>2.4000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>3.0000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>3.6000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>4.2000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>4.8000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>5.4000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>6.0000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>6.6000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>7.2000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>7.8000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>8.4000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>9.0000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>9.6000e+02</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.0200e+03</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.0800e+03</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.1400e+03</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.2000e+03</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.2600e+03</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.3200e+03</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.3800e+03</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+            <dataPoint><time>1.4400e+03</time><ATP>6.0000e-06</ATP><AMPK>1.0000e-10</AMPK><GLUT1>1.9900e-10</GLUT1><MTOR>0.0000e+00</MTOR><AKT>0.0000e+00</AKT><RHEBA>3.0000e-10</RHEBA><PYRUVATE>3.3000e-08</PYRUVATE><AMPKA_ATP>0.0000e+00</AMPKA_ATP><AMPKA>0.0000e+00</AMPKA><AMP>2.0000e-09</AMP><GLUCIN>4.0000e-07</GLUCIN><AMPK_ADP>1.0000e-10</AMPK_ADP><AKTA>1.0000e-10</AKTA><MTORA>3.7500e-10</MTORA><ULKA>0.0000e+00</ULKA><AMPK_AMP>1.0000e-10</AMPK_AMP><RHEB>0.0000e+00</RHEB><ULK>2.2000e-10</ULK><TSCA>0.0000e+00</TSCA><AMPK_ATP>1.0000e-10</AMPK_ATP><ADP>1.2500e-07</ADP><AMPKA_ADP>0.0000e+00</AMPKA_ADP><TSC>2.2500e-10</TSC><GLUCOUT>1.0000e-06</GLUCOUT><AMPKA_AMP>0.0000e+00</AMPKA_AMP><LKB1>2.8800e-11</LKB1><PP2A>3.8600e-10</PP2A></dataPoint>
+    </dataGroup>
+</experiment>

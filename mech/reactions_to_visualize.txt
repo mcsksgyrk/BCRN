@@ -1,0 +1,109 @@
+! GLUCOSE Transport Module
+GLUT1 + GLUCOUT => GLUT1_GLUCOUT + REF  
+GLUT1_GLUCOUT + REF => GLUT1 + GLUCOUT  
+GLUT1_GLUCOUT + REF => GLUT1 + GLUCIN   
+! Efflux
+GLUT1 + GLUCIN => GLUT1_GLUCIN + REF    
+GLUT1_GLUCIN + REF => GLUT1 + GLUCIN    
+GLUT1_GLUCIN + REF => GLUT1 + GLUCOUT 
+!  
+! ------- GLUCOSE-AXP Module -------    
+GLUCIN + 8 REF => 2 PYRUVATE + 7 Q         
+PYRUVATE + 11.5 REF => 12.5 Q    
+Q + ADP    => ATP + REF                 
+!                                       
+ATP => ADP                              
+2 ADP => ATP + AMP                      
+ATP + AMP => 2 ADP                      
+! 
+! ------- AMPK-AXP complexes -------    
+ATP + AMPK => AMPK_ATP + REF            
+AMPK_ATP + REF => ATP + AMPK            
+ADP + AMPK => AMPK_ADP + REF            
+AMPK_ADP + REF => ADP + AMPK            
+AMP + AMPK => AMPK_AMP + REF            
+AMPK_AMP + REF => AMP + AMPK            
+! ------- AMPKA-AXP complexes -------
+ATP + AMPKA => AMPKA_ATP + REF          
+AMPKA_ATP + REF => ATP + AMPKA          
+ADP + AMPKA => AMPKA_ADP + REF          
+AMPKA_ADP + REF => ADP + AMPKA          
+AMP + AMPKA => AMPKA_AMP + REF          
+AMPKA_AMP + REF => AMP + AMPKA          
+! ------- AMPK Phosphorylation -------
+AMPK + LKB1 => AMPK_LKB1 + REF          
+AMPK_LKB1 + REF => AMPK + LKB1          
+AMPK_LKB1 + REF => AMPKA + LKB1         
+! ------- AMPKA Dephosphorylation -------
+AMPKA + PP2A => AMPKA_PP2A + REF        
+AMPKA_PP2A + REF => AMPKA + PP2A        
+AMPKA_PP2A + REF => AMPK + PP2A         
+! ------- AMPK_ATP Phosphorylation -------
+AMPK_ATP + LKB1 => AMPK_ATP_LKB1 + REF  
+AMPK_ATP_LKB1 + REF => AMPK_ATP + LKB1  
+AMPK_ATP_LKB1 + REF => AMPKA_ATP + LKB1 
+! ------- AMPKA_ATP Dephosphorylation --
+AMPKA_ATP + PP2A => AMPKA_ATP_PP2A + REF
+AMPKA_ATP_PP2A + REF => AMPKA_ATP + PP2A
+AMPKA_ATP_PP2A + REF => AMPK_ATP + PP2A 
+! ------- AMPK_ADP Phosphorylation -------
+AMPK_ADP + LKB1 => AMPK_ADP_LKB1 + REF  
+AMPK_ADP_LKB1 + REF => AMPK_ADP + LKB1  
+AMPK_ADP_LKB1 + REF => AMPKA_ADP + LKB1 
+! ------- AMPKA_ADP Dephosphorylation --
+AMPKA_ADP + PP2A => AMPKA_ADP_PP2A + REF
+AMPKA_ADP_PP2A + REF => AMPKA_ADP + PP2A
+AMPKA_ADP_PP2A + REF => AMPK_ADP + PP2A 
+! ------- AMPK_AMP Phosphorylation -------
+AMPK_AMP + LKB1 => AMPK_AMP_LKB1 + REF  
+AMPK_AMP_LKB1 + REF => AMPK_AMP + LKB1  
+AMPK_AMP_LKB1 + REF => AMPKA_AMP + LKB1 
+! ------- AMPKA_AMP Dephosphorylation --
+AMPKA_AMP + PP2A => AMPKA_AMP_PP2A + REF
+AMPKA_AMP_PP2A + REF => AMPKA_AMP + PP2A
+AMPKA_AMP_PP2A + REF => AMPK_AMP + PP2A 
+!
+!
+!%%%%%%%%%%%%%%%%%%% AMPK-mTOR-ULK Triangle %%%%%%%%%%%%%%%%%
+!
+!
+AMPKA + MTORA => AMPKA + MTOR           
+AMPKA_ATP + MTORA => AMPKA_ATP + MTOR   
+AMPKA_ADP + MTORA => AMPKA_ADP + MTOR   
+AMPKA_AMP + MTORA => AMPKA_AMP + MTOR   
+!MTORA => MTOR                          
+MTORA + AMPKA => MTORA + AMPK           
+MTORA + AMPKA_ATP => MTORA + AMPK_ATP   
+MTORA + AMPKA_ADP => MTORA + AMPK_ADP   
+MTORA + AMPKA_AMP => MTORA + AMPK_AMP   
+ULKA + MTORA => MTORA + ULK             
+ULKA + MTORA => MTOR + ULKA             
+AMPKA + TSC => AMPKA + TSCA             
+AMPKA_ATP + TSC => AMPKA_ATP + TSCA     
+AMPKA_ADP + TSC => AMPKA_ADP + TSCA     
+AMPKA_AMP + TSC => AMPKA_AMP + TSCA     
+RHEBA + TSCA => RHEB + TSCA             
+RHEBA + MTOR => RHEBA + MTORA           
+RHEB => RHEBA                           
+AKTA => AKT                             
+AKTA + TSCA => AKTA + TSC               
+AMPKA + ULK => AMPKA + ULKA             
+AMPKA_ATP + ULK => AMPKA_ATP + ULKA     
+AMPKA_ADP + ULK => AMPKA_ADP + ULKA     
+AMPKA_AMP + ULK => AMPKA_AMP + ULKA     
+!ULKA => ULK                            
+AMPKA + ULKA => AMPK + ULKA             
+AMPKA_ATP + ULKA => AMPK_ATP + ULKA     
+AMPKA_ADP + ULKA => AMPK_ADP + ULKA     
+AMPKA_AMP + ULKA => AMPK_AMP + ULKA     
+!
+!
+!%%%%%%%%%%%%%%% RAP - mTOR %%%%%%%%%%%%
+!
+!
+RAPOUT => RAP                           
+RAP => RAPOUT                           
+RAP + FKBP12 => RK+REF                  
+REF + RK => RAP + FKBP12                
+RK + MTORA => RKMTORA + REF             
+RKMTORA + REF => RK + MTORA             
