@@ -1,0 +1,122 @@
+| Abbreviation | Full Term                                                      |
+| ------------ | -------------------------------------------------------------- |
+| MIMO         | Multiple-Input Multiple-Output                                 |
+| RCD          | Regulated Cell Death                                           |
+| ACD          | Accidental Cell Death                                          |
+| PCD          | Programmed Cell Death                                          |
+| ATG          | Autophagy-related Genes                                        |
+| AMPK         | AMP-activated Protein Kinase                                   |
+| mTORC1       | Mammalian Target of Rapamycin Complex 1                        |
+| ULK1/2       | Unc-51-like Autophagy Activating Kinases 1 and 2               |
+| PE           | Phosphatidylethanolamine                                       |
+| LC3-I/-II    | Microtubule-associated Protein 1 Light Chain 3 (isoforms I/II) |
+| GH           | Growth Hormone                                                 |
+| AA           | Amino Acids                                                    |
+| AXP          | Adenosine Nucleotides (ATP, ADP, AMP)                          |
+| ATP          | Adenosine Triphosphate                                         |
+| ADP          | Adenosine Diphosphate                                          |
+| AMP          | Adenosine Monophosphate                                        |
+| CaMKKβ       | Calcium/Calmodulin-Dependent Protein Kinase Kinase Beta        |
+| MOMP         | Mitochondrial Outer Membrane Permeabilization                  |
+| SSM          | State-Space Model                                              |
+| CRN          | Chemical Reaction Network                                      |
+| BCRN         | Biochemical Chemical Reaction Network                          |
+| ODE          | Ordinary Differential Equation                                 |
+| GLUT1        | Glucose Transporter 1                                          |
+| IC                | Initial Conditions                                 | Consistent usage, though once misspelled                        |
+| XML               | eXtensible Markup Language (file format for input) | OK, not required to define                                      |
+| std               | Standard deviation                                 | Should be defined on first use                                  |
+| AIRM              | Affine-Invariant Riemannian Metric                 | Defined well                                                    |
+| CMD               | Correlation Matrix Distance                        | Defined well                                                    |
+| KL                | Kullback–Leibler                                   | Defined properly                                                |
+| RV                | Rho-Vector coefficient                             | Defined and explained well                                      |
+| MS                | Mass Spectrometry                                  | Only used once; may be worth defining in full once              |
+| cpc               | Copies per cell                                    | Defined inline — OK                                             |
+| $V_{\text{cell}}$ | Cell volume                                        | Defined inline — OK                                             |
+| $m_{\text{prot}}$ | Mass of all proteins in a cell                     | Defined — OK                                                    |licitly what GLUCIN means where used                                                            |
+| Q                | Proton motive force                    | Implicit only in figure                                          | Define more explicitly in caption or earlier in main text if used further                                           |
+| SE
+RMSE         | Squared Error, Root Mean Squared Error | Defined                                                          | ✓ OK                                                                                                                |
+| CMD              | Correlation Matrix Distance            | Defined in earlier chapter                                       | ✓ OK                                                                                                                |
+| RV               | Rho-Vector coefficient                 | Defined earlier                                                  | ✓ OK                                                                                                                |
+
+
+\begin{align}
+\ce{GLUCOUT &->[k_{1}] \varnothing} \\
+\ce{GLUT1 + GLUCOUT &->[k_{2}] GLUT1_GLUCOUT} \\
+\ce{GLUT1_GLUCOUT &->[k_{3}] GLUT1 + GLUCOUT} \\
+\ce{GLUT1_GLUCOUT &->[k_{4}] GLUT1 + GLUCIN} \\
+\ce{GLUT1 + GLUCIN &->[k_{5}] GLUT1_GLUCIN} \\
+\ce{GLUT1_GLUCIN &->[k_{6}] GLUT1 + GLUCIN} \\
+\ce{GLUT1_GLUCIN &->[k_{7}] GLUT1 + GLUCOU} \\
+\ce{GLUCIN &->[k_{8}] 2 PYRUVATE + 7 Q} \\
+\ce{PYRUVATE &->[k_{9}] 12.5 Q} \\
+\ce{Q + ADP &->[k_{10}] ATP} \\
+\ce{ATP &->[k_{11}] ADP} \\
+\ce{2 ADP &->[k_{12}] ATP + AMP} \\
+\ce{ATP + AMP &->[k_{13}] 2 ADP} \\
+\ce{ATP + AMPK &->[k_{14}] AMPK_ATP} \\
+\ce{AMPK_ATP &->[k_{15}] ATP + AMPK} \\
+\ce{ADP + AMPK &->[k_{16}] AMPK_ADP} \\
+\ce{AMPK_ADP &->[k_{17}] ADP + AMPK} \\
+\ce{AMP + AMPK &->[k_{18}] AMPK_AMP} \\
+\ce{AMPK_AMP &->[k_{19}] AMP + AMPK} \\
+\ce{ATP + AMPKA &->[k_{20}] AMPKA_ATP} \\
+\ce{AMPKA_ATP &->[k_{21}] ATP + AMPKA} \\
+\ce{ADP + AMPKA &->[k_{22}] AMPKA_ADP} \\
+\ce{AMPKA_ADP &->[k_{23}] ADP + AMPKA} \\
+\ce{AMP + AMPKA &->[k_{24}] AMPKA_AMP} \\
+\ce{AMPKA_AMP &->[k_{25}] AMP + AMPKA} \\
+\ce{AMPK + LKB1 &->[k_{26}] AMPK_LKB1} \\
+\ce{AMPK_LKB1 &->[k_{27}] AMPK + LKB1} \\
+\ce{AMPK_LKB1 &->[k_{28}] AMPKA + LKB1} \\
+\ce{AMPKA + PP2A &->[k_{29}] AMPKA_PP2A} \\
+\ce{AMPKA_PP2A &->[k_{30}] AMPKA + PP2A} \\
+\ce{AMPKA_PP2A &->[k_{31}] AMPK + PP2A} \\
+\ce{AMPK_ATP + LKB1 &->[k_{32}] AMPK_ATP_LKB1} \\
+\ce{AMPK_ATP_LKB1 &->[k_{33}] AMPK_ATP + LKB1} \\
+\ce{AMPK_ATP_LKB1 &-[k_{34}] AMPKA_ATP + LKB1} \\
+\ce{AMPKA_ATP + PP2A &-> [k_{35}] AMPKA_ATP_PP2A} \\
+\ce{AMPKA_ATP_PP2A &->[k_{36}] AMPKA_ATP + PP2A} \\
+\ce{AMPKA_ATP_PP2A &->[k_{37}] AMPK_ATP + PP2A} \\
+\ce{AMPK_ADP + LKB1 &->[k_{38}] AMPK_ADP_LKB1} \\
+\ce{AMPK_ADP_LKB1 &->[k_{39}] AMPK_ADP + LKB1} \\
+\ce{AMPK_ADP_LKB1 &->[k_{40}] AMPKA_ADP + LKB1} \\
+\ce{AMPKA_ADP + PP2A &->[k_{41}] AMPKA_ADP_PP2A} \\
+\ce{AMPKA_ADP_PP2A &->[k_{42}] AMPKA_ADP + PP2A} \\
+\ce{AMPKA_ADP_PP2A &->[k_{43}] AMPK_ADP + PP2A} \\
+\ce{AMPK_AMP + LKB1 &->[k_{44}] AMPK_AMP_LKB1} \\
+\ce{AMPK_AMP_LKB1 &->[k_{45}] AMPK_AMP + LKB1} \\
+\ce{AMPK_AMP_LKB1 &->[k_{46}] AMPKA_AMP + LKB1} \\
+\ce{AMPKA_AMP + PP2A &->[k_{47}] AMPKA_AMP_PP2A} \\
+\ce{AMPKA_AMP_PP2A &->[k_{48}] AMPKA_AMP + PP2A} \\
+\ce{AMPKA_AMP_PP2A &->[k_{49}] AMPK_AMP + PP2A} \\
+\ce{AMPKA + MTORA &->[k_{50}] AMPKA + MTOR} \\
+\ce{AMPKA_ATP + MTORA &->[k_{51}] AMPKA_ATP + MTOR} \\
+\ce{AMPKA_ADP + MTORA &->[k_{52}] AMPKA_ADP + MTOR} \\
+\ce{AMPKA_AMP + MTORA &->[k_{53}] AMPKA_AMP + MTOR} \\
+\ce{MTORA + AMPKA &->[k_{54}] MTORA + AMPK} \\
+\ce{MTORA + AMPKA_ATP &->[k_{55}] MTORA + AMPK_ATP} \\
+\ce{MTORA + AMPKA_ADP &->[k_{56}] MTORA + AMPK_ADP} \\
+\ce{MTORA + AMPKA_AMP &->[k_{57}] MTORA + AMPK_AMP} \\
+\ce{ULKA + MTORA &->[k_{58}] MTORA + ULK} \\
+\ce{ULKA + MTORA &->[k_{59}] MTOR + ULKA} \\
+\ce{AMPKA + TSC &->[k_{60}] AMPKA + TSCA} \\
+\ce{AMPKA_ATP + TSC &->[k_{61}] AMPKA_ATP + TSCA} \\
+\ce{AMPKA_ADP + TSC &->[k_{62}] AMPKA_ADP + TSCA} \\
+\ce{AMPKA_AMP + TSC &->[k_{63}] AMPKA_AMP + TSCA} \\
+\ce{RHEBA + TSCA &->[k_{64}] RHEB + TSCA} \\
+\ce{RHEBA + MTOR &->[k_{65}] RHEBA + MTORA} \\
+\ce{RHEB &->[k_{66}] RHEBA} \\
+\ce{AKTA &->[k_{67}] AKT} \\
+\ce{AKTA + TSCA &->[k_{68}] AKTA + TSC} \\
+\ce{AMPKA + ULK &->[k_{69}] AMPKA + ULKA} \\
+\ce{AMPKA_ATP + ULK &->[k_{70}] AMPKA_ATP + ULKA} \\
+\ce{AMPKA_ADP + ULK &->[k_{71}] AMPKA_ADP + ULKA} \\
+\ce{AMPKA_AMP + ULK &->[k_{72}] AMPKA_AMP + ULKA} \\
+\ce{ULKA &->[k_{73}] ULK} \\
+\ce{AMPKA + ULKA &->[k_{74}] AMPK + ULKA} \\
+\ce{AMPKA_ATP + ULKA &->[k_{75}] AMPK_ATP + ULKA} \\
+\ce{AMPKA_ADP + ULKA &->[k_{76}] AMPK_ADP + ULKA} \\
+\ce{AMPKA_AMP + ULKA &->[k_{77}] AMPK_AMP + ULKA}
+\end{align}

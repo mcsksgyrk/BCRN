@@ -1,19 +1,19 @@
 MECHMOD
-      USE_NAME         Minimal_gluc_rap_mTOR_v1
-      MECH_FILE        7_Krisztian/mech/Minimal_gluc_rap_mTOR_v1.inp
-      COMPILE_cantera 7_Krisztian/mech/Minimal_gluc_rap_mTOR_v1.yaml
-      END
+    USE_NAME         Minimal_gluc_rap_mTOR_v1
+    MECH_FILE        7_Krisztian/mech/Minimal_gluc_rap_mTOR_v1.inp
+    COMPILE_cantera 7_Krisztian/mech/Minimal_gluc_rap_mTOR_v1.yaml
+    END
 
 MECHTEST
-      MECHANISM  Minimal_gluc_rap_mTOR_v1
-      TIME_LIMIT 50
-      THREAD_LIMIT 32
-      SETTINGS_TAG systems_biology
-      FALLBACK_TO_DEFAULT_SETTINGS
-      PLOTS FALSE
+    MECHANISM  Minimal_gluc_rap_mTOR_v1
+    TIME_LIMIT 50
+    THREAD_LIMIT 32
+    SETTINGS_TAG systems_biology
+    FALLBACK_TO_DEFAULT_SETTINGS
+    PLOTS FALSE
 
-      SOLVER cantera
-      SAVE_STATES      CSV
+    SOLVER cantera
+    SAVE_STATES      CSV
       NAME /home/nvme/Opt/7_Krisztian/xml/testing_bifurc/bifurc_0.00e+00_0001.xml
       NAME /home/nvme/Opt/7_Krisztian/xml/testing_bifurc/bifurc_3.34e-08_0001.xml
       NAME /home/nvme/Opt/7_Krisztian/xml/testing_bifurc/bifurc_6.69e-08_0001.xml

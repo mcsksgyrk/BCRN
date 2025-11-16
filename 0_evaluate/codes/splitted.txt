@@ -1,0 +1,71 @@
+AA,Amino Acids
+ACD,Accidental Cell Death
+ADP,Adenosine Diphosphate
+AMP,Adenosine Monophosphate
+AMPK,AMP-activated Protein Kinase
+AMPKA,Active (phosphorylated) AMPK
+AMPKA_ADP,Active AMPK bound to ADP
+AMPKA_ADP_PP2A,Active AMPK–ADP complex bound to PP2A
+AMPKA_AMP,Active AMPK bound to AMP
+AMPKA_AMP_PP2A,Active AMPK–AMP complex bound to PP2A
+AMPKA_ATP,Active AMPK bound to ATP
+AMPKA_ATP_PP2A,Active AMPK–ATP complex bound to PP2A
+AMPKA_PP2A,Active AMPK bound to PP2A
+AMPK_ADP,AMPK bound to ADP
+AMPK_ADP_LKB1,AMPK–ADP complex bound to LKB1
+AMPK_AMP,AMPK bound to AMP
+AMPK_AMP_LKB1,AMPK–AMP complex bound to LKB1
+AMPK_ATP,AMPK bound to ATP
+AMPK_ATP_LKB1,AMPK–ATP complex bound to LKB1
+AMPK_LKB1,AMPK bound to LKB1
+ATG,Autophagy-related Gene/Protein
+ATP,Adenosine Triphosphate
+AXP,Adenine Nucleotide Pool (ATP, ADP, AMP)
+Bcl-2,B-cell Lymphoma 2
+Bcl-xL,B-cell Lymphoma-extra Large
+BCRN,Biochemical Reaction Network
+CMD,Correlation Matrix Distance
+CRN,Chemical Reaction Network
+cpc,Copies per Cell
+DMEM,Dulbecco’s Modified Eagle Medium
+EBSS,Earle’s Balanced Salt Solution
+E,Enzyme (MM)
+S,Substrate (MM)
+ES,Enzyme-Substrate Complex (MM)
+P,Product (MM)
+GH,Growth Hormone
+GLUCIN,Intracellular Glucose
+GLUCOUT,Extracellular Glucose
+GLUT1,Glucose Transporter 1
+GLUT1_GLUCIN,GLUT1–GLUCIN Complex
+GLUT1_GLUCOUT,GLUT1–GLUCOUT Complex
+IQR,Interquartile Range
+IP$_{3}$R,Inositol 1,4,5-trisphosphate Receptor
+KL,Kullback–Leibler Divergence
+KM,Michaelis Constant
+LKB1,Liver Kinase B1
+LC3-I,Cytosolic form of LC3
+LC3-II,Phosphatidylethanolamine-conjugated LC3
+MIMO,Multiple-Input Multiple-Output
+MM,Michaelis–Menten
+MOMP,Mitochondrial Outer Membrane Permeabilization
+MTOR,Inactive mTORC1
+MTORA,Active mTORC1
+NCI-60,National Cancer Institute 60 Cell Line Panel
+ODE,Ordinary Differential Equation
+OPTIMA++,Biological/combustion ODE solver (as used here)
+PCD,Programmed Cell Death
+PE,Phosphatidylethanolamine
+PI3K,Phosphoinositide 3-kinase
+PP2A,Protein Phosphatase 2A
+Q,Proton Motive Force
+RHEB,Ras Homolog Enriched in Brain
+RHEBA,Active RHEB
+RV,Escoufier Rho-vector Similarity
+SSM,State-Space Model
+TSC,Tuberous Sclerosis Complex
+TSCA,Active TSC (GAP-active form)
+ULK,Inactive ULK1/2
+ULKA,Active ULK1/2
+UVRAG,UV Radiation Resistance-Associated Gene
+V$_{max}$,Maximum Enzymatic Rate

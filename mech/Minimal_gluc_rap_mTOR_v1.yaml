@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 2.6.0
-date: Wed, 12 Nov 2025 09:12:27 +0100
+date: Sat, 15 Nov 2025 07:23:31 +0100
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 
@@ -633,7 +633,7 @@ reactions:
   rate-constant: {A: 9638.5, b: 0.0, Ea: 0.0}
   note: R0057
 - equation: ULKA + MTORA => MTORA + ULK  # Reaction 58
-  rate-constant: {A: 1612.2, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 1.6122e+04, b: 0.0, Ea: 0.0}
   note: R0058
 - equation: ULKA + MTORA => MTOR + ULKA  # Reaction 59
   rate-constant: {A: 1.9507e+05, b: 0.0, Ea: 0.0}
@@ -677,33 +677,36 @@ reactions:
 - equation: AMPKA_AMP + ULK => AMPKA_AMP + ULKA  # Reaction 72
   rate-constant: {A: 1.2203e+06, b: 0.0, Ea: 0.0}
   note: R0072
-- equation: AMPKA + ULKA => AMPK + ULKA  # Reaction 73
-  rate-constant: {A: 41.653, b: 0.0, Ea: 0.0}
+- equation: ULKA => ULK  # Reaction 73
+  rate-constant: {A: 2.8119e-05, b: 0.0, Ea: 0.0}
   note: R0073
-- equation: AMPKA_ATP + ULKA => AMPK_ATP + ULKA  # Reaction 74
+- equation: AMPKA + ULKA => AMPK + ULKA  # Reaction 74
   rate-constant: {A: 41.653, b: 0.0, Ea: 0.0}
   note: R0074
-- equation: AMPKA_ADP + ULKA => AMPK_ADP + ULKA  # Reaction 75
+- equation: AMPKA_ATP + ULKA => AMPK_ATP + ULKA  # Reaction 75
   rate-constant: {A: 41.653, b: 0.0, Ea: 0.0}
   note: R0075
-- equation: AMPKA_AMP + ULKA => AMPK_AMP + ULKA  # Reaction 76
+- equation: AMPKA_ADP + ULKA => AMPK_ADP + ULKA  # Reaction 76
   rate-constant: {A: 41.653, b: 0.0, Ea: 0.0}
   note: R0076
-- equation: RAPOUT => RAP  # Reaction 77
-  rate-constant: {A: 6.67e-09, b: 0.0, Ea: 0.0}
+- equation: AMPKA_AMP + ULKA => AMPK_AMP + ULKA  # Reaction 77
+  rate-constant: {A: 41.653, b: 0.0, Ea: 0.0}
   note: R0077
-- equation: RAP => RAPOUT  # Reaction 78
-  rate-constant: {A: 3.3333e-03, b: 0.0, Ea: 0.0}
+- equation: RAPOUT => RAP  # Reaction 78
+  rate-constant: {A: 6.67e-09, b: 0.0, Ea: 0.0}
   note: R0078
-- equation: RAP + FKBP12 => RK + REF  # Reaction 79
-  rate-constant: {A: 1.9e+09, b: 0.0, Ea: 0.0}
+- equation: RAP => RAPOUT  # Reaction 79
+  rate-constant: {A: 3.3333e-03, b: 0.0, Ea: 0.0}
   note: R0079
-- equation: REF + RK => RAP + FKBP12  # Reaction 80
-  rate-constant: {A: 5.3e-04, b: 0.0, Ea: 0.0}
+- equation: RAP + FKBP12 => RK + REF  # Reaction 80
+  rate-constant: {A: 1.9e+09, b: 0.0, Ea: 0.0}
   note: R0080
-- equation: RK + MTORA => RKMTORA + REF  # Reaction 81
-  rate-constant: {A: 2.6e+09, b: 0.0, Ea: 0.0}
+- equation: REF + RK => RAP + FKBP12  # Reaction 81
+  rate-constant: {A: 5.3e-04, b: 0.0, Ea: 0.0}
   note: R0081
-- equation: RKMTORA + REF => RK + MTORA  # Reaction 82
-  rate-constant: {A: 0.0308, b: 0.0, Ea: 0.0}
+- equation: RK + MTORA => RKMTORA + REF  # Reaction 82
+  rate-constant: {A: 2.6e+09, b: 0.0, Ea: 0.0}
   note: R0082
+- equation: RKMTORA + REF => RK + MTORA  # Reaction 83
+  rate-constant: {A: 0.0308, b: 0.0, Ea: 0.0}
+  note: R0083

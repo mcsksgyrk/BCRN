@@ -1,0 +1,80 @@
+AA – Amino Acids
+AARM – No such term found, skipped
+ACD – Accidental Cell Death
+ADP – Adenosine Diphosphate
+AMP – Adenosine Monophosphate
+AMPK – AMP-activated Protein Kinase
+AMPKA – Active (phosphorylated) AMPK
+AMPKA_ADP – Active AMPK bound to ADP
+AMPKA_ADP_PP2A – Active AMPK–ADP complex bound to PP2A
+AMPKA_AMP – Active AMPK bound to AMP
+AMPKA_AMP_PP2A – Active AMPK–AMP complex bound to PP2A
+AMPKA_ATP – Active AMPK bound to ATP
+AMPKA_ATP_PP2A – Active AMPK–ATP complex bound to PP2A
+AMPKA_PP2A – Active AMPK bound to PP2A
+AMPK_ADP – AMPK bound to ADP
+AMPK_ADP_LKB1 – AMPK–ADP complex bound to LKB1
+AMPK_AMP – AMPK bound to AMP
+AMPK_AMP_LKB1 – AMPK–AMP complex bound to LKB1
+AMPK_ATP – AMPK bound to ATP
+AMPK_ATP_LKB1 – AMPK–ATP complex bound to LKB1
+AMPK_LKB1 – AMPK bound to LKB1
+APC – Not occurring → excluded
+Apaf-1 – Apoptotic Protease-Activating Factor 1
+ATG – Autophagy-related Gene/Protein
+ATP – Adenosine Triphosphate
+AXP – Adenine Nucleotide Pool (ATP, ADP, AMP)
+Bcl-2 – B-cell Lymphoma 2
+Bcl-xL – B-cell Lymphoma-extra Large
+BCRN – Biochemical Reaction Network
+CMD – Correlation Matrix Distance
+CRN – Chemical Reaction Network
+cpc – Copies per Cell
+DMEM – Dulbecco’s Modified Eagle Medium
+EBSS – Earle’s Balanced Salt Solution
+E, ES, P, S – Enzyme/substrate Michaelis–Menten notation (kept as in text)
+FKBP12 – FK506-binding Protein 12
+GH – Growth Hormone
+GLUCIN – Intracellular Glucose
+GLUCOUT – Extracellular Glucose
+GLUT1 – Glucose Transporter 1
+GLUT1_GLUCIN – GLUT1–GLUCIN Complex
+GLUT1_GLUCOUT – GLUT1–GLUCOUT Complex
+IQR – Interquartile Range
+IP₃R – Inositol 1,4,5-trisphosphate Receptor
+KL – Kullback–Leibler Divergence
+KM – Michaelis Constant
+LKB1 – Liver Kinase B1
+LC3-I – Cytosolic form of LC3
+LC3-II – Phosphatidylethanolamine-conjugated LC3
+MIMO – Multiple-Input Multiple-Output
+MM – Michaelis–Menten
+MOMP – Mitochondrial Outer Membrane Permeabilization
+MTOR – Inactive mTORC1
+MTORA – Active mTORC1
+NCI-60 – National Cancer Institute 60 Cell Line Panel
+ODE – Ordinary Differential Equation
+OPTIMA++ – Biological/combustion ODE solver (as used here)
+PCD – Programmed Cell Death
+PE – Phosphatidylethanolamine
+PI3K – Phosphoinositide 3-kinase
+PP2A – Protein Phosphatase 2A
+PPI – Not used → excluded
+Q – Proton Motive Force
+RAP – Rapamycin
+RAPOUT – Extracellular Rapamycin
+REF – Reference Species (as defined in model)
+RHEB – Ras Homolog Enriched in Brain
+RHEBA – Active RHEB
+RK – Rapamycin–FKBP12 Complex Intermediate
+RKMTORA – Complex of RK and active mTOR
+RV – Escoufier Rho-vector Similarity
+s, S₀, etc. – Concentration notation, not abbreviations
+SSM – State-Space Model
+TC – Not in text → excluded
+TSC – Tuberous Sclerosis Complex
+TSCA – Active TSC (GAP-active form)
+ULK – Inactive ULK1/2
+ULKA – Active ULK1/2
+UVRAG – UV Radiation Resistance-Associated Gene
+Vmax – Maximum Enzymatic Rate
