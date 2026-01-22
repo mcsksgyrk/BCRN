@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 2.6.0
-date: Mon, 24 Nov 2025 22:50:40 +0100
+date: Tue, 25 Nov 2025 17:49:10 +0100
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 
@@ -86,27 +86,21 @@ species:
       -1.00095936e+04, 9.90506283]
 
 reactions:
-- equation: REF => RAPOUT  # Reaction 1
-  rate-constant: {A: 1.0e-11, b: 0.0, Ea: 0.0}
+- equation: RAPOUT => RAP  # Reaction 1
+  rate-constant: {A: 1.9e-06, b: 0.0, Ea: 0.0}
   note: R0001
-- equation: RAPOUT => REF  # Reaction 2
-  rate-constant: {A: 0.1, b: 0.0, Ea: 0.0}
+- equation: RAP => RAPOUT  # Reaction 2
+  rate-constant: {A: 0.023, b: 0.0, Ea: 0.0}
   note: R0002
-- equation: RAPOUT => RAP  # Reaction 3
-  rate-constant: {A: 0.032, b: 0.0, Ea: 0.0}
-  note: R0003
-- equation: RAP => RAPOUT  # Reaction 4
-  rate-constant: {A: 0.032, b: 0.0, Ea: 0.0}
-  note: R0004
-- equation: RAP + FKBP12 => RK + REF  # Reaction 5
+- equation: RAP + FKBP12 => RK + REF  # Reaction 3
   rate-constant: {A: 1.9e+09, b: 0.0, Ea: 0.0}
-  note: R0005
-- equation: REF + RK => RAP + FKBP12  # Reaction 6
+  note: R0003
+- equation: REF + RK => RAP + FKBP12  # Reaction 4
   rate-constant: {A: 5.3e-04, b: 0.0, Ea: 0.0}
-  note: R0006
-- equation: RK + MTORA => RKMTORA + REF  # Reaction 7
+  note: R0004
+- equation: RK + MTORA => RKMTORA + REF  # Reaction 5
   rate-constant: {A: 2.6e+09, b: 0.0, Ea: 0.0}
-  note: R0007
-- equation: RKMTORA + REF => RK + MTORA  # Reaction 8
+  note: R0005
+- equation: RKMTORA + REF => RK + MTORA  # Reaction 6
   rate-constant: {A: 0.0308, b: 0.0, Ea: 0.0}
-  note: R0008
+  note: R0006

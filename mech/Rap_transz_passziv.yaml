@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 2.6.0
-date: Mon, 24 Nov 2025 22:50:40 +0100
+date: Wed, 26 Nov 2025 17:36:26 +0100
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 
@@ -87,16 +87,16 @@ species:
 
 reactions:
 - equation: REF => RAPOUT  # Reaction 1
-  rate-constant: {A: 1.0e-11, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 1.0e-09, b: 0.0, Ea: 0.0}
   note: R0001
 - equation: RAPOUT => REF  # Reaction 2
-  rate-constant: {A: 0.1, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 10.0, b: 0.0, Ea: 0.0}
   note: R0002
 - equation: RAPOUT => RAP  # Reaction 3
-  rate-constant: {A: 0.032, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 0.0233, b: 0.0, Ea: 0.0}
   note: R0003
 - equation: RAP => RAPOUT  # Reaction 4
-  rate-constant: {A: 0.032, b: 0.0, Ea: 0.0}
+  rate-constant: {A: 0.0233, b: 0.0, Ea: 0.0}
   note: R0004
 - equation: RAP + FKBP12 => RK + REF  # Reaction 5
   rate-constant: {A: 1.9e+09, b: 0.0, Ea: 0.0}

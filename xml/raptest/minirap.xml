@@ -1,0 +1,150 @@
+<experiment>
+    <fileAuthor>Bence Hajdú and Tibor Nagy</fileAuthor>
+    <fileVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </fileVersion>
+    <ReSpecThVersion>
+        <major>2</major>
+        <minor>5</minor>
+    </ReSpecThVersion>
+    <bibliographyLink>
+        <description></description>
+        <referenceDOI>10.1038/s41598-020-75030-8</referenceDOI>
+        <details>
+            <author>Marianna Holczer, Bence Hajdú, Tamás Lőrincz, András Szarka, Gábor Bánhegyi, Orsolya Kapuy</author>
+            <journal>Scientific Reports</journal>
+            <number>1</number>
+            <title>Fine-tuning of AMPK–ULK1–mTORC1 regulatory triangle is crucial for autophagy oscillation</title>
+            <volume>10</volume>
+            <year>2020</year>
+        </details>
+    </bibliographyLink>
+    <experimentType>concentration time profile measurement</experimentType>
+    <apparatus>
+        <kind>flow reactor</kind>
+    </apparatus>
+    <commonProperties>
+        <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
+        <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
+        <property name="initial composition"  sourcetype="digitized" >
+            <component><speciesLink preferredKey="RAPOUT"         chemName="RAPOUT"     /><amount units="mole fraction" >1e-10</amount></component>
+            <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1</amount></component>
+            <component><speciesLink preferredKey="MTORA"         chemName="MTORA"     /><amount units="mole fraction" >4e-10</amount></component>
+            <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >0</amount></component>
+            <component><speciesLink preferredKey="FKBP12"         chemName="FKBP12"     /><amount units="mole fraction" >4e-10</amount></component>
+            <component><speciesLink preferredKey="RK"         chemName="RK"     /><amount units="mole fraction" >0</amount></component>
+            <component><speciesLink preferredKey="RKMTORA"         chemName="RKMTORA"     /><amount units="mole fraction" >0</amount></component>
+            <component><speciesLink preferredKey="AMPKA"         chemName="AMPKA"     /><amount units="mole fraction" >1.2038415031622892e-14</amount></component>
+            <component><speciesLink preferredKey="AMPK"         chemName="AMPK"     /><amount units="mole fraction" >4.2462519971635835e-10</amount></component>
+            <component><speciesLink preferredKey="ULKA"         chemName="ULKA"     /><amount units="mole fraction" >3.6149924154001114e-14</amount></component>
+            <component><speciesLink preferredKey="ULK"         chemName="ULK"     /><amount units="mole fraction" >9.864938847665867e-11</amount></component>
+            <component><speciesLink preferredKey="MTOR"         chemName="mTOR"     /><amount units="mole fraction" >3.419497922103257e-14</amount></component>
+        </property>
+        
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RAPOUT"  chemName="RAPOUT" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RAP"  chemName="RAP" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="FKBP12"  chemName="FKBP12" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RK"  chemName="RK" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RKMTORA"  chemName="RKMTORA" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPK"  chemName="AMPK" />
+            <value>4.6875e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="ULK"  chemName="ULK" />
+            <value>8.75e-12</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="ULKA"  chemName="ULKA" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="AMPKA"  chemName="AMPKA" />
+            <value>2.5e-11</value>
+        </property>
+        
+    </commonProperties>
+    <dataGroup id="dg1">
+        <property name="time"                          id="time"    label="t"       sourcetype="reported"  units="min"     />
+        <property name="composition"  id="MTORA" label="MTORA"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="MTORA"  chemName="MTORA" />
+        </property>
+        <property name="composition"  id="RAP" label="RAP"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="RAP"  chemName="RAP" />
+        </property>
+        <property name="composition"  id="RAPOUT" label="RAPOUT"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="RAPOUT"  chemName="RAPOUT" />
+        </property>
+        <property name="composition"  id="FKBP12" label="FKBP12"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="FKBP12"  chemName="FKBP12" />
+        </property>
+        <property name="composition"  id="RK" label="RK"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="RK"  chemName="RK" />
+        </property>
+        <property name="composition"  id="RKMTORA" label="RKMTORA"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="RKMTORA"  chemName="RKMTORA" />
+        </property>
+        <property name="composition"  id="ULK" label="ULK"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="ULK"  chemName="ULK" />
+        </property>
+        <property name="composition"  id="ULKA" label="ULKA"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="ULKA"  chemName="ULKA" />
+        </property>
+        <property name="composition"  id="AMPK" label="AMPK"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="AMPK"  chemName="AMPK" />
+        </property>
+        <property name="composition"  id="AMPKA" label="AMPKA"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="AMPKA"  chemName="AMPKA" />
+        </property>
+
+            
+            <dataPoint><time>0.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>0.10e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>0.20e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>0.50e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>1.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>1.80e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>2.40e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>3.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>3.60e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>4.20e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>4.80e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>5.40e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>6.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>6.60e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>7.20e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>7.80e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>8.40e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>9.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>9.60e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>1.02e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>1.08e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>1.14e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>1.30e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>1.40e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>1.50e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>1.70e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+            <dataPoint><time>2.00e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA><AMPK>7e-10</AMPK><AMPKA>7e-10</AMPKA><ULK>7e-10</ULK><ULKA>7e-10</ULKA></dataPoint>
+           
+    </dataGroup>
+</experiment>

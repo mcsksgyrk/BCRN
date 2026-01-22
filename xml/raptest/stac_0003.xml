@@ -28,7 +28,7 @@
         <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
         <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
         <property name="initial composition"  sourcetype="digitized" >
-            <component><speciesLink preferredKey="RAPOUT"         chemName="RAPOUT"     /><amount units="mole fraction" >1.25e-6</amount></component>
+            <component><speciesLink preferredKey="RAPOUT"         chemName="RAPOUT"     /><amount units="mole fraction" >5e-5</amount></component>
             <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1</amount></component>
             <component><speciesLink preferredKey="MTORA"         chemName="MTORA"     /><amount units="mole fraction" >7e-10</amount></component>
             <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >0</amount></component>
@@ -79,6 +79,20 @@
             <dataPoint><time>2.00e+01</time><MTORA>7e-10</MTORA></dataPoint>
             <dataPoint><time>2.30e+01</time><MTORA>7e-10</MTORA></dataPoint>
             <dataPoint><time>3.00e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>3.10e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>3.20e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>3.30e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>3.40e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>3.50e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>3.60e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>3.80e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>4.00e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>4.50e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>5.00e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>6.00e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>7.00e+01</time><MTORA>7e-10</MTORA></dataPoint>
+            
+            
    
     </dataGroup>
 </experiment>

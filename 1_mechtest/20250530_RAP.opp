@@ -13,5 +13,5 @@ MECHTEST
     SOLVER cantera
     SAVE_STATES      CSV
     
-     NAME 7_Krisztian/xml/raptest/stac_0001.xml
+     NAME 7_Krisztian/xml/raptest/stac_0003.xml
 END

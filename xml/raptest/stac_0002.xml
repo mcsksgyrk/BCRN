@@ -28,7 +28,7 @@
         <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
         <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
         <property name="initial composition"  sourcetype="digitized" >
-            <component><speciesLink preferredKey="RAPOUT"         chemName="RAPOUT"     /><amount units="mole fraction" >5e-5</amount></component>
+            <component><speciesLink preferredKey="RAPOUT"         chemName="RAPOUT"     /><amount units="mole fraction" >1e-10</amount></component>
             <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1</amount></component>
             <component><speciesLink preferredKey="MTORA"         chemName="MTORA"     /><amount units="mole fraction" >7e-10</amount></component>
             <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >0</amount></component>
@@ -41,6 +41,26 @@
             <speciesLink preferredKey="MTORA"  chemName="MTORA" />
             <value>2.5e-11</value>
         </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RAPOUT"  chemName="RAPOUT" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RAP"  chemName="RAP" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="FKBP12"  chemName="FKBP12" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RK"  chemName="RK" />
+            <value>2.5e-11</value>
+        </property>
+        <property name="evaluated standard deviation"  sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="statistical scatter" >
+            <speciesLink preferredKey="RKMTORA"  chemName="RKMTORA" />
+            <value>2.5e-11</value>
+        </property>
         
     </commonProperties>
     <dataGroup id="dg1">
@@ -48,45 +68,52 @@
         <property name="composition"  id="MTORA" label="MTORA"  sourcetype="reported"  units="mole fraction">
             <speciesLink preferredKey="MTORA"  chemName="MTORA" />
         </property>
+        <property name="composition"  id="RAP" label="RAP"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="RAP"  chemName="RAP" />
+        </property>
+        <property name="composition"  id="RAPOUT" label="RAPOUT"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="RAPOUT"  chemName="RAPOUT" />
+        </property>
+        <property name="composition"  id="FKBP12" label="FKBP12"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="FKBP12"  chemName="FKBP12" />
+        </property>
+        <property name="composition"  id="RK" label="RK"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="RK"  chemName="RK" />
+        </property>
+        <property name="composition"  id="RKMTORA" label="RKMTORA"  sourcetype="reported"  units="mole fraction">
+            <speciesLink preferredKey="RKMTORA"  chemName="RKMTORA" />
+        </property>
 
             
-            <dataPoint><time>0.00e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.10e-01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.20e-01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.30e-01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.40e-01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.50e-01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.70e-01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.90e-01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.10e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.20e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.30e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.40e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.50e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>0.60e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>1.80e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>2.40e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>3.00e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>3.60e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>4.20e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>4.80e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>5.40e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>6.00e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>6.60e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>7.20e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>7.80e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>8.40e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>9.00e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>9.60e+00</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>1.02e+01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>1.08e+01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>1.14e+01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>1.30e+01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>2.30e+01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>3.30e+01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>4.30e+01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>5.30e+01</time><MTORA>7e-10</MTORA></dataPoint>
-            <dataPoint><time>1.14e+02</time><MTORA>7e-10</MTORA></dataPoint>
+            <dataPoint><time>0.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>0.10e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>0.20e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>0.50e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>1.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>1.80e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>2.40e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>3.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>3.60e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>4.20e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>4.80e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>5.40e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>6.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>6.60e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>7.20e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>7.80e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>8.40e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>9.00e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>9.60e+00</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>1.02e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>1.08e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>1.14e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>1.30e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>1.40e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>1.50e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>1.70e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>2.00e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>2.30e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
+            <dataPoint><time>3.00e+01</time><MTORA>7e-10</MTORA><RAPOUT>7e-10</RAPOUT><RAP>7e-10</RAP><RK>7e-10</RK><FKBP12>7e-10</FKBP12><RKMTORA>7e-10</RKMTORA></dataPoint>
    
     </dataGroup>
 </experiment>
