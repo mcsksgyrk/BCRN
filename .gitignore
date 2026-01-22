@@ -1,1 +1,8 @@
-/xml
+/*.xml
+
+# Large installers / local conda
+Miniconda3-*.sh
+Anaconda*-Linux-*.sh
+*.run
+*.tar.gz
+*.zip

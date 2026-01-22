@@ -1,11 +1,11 @@
 MECHMOD
-      USE_NAME         BCRN6
-      MECH_FILE        7_Krisztian/mech/BCRN6.inp
-      COMPILE_cantera 7_Krisztian/mech/BCRN6.yaml
+      USE_NAME         starve_rap_combined
+      MECH_FILE        /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/starve_rap_combined.inp
+      COMPILE_cantera /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/starve_rap_combined.yaml
       END
       
 MECHTEST
-      MECHANISM  BCRN6
+      MECHANISM  starve_rap_combined
       TIME_LIMIT 50
       THREAD_LIMIT 32
       SETTINGS_TAG systems_biology
@@ -14,14 +14,14 @@ MECHTEST
 
       SOLVER cantera
       SAVE_STATES      CSV
-            NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0001.xml
-      NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0002.xml
-      NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0003.xml
-      NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0004.xml
-      NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0005.xml
-      NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0006.xml
-      NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0007.xml
-      NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0008.xml
-      NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0009.xml
-      NAME C:\Users\local_user\Desktop\Study\VII_semester\TDK\BCRN\xml\Mattiolo_2015\cyt/rap_0010.xml
+            NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0001.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0002.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0003.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0004.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0005.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0006.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0007.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0008.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0009.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Mattiolo_2015/cyt/stressful_life_0010.xml
 END

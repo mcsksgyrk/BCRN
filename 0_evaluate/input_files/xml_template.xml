@@ -39,7 +39,7 @@
         <property name="composition"                   id="{{name}}"   label="{{name}}"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="{{name}}"  chemName="{{name}}" />
         </property>
-        <property name="evaluated standard deviation"  id="{{name}}std"    label="{{name}}std"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+        <property name="evaluated standard deviation"  id="{{name}}_STD"    label="{{name}}_STD"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
             <speciesLink preferredKey="{{name}}"    chemName="{{name}}"   />
         </property>
         {%- endfor %}

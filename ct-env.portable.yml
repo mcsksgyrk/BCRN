@@ -1,0 +1,24 @@
+name: ct-env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - cantera=3.2
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - jupyterlab
+  - ipykernel
+  - pyqt
+  - pyyaml
+  - openpyxl
+  - pip:
+      - bibtexparser==1.4.3
+      - cmasher==1.9.2
+      - colorspacious==1.1.2
+      - pyqt5==5.15.11
+      - pyqt5-qt5==5.15.2
+      - pyqt5-sip==12.18.0

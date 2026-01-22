@@ -146,11 +146,11 @@
         <property name="composition"                   id="CYTC"   label="CYTC"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="CYTC"  chemName="CYTC" />
         </property>
-        <property name="evaluated standard deviation"  id="CYTCstd"    label="CYTCstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+        <property name="evaluated standard deviation"  id="CYTC_STD"    label="CYTC_STD"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
             <speciesLink preferredKey="CYTC"    chemName="CYTC"   />
         </property>
-            <dataPoint><time>0.0000e+00</time><CYTC>4.6500e-15</CYTC></dataPoint>
-            <dataPoint><time>8.0000e+00</time><CYTC>3.0909e-14</CYTC></dataPoint>
-            <dataPoint><time>2.2000e+01</time><CYTC>7.0023e-14</CYTC></dataPoint>
+            <dataPoint><time>0.0000e+00</time><CYTC>4.6500e-15</CYTC><CYTC_STD>1.1250e-14</CYTC_STD></dataPoint>
+            <dataPoint><time>8.0000e+00</time><CYTC>3.0909e-14</CYTC><CYTC_STD>1.1250e-14</CYTC_STD></dataPoint>
+            <dataPoint><time>2.2000e+01</time><CYTC>7.0023e-14</CYTC><CYTC_STD>1.1250e-14</CYTC_STD></dataPoint>
     </dataGroup>
 </experiment>

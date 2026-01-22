@@ -146,7 +146,7 @@
         <property name="composition"                   id="CASP"   label="CASP"   sourcetype="reported"  units="mole fraction" >
             <speciesLink preferredKey="CASP"  chemName="CASP" />
         </property>
-        <property name="evaluated standard deviation"  id="CASPstd"    label="CASPstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+        <property name="evaluated standard deviation"  id="CASP_STD"    label="CASP_STD"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
             <speciesLink preferredKey="CASP"    chemName="CASP"   />
         </property>
             <dataPoint><time>0.0000e+00</time><CASP>0.0000e+00</CASP><CASP_STD>0.0000e+00</CASP_STD></dataPoint>
