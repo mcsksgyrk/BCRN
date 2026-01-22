@@ -1,0 +1,59 @@
+<experiment>
+    <fileAuthor>Bence Hajdu and Tibor Nagy</fileAuthor>
+    <fileVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </fileVersion>
+    <ReSpecThVersion>
+        <major>2</major>
+        <minor>5</minor>
+    </ReSpecThVersion>
+    <bibliographyLink>
+        <description></description>
+        <referenceDOI></referenceDOI>
+        <details>
+            <author>Mattiolo, Paolo and Yuste, Victor J and Boix, Jacint and Ribas, Judit</author>
+            <journal>Biochemical Pharmacology</journal>
+            <number>4</number>
+            <title>Autophagy exacerbates caspase-dependent apoptotic cell death after short times of starvation</title>
+            <volume>98</volume>
+            <year>2015</year>
+        </details>
+    </bibliographyLink>
+    <experimentType>concentration time profile measurement</experimentType>
+    <apparatus>
+        <kind>flow reactor</kind>
+    </apparatus>
+    <commonProperties>
+        <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
+        <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
+        <property name="initial composition"  sourcetype="digitized" >
+            <component><speciesLink preferredKey="CYTC"         chemName="CYTC"     /><amount units="mole fraction" >9.035741362924015e-14</amount></component>
+            <component><speciesLink preferredKey="nS"         chemName="nS"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="TG"         chemName="TG"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="dS"         chemName="dS"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="CCH"         chemName="CCH"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1.0</amount></component>
+            <component><speciesLink preferredKey="Insulin"         chemName="Insulin"     /><amount units="mole fraction" >1e-10</amount></component>
+            <component><speciesLink preferredKey="TG_SERCA"         chemName="TG_SERCA"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="RKMTORA"         chemName="RKMTORA"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="casp"         chemName="casp"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="IP3R"         chemName="IP3R"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="Baxa"         chemName="Baxa"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="tBid"         chemName="tBid"     /><amount units="mole fraction" >0.0</amount></component>
+        </property>
+    </commonProperties>
+    <dataGroup id="dg1">
+        <property name="time"                          id="time"    label="t"       sourcetype="reported"  units="min"     />
+        <property name="composition"                   id="CYTC"   label="CYTC"   sourcetype="reported"  units="mole fraction" >
+            <speciesLink preferredKey="CYTC"  chemName="CYTC" />
+        </property>
+        <property name="evaluated standard deviation"  id="CYTCstd"    label="CYTCstd"    sourcetype="reported"  units="mole fraction"  reference="composition"  kind="absolute"  sigmarange="1"  method="reported uncertainty" >
+            <speciesLink preferredKey="CYTC"    chemName="CYTC"   />
+        </property>
+            <dataPoint><time>0.0000e+00</time><CYTC>6.0003e-15</CYTC></dataPoint>
+            <dataPoint><time>8.0000e+00</time><CYTC>3.9884e-14</CYTC></dataPoint>
+            <dataPoint><time>2.2000e+01</time><CYTC>9.0357e-14</CYTC></dataPoint>
+    </dataGroup>
+</experiment>

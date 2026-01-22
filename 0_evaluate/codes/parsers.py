@@ -1,11 +1,12 @@
 import pandas as pd
 import numpy as np
 
+
 def sampleBounds(bounds, goLow):
     if bounds[0] != bounds[1] and bounds[0] > 0:
         l, b = bounds
         s = np.random.uniform(l, b)
-    elif bounds[0] == 0 and bounds[0] > 0:
+    elif bounds[0] == 0 and bounds[1] > 0:
         l, b = np.log(bounds)
         s = np.random.uniform(l, b)
     elif bounds[0]==bounds[1] and bounds[0]==0: 

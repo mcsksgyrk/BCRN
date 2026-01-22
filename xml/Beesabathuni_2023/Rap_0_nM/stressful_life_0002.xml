@@ -1,0 +1,84 @@
+<experiment>
+    <fileAuthor>Bence Hajdu and Tibor Nagy</fileAuthor>
+    <fileVersion>
+        <major>1</major>
+        <minor>0</minor>
+    </fileVersion>
+    <ReSpecThVersion>
+        <major>2</major>
+        <minor>5</minor>
+    </ReSpecThVersion>
+    <bibliographyLink>
+        <description></description>
+        <referenceDOI></referenceDOI>
+        <details>
+            <author>Beesabathuni, Nitin Sai and Park, Soyoon and Shah, Priya S</author>
+            <journal>Autophagy</journal>
+            <number>4</number>
+            <title>Quantitative and temporal measurement of dynamic autophagy rates</title>
+            <volume>19</volume>
+            <year>2023</year>
+        </details>
+    </bibliographyLink>
+    <experimentType>concentration time profile measurement</experimentType>
+    <apparatus>
+        <kind>flow reactor</kind>
+    </apparatus>
+    <commonProperties>
+        <property name="temperature"          sourcetype="reported"   units="K"       ><value>309.15</value></property>
+        <property name="pressure"             sourcetype="reported"   units="bar"     ><value>25705</value></property>
+        <property name="initial composition"  sourcetype="digitized" >
+            <component><speciesLink preferredKey="AUT"         chemName="AUT"     /><amount units="mole fraction" >4.9239541192780346e-14</amount></component>
+            <component><speciesLink preferredKey="PHAG"         chemName="PHAG"     /><amount units="mole fraction" >1.2333360864510221e-14</amount></component>
+            <component><speciesLink preferredKey="nS"         chemName="nS"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="RAP"         chemName="RAP"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="TG"         chemName="TG"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="dS"         chemName="dS"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="CCH"         chemName="CCH"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="REF"         chemName="REF"     /><amount units="mole fraction" >1.0</amount></component>
+            <component><speciesLink preferredKey="Insulin"         chemName="Insulin"     /><amount units="mole fraction" >1e-10</amount></component>
+            <component><speciesLink preferredKey="TG_SERCA"         chemName="TG_SERCA"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="RKMTORA"         chemName="RKMTORA"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="casp"         chemName="casp"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="IP3R"         chemName="IP3R"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="Baxa"         chemName="Baxa"     /><amount units="mole fraction" >0.0</amount></component>
+            <component><speciesLink preferredKey="tBid"         chemName="tBid"     /><amount units="mole fraction" >0.0</amount></component>
+        </property>
+    </commonProperties>
+    <dataGroup id="dg1">
+        <property name="time"                          id="time"    label="t"       sourcetype="reported"  units="min"     />
+            <dataPoint><time>0.0000e+00</time><AUT>1.0000e+00</AUT><AUTSTD>0.0000e+00</AUTSTD><PHAG>1.0000e+00</PHAG><PHAGSTD>0.0000e+00</PHAGSTD></dataPoint>
+            <dataPoint><time>2.5000e-01</time><AUT>1.0620e+00</AUT><AUTSTD>2.6108e-15</AUTSTD><PHAG>9.5689e-01</PHAG><PHAGSTD>8.4757e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>5.0000e-01</time><AUT>1.1014e+00</AUT><AUTSTD>5.5877e-15</AUTSTD><PHAG>8.9788e-01</PHAG><PHAGSTD>7.2010e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>7.5000e-01</time><AUT>1.0697e+00</AUT><AUTSTD>5.6946e-15</AUTSTD><PHAG>8.3302e-01</PHAG><PHAGSTD>8.3081e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.0000e+00</time><AUT>1.0844e+00</AUT><AUTSTD>6.0525e-15</AUTSTD><PHAG>8.3592e-01</PHAG><PHAGSTD>6.0529e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.2500e+00</time><AUT>1.0921e+00</AUT><AUTSTD>3.6389e-15</AUTSTD><PHAG>8.3166e-01</PHAG><PHAGSTD>4.8347e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.5000e+00</time><AUT>1.0670e+00</AUT><AUTSTD>5.3130e-15</AUTSTD><PHAG>8.4565e-01</PHAG><PHAGSTD>2.7313e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.7500e+00</time><AUT>1.0561e+00</AUT><AUTSTD>4.2005e-15</AUTSTD><PHAG>8.4147e-01</PHAG><PHAGSTD>3.0696e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>2.0000e+00</time><AUT>1.0275e+00</AUT><AUTSTD>4.5871e-15</AUTSTD><PHAG>8.3572e-01</PHAG><PHAGSTD>3.4221e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>2.5000e+00</time><AUT>9.9559e-01</AUT><AUTSTD>4.0366e-15</AUTSTD><PHAG>8.4233e-01</PHAG><PHAGSTD>4.2119e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>3.0000e+00</time><AUT>9.8711e-01</AUT><AUTSTD>3.2285e-15</AUTSTD><PHAG>8.3194e-01</PHAG><PHAGSTD>5.1667e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>3.5000e+00</time><AUT>9.7033e-01</AUT><AUTSTD>5.2405e-15</AUTSTD><PHAG>8.3346e-01</PHAG><PHAGSTD>5.6604e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>4.0000e+00</time><AUT>9.8408e-01</AUT><AUTSTD>3.8084e-15</AUTSTD><PHAG>8.2185e-01</PHAG><PHAGSTD>5.3500e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>4.5000e+00</time><AUT>9.3952e-01</AUT><AUTSTD>4.7989e-15</AUTSTD><PHAG>8.4640e-01</PHAG><PHAGSTD>5.0721e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>5.0000e+00</time><AUT>8.9514e-01</AUT><AUTSTD>6.3012e-15</AUTSTD><PHAG>8.2267e-01</PHAG><PHAGSTD>1.1342e-15</PHAGSTD></dataPoint>
+            <dataPoint><time>5.5000e+00</time><AUT>8.9694e-01</AUT><AUTSTD>4.5636e-15</AUTSTD><PHAG>8.2786e-01</PHAG><PHAGSTD>7.1011e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>6.0000e+00</time><AUT>9.0570e-01</AUT><AUTSTD>4.4523e-15</AUTSTD><PHAG>8.1537e-01</PHAG><PHAGSTD>9.7253e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>6.5000e+00</time><AUT>8.9208e-01</AUT><AUTSTD>6.5533e-15</AUTSTD><PHAG>8.2138e-01</PHAG><PHAGSTD>1.1462e-15</PHAGSTD></dataPoint>
+            <dataPoint><time>7.0000e+00</time><AUT>8.5599e-01</AUT><AUTSTD>6.7203e-15</AUTSTD><PHAG>8.1270e-01</PHAG><PHAGSTD>1.3721e-15</PHAGSTD></dataPoint>
+            <dataPoint><time>7.5000e+00</time><AUT>8.4967e-01</AUT><AUTSTD>6.3659e-15</AUTSTD><PHAG>8.1847e-01</PHAG><PHAGSTD>1.3388e-15</PHAGSTD></dataPoint>
+            <dataPoint><time>8.0000e+00</time><AUT>8.4613e-01</AUT><AUTSTD>7.4785e-15</AUTSTD><PHAG>8.2076e-01</PHAG><PHAGSTD>1.1728e-15</PHAGSTD></dataPoint>
+            <dataPoint><time>8.5000e+00</time><AUT>8.1475e-01</AUT><AUTSTD>6.7141e-15</AUTSTD><PHAG>8.3892e-01</PHAG><PHAGSTD>1.2096e-15</PHAGSTD></dataPoint>
+            <dataPoint><time>9.0000e+00</time><AUT>8.3206e-01</AUT><AUTSTD>5.2433e-15</AUTSTD><PHAG>8.4677e-01</PHAG><PHAGSTD>7.7147e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>9.5000e+00</time><AUT>8.2984e-01</AUT><AUTSTD>5.9217e-15</AUTSTD><PHAG>8.5259e-01</PHAG><PHAGSTD>7.7319e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.0000e+01</time><AUT>8.1675e-01</AUT><AUTSTD>6.8652e-15</AUTSTD><PHAG>8.3423e-01</PHAG><PHAGSTD>1.0223e-15</PHAGSTD></dataPoint>
+            <dataPoint><time>1.0500e+01</time><AUT>7.9599e-01</AUT><AUTSTD>6.4192e-15</AUTSTD><PHAG>8.1988e-01</PHAG><PHAGSTD>8.4705e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.1000e+01</time><AUT>7.8001e-01</AUT><AUTSTD>5.9874e-15</AUTSTD><PHAG>8.2879e-01</PHAG><PHAGSTD>9.4961e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.1500e+01</time><AUT>7.5621e-01</AUT><AUTSTD>6.9115e-15</AUTSTD><PHAG>8.1248e-01</PHAG><PHAGSTD>7.2650e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.2000e+01</time><AUT>7.7055e-01</AUT><AUTSTD>6.0949e-15</AUTSTD><PHAG>8.3118e-01</PHAG><PHAGSTD>8.6161e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.3000e+01</time><AUT>7.6344e-01</AUT><AUTSTD>5.5739e-15</AUTSTD><PHAG>8.3478e-01</PHAG><PHAGSTD>5.2327e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.4000e+01</time><AUT>7.6058e-01</AUT><AUTSTD>3.2903e-15</AUTSTD><PHAG>8.2338e-01</PHAG><PHAGSTD>7.8818e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.5000e+01</time><AUT>8.0291e-01</AUT><AUTSTD>5.4273e-15</AUTSTD><PHAG>8.3170e-01</PHAG><PHAGSTD>5.8205e-16</PHAGSTD></dataPoint>
+            <dataPoint><time>1.6000e+01</time><AUT>8.3719e-01</AUT><AUTSTD>5.9543e-15</AUTSTD><PHAG>8.4256e-01</PHAG><PHAGSTD>6.9800e-16</PHAGSTD></dataPoint>
+    </dataGroup>
+</experiment>
