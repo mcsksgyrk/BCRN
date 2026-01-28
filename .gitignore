@@ -1,4 +1,6 @@
-/*.xml
+xml/
+logs/
+**/*.xml
 
 # Large installers / local conda
 Miniconda3-*.sh
