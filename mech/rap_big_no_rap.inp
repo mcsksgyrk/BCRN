@@ -370,23 +370,23 @@ REACTIONS MOLES KELVINS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AMPK-mTOR-ULK Triangle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !
 !                                   !reakció kinetikai állandó, csak első oszlop kell, mol/cm3-ben
-AMPKA+MTORA=>AMPKA+MTOR             1E+03  0.00000         0.00
+AMPKA+MTORA=>AMPKA+MTOR            1.0E+04     0.00000         0.00
 !
 MTORA+AMPKA=>MTORA+AMPK             1E+09  0.00000         0.00
 !
-ULKA+MTORA=MTORA+ULK                1.E+07  0.00000         0.00
+ULKA+MTORA=MTORA+ULK               5.0E+05     0.00000         0.00
 !
-ULKA+MTORA=MTOR+ULKA                1E+02  0.00000         0.00
+ULKA+MTORA=MTOR+ULKA               1.0E+04     0.00000         0.00
 !
-AMPKA+ULK=>AMPKA+ULKA               6E+07  0.00000         0.00 
+AMPKA+ULK=>AMPKA+ULKA              3.0E+08     0.00000         0.00 
 !
-AMPKA+ULKA=>AMPK+ULKA               9E+07  0.00000         0.00 
+AMPKA+ULKA=>AMPK+ULKA              1.2E+08     0.00000         0.00 
 !
 AMPK=>AMPKA                         8.5E-06    0.00000         0.00 
 !
 AMPKA+AMPK=>AMPKA+AMPKA             3.5E+08   0.00000   0.00   
 !
-ULKA=>ULK                          1E-02     0.00000   0.00   
+ULKA=>ULK                          2.0E-03        0.00000   0.00   
 !
 !
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RAP - mTOR %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
