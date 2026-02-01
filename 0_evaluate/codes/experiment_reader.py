@@ -49,6 +49,10 @@ class Experiment:
 
     def quantitated_exp_data(self, ics: dict[str, float]) -> pd.DataFrame:
         quant_Data = self.experiment_data.copy()
+
+        for s in self.output_species:
+            quant_Data[s] = self.ics_df[self.ics_df['species'] == s].iloc[0, 2]    # "exp_data" = value of the csv column
+
         for col in quant_Data.columns:
             if col.upper() not in self.non_species_cols:
                 if 'STD' in col.upper():
@@ -58,9 +62,6 @@ class Experiment:
                 if 'STD' not in col.upper() and f"{col}_STD" not in quant_Data.columns:
                     # add a new column called f"{col}_STD" filled with sigmas[col.upper()]
                     quant_Data[f"{col}_STD"] = self.sigmas[col.upper()]
-
-        for s in self.output_species:
-            quant_Data[s] = self.ics_df[self.ics_df['species'] == s].iloc[0, 2]    # "exp_data" = value of the csv column
 
         self.quant_data = quant_Data
         return self.quant_data

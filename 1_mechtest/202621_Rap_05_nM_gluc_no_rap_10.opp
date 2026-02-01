@@ -1,0 +1,27 @@
+MECHMOD
+      USE_NAME         starve_rap_combined
+      MECH_FILE        /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/starve_rap_combined.inp
+      COMPILE_cantera /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/starve_rap_combined.yaml
+      END
+      
+MECHTEST
+      MECHANISM  starve_rap_combined
+      TIME_LIMIT 50
+      THREAD_LIMIT 32
+      SETTINGS_TAG systems_biology
+      FALLBACK_TO_DEFAULT_SETTINGS
+      PLOTS FALSE
+
+      SOLVER cantera
+      SAVE_STATES      CSV
+            NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0001.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0002.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0003.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0004.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0005.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0006.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0007.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0008.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0009.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0010.xml
+END
