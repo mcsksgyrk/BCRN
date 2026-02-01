@@ -342,7 +342,6 @@ def plot_compare_summary_gluc(
     figsize=(12, 8),
     curve_labels=False
 ):
-
     species = _normalize_species(species)
     n_expected = int(total_hours*60/dt_minutes + 1)
 
@@ -412,6 +411,10 @@ def plot_compare_summary_gluc(
 
         # ------- EXP DATA + SQUARED ERROR QUANTIFICATION (GLUCOUT only) -------
         if sp == 'GLUCOUT' and (label_a == 'Starved' or label_b == 'Starved'):
+            sejeong_gluc = pd.read_csv('../input_files/sejeong_gluc_cc_starve.csv')
+            sejeong_gluc.t = sejeong_gluc.t
+            sejeong_gluc.y = sejeong_gluc.y #* 1e-6
+            sejeong_gluc.sigma = sejeong_gluc.sigma #* 1e-6
             # experimental data
             ax.errorbar(
                 sejeong_gluc.t,
@@ -472,30 +475,6 @@ def plot_compare_summary_gluc(
 
     fig.patch.set_facecolor('white')
     return fig
-
-
-
-    """
-    Given a list of y positions, return adjusted positions so that
-    consecutive labels are at least `min_gap` apart (in data units),
-    while preserving ordering as much as possible.
-    """
-    y = np.array(y_values, dtype=float)
-    order = np.argsort(y)
-    y_sorted = y[order]
-
-    adj = np.empty_like(y_sorted)
-    prev = -np.inf
-    for i, val in enumerate(y_sorted):
-        if val <= prev + min_gap:
-            adj[i] = prev + min_gap
-        else:
-            adj[i] = val
-        prev = adj[i]
-
-    result = np.empty_like(adj)
-    result[order] = adj
-    return result
 
 
 def plot_compare_summary(
@@ -650,6 +629,10 @@ def plot_compare_summary(
             ax.grid(alpha=0.2, linestyle=':')
 
             if sp == 'GLUCOUT' and (label_a == 'Starved' or label_b == 'Starved'):
+                sejeong_gluc = pd.read_csv('../input_files/sejeong_gluc_cc_starve.csv')
+                sejeong_gluc.t = sejeong_gluc.t
+                sejeong_gluc.y = sejeong_gluc.y #* 1e-6
+                sejeong_gluc.sigma = sejeong_gluc.sigma #* 1e-6
                 ax.errorbar(
                     sejeong_gluc.t,
                     sejeong_gluc.y,

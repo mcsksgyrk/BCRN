@@ -50,15 +50,22 @@ class Experiment:
     def quantitated_exp_data(self, ics: dict[str, float]) -> pd.DataFrame:
         quant_Data = self.experiment_data.copy()
 
-        for s in self.output_species:
-            quant_Data[s] = self.ics_df[self.ics_df['species'] == s].iloc[0, 2]    # "exp_data" = value of the csv column
-
         for col in quant_Data.columns:
             if col.upper() not in self.non_species_cols:
                 if 'STD' in col.upper():
                     quant_Data[col] *= ics[col[0:-4].upper()]
                 else:
                     quant_Data[col] *= ics[col.upper()]
+                if 'STD' not in col.upper() and f"{col}_STD" not in quant_Data.columns:
+                    # add a new column called f"{col}_STD" filled with sigmas[col.upper()]
+                    quant_Data[f"{col}_STD"] = self.sigmas[col.upper()]
+
+        for s in self.output_species:
+            if s.upper() not in [col.upper() for col in quant_Data.columns]:
+                quant_Data[s] = self.ics_df[self.ics_df['species'] == s].iloc[0, 2]    # "exp_data" = value of the csv column
+
+        for col in quant_Data.columns:
+            if col.upper() not in self.non_species_cols:
                 if 'STD' not in col.upper() and f"{col}_STD" not in quant_Data.columns:
                     # add a new column called f"{col}_STD" filled with sigmas[col.upper()]
                     quant_Data[f"{col}_STD"] = self.sigmas[col.upper()]

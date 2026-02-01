@@ -1,11 +1,11 @@
 MECHMOD
-      USE_NAME         starve_rap_combined
-      MECH_FILE        /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/starve_rap_combined.inp
-      COMPILE_cantera /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/starve_rap_combined.yaml
+      USE_NAME         starve_rap_100nm
+      MECH_FILE        /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/rapout_dependent/starve_rap_100nm.inp
+      COMPILE_cantera /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/rapout_dependent/starve_rap_100nm.yaml
       END
       
 MECHTEST
-      MECHANISM  starve_rap_combined
+      MECHANISM  starve_rap_100nm
       TIME_LIMIT 50
       THREAD_LIMIT 32
       SETTINGS_TAG systems_biology

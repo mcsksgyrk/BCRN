@@ -40,9 +40,10 @@ class OptimaMechtest(OptimaOutput):
                     self.all_data[csv_data.stem] = pd.read_csv(csv_data)
                 except Exception as e:
                     print(e)
-        print((self.job_folder / f"mechTestResults_{input_mech}.csv"))
+
         if (self.job_folder / f"mechTestResults_{input_mech}.csv").exists():
-            print((self.job_folder / f"mechTestResults_{input_mech}.csv").exists())
+            print(f'Simulation ran successfully: {(self.job_folder / f"mechTestResults_{input_mech}.csv").exists()}')
+            print(f'Result location: {self.job_folder / f"mechTestResults_{input_mech}.csv"}')
             self.all_sheets_dP = pd.read_csv(self.job_folder / f"mechTestResults_{input_mech}.csv",  # dP as in the info in dataPoints
                                         header=None,
                                         delimiter=';',
