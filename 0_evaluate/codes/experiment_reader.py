@@ -7,11 +7,11 @@ class Experiment:
     def __init__(self, data_source, # data_source: a pandas DataFrame
                  inputs: dict[str, float], species_sigmas: dict[str, float],
                  sheet_name: str, bounds: dict[str, tuple[float, float]],
-                 bibtex: str):
+                 bibtex: str, output_species: list[str], ics_df: pd.DataFrame) -> None:
         self.inputs = inputs
         self.sigmas = species_sigmas
         self.bounds = bounds
-        if isinstance(data_source, pd.DataFrame): # Ha pandas DataFrame (azaz xlsx worksheet)
+        if isinstance(data_source, pd.DataFrame):   # Ha pandas DataFrame (azaz xlsx worksheet)
             self.name = sheet_name
             self.experiment_data = data_source.copy()
         else:
@@ -19,6 +19,8 @@ class Experiment:
 
         self.bibtex = self.parse_bibtex(bibtex)
         self.non_species_cols = {"TIME"}
+        self.output_species = output_species
+        self.ics_df = ics_df
 
         self.process_data()
 
@@ -56,6 +58,10 @@ class Experiment:
                 if 'STD' not in col.upper() and f"{col}_STD" not in quant_Data.columns:
                     # add a new column called f"{col}_STD" filled with sigmas[col.upper()]
                     quant_Data[f"{col}_STD"] = self.sigmas[col.upper()]
+
+        for s in self.output_species:
+            quant_Data[s] = self.ics_df[self.ics_df['species'] == s].iloc[0, 2]    # "exp_data" = value of the csv column
+
         self.quant_data = quant_Data
         return self.quant_data
 
