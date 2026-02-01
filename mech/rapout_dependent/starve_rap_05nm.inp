@@ -586,8 +586,8 @@ AMPKA_AMP + ULKA => AMPK_AMP + ULKA               4.1653E+01   0.00000         0
 !AMPKA+AMPK=>AMPKA+AMPKA             3.5E+08   0.00000   0.00   
 !ULKA=>ULK                          1E-02     0.00000   0.00   
 !
-!REF=>RAPOUT                        1.0000E-11  0.00000         0.00 
-!RAPOUT=>REF                        1.0000E-01  0.00000         0.00 
+REF=>RAPOUT                         5.0000E-12  0.00000         0.00 
+RAPOUT=>REF                         1.0000E+01  0.00000         0.00 
 RAPOUT=>RAP                         1.3333E-02  0.00000         0.00  
 RAP=>RAPOUT                         1.3333E-02  0.00000         0.00  
 RAP+FKBP12=>RK+REF                  1.9000E+09  0.00000         0.00               

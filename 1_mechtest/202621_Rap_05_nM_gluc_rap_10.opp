@@ -1,7 +1,7 @@
 MECHMOD
       USE_NAME         starve_rap_05nm
-      MECH_FILE        /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/rapout_dependent/starve_rap_05nm.inp
-      COMPILE_cantera /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/rapout_dependent/starve_rap_05nm.yaml
+      MECH_FILE        /home/ruszinko/OptimaPP/7_Krisztian/mech/rapout_dependent/starve_rap_05nm.inp
+      COMPILE_cantera /home/ruszinko/OptimaPP/7_Krisztian/mech/rapout_dependent/starve_rap_05nm.yaml
       END
       
 MECHTEST
@@ -14,14 +14,14 @@ MECHTEST
 
       SOLVER cantera
       SAVE_STATES      CSV
-            NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0001.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0002.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0003.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0004.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0005.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0006.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0007.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0008.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0009.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/Beesabathuni_2023/Rap_05_nM/Rap_05_nM_0010.xml
+            NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0001.xml
+      NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0002.xml
+      NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0003.xml
+      NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0004.xml
+      NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0005.xml
+      NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0006.xml
+      NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0007.xml
+      NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0008.xml
+      NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0009.xml
+      NAME /home/ruszinko/OptimaPP/7_Krisztian/xml/Beesabathuni_2023/Rap_05_nM/20260201_224510/Rap_05_nM_0010.xml
 END
