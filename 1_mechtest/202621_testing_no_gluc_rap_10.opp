@@ -14,14 +14,14 @@ MECHTEST
 
       SOLVER cantera
       SAVE_STATES      CSV
-            NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0001.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0002.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0003.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0004.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0005.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0006.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0007.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0008.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0009.xml
-      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_no_gluc_rap/no_gluc_rap_0010.xml
+            NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0001.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0002.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0003.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0004.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0005.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0006.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0007.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0008.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0009.xml
+      NAME /home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_combined_no_gluc_rap/no_gluc_rap_0010.xml
 END
