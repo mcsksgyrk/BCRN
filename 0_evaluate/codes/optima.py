@@ -74,8 +74,6 @@ class OptimaMechtest(OptimaOutput):
         self.orig_time_sim_df = {}
         self.orig_time_exp_df = {}
 
-        time_point = 0
-        species = 'ilyen_species_tuti_nem_lesz'
         self.failed_sims_xmls = []
 
         for _, row in all_sheets_dP.iterrows():
@@ -86,11 +84,10 @@ class OptimaMechtest(OptimaOutput):
             sim_val = row.sim_val
             exp_val = row.dP_val
 
-            if row.species == species:
-                time_point += 1
-            else:
-                species = row.species
-                time_point = 1
+            try:
+                time_point = int(row.time_point)
+            except Exception:
+                continue
 
             if sim_val != 'FAILED':
                 # ensure dict entries exist
@@ -100,8 +97,8 @@ class OptimaMechtest(OptimaOutput):
                     self.orig_time_exp_df[xml_name] = pd.DataFrame()
 
                 # ALWAYS assign (no else:)
-                self.orig_time_sim_df[xml_name].loc[time_point, species] = float(sim_val)
-                self.orig_time_exp_df[xml_name].loc[time_point, species] = exp_val
+                self.orig_time_sim_df[xml_name].loc[time_point, row.species] = float(sim_val)
+                self.orig_time_exp_df[xml_name].loc[time_point, row.species] = exp_val
             else:
                 self.failed_sims_xmls.append(xml_name)
 
