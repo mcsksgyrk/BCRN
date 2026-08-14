@@ -1,3 +1,30 @@
+# ---
+# jupyter:
+#   jupytext:
+#     cell_metadata_filter: tags
+#     formats: ipynb,py:percent
+#     notebook_metadata_filter: kernelspec,language_info,jupytext
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.19.5
+#   kernelspec:
+#     display_name: ct-env
+#     language: python
+#     name: python3
+#   language_info:
+#     codemirror_mode:
+#       name: ipython
+#       version: 3
+#     file_extension: .py
+#     mimetype: text/x-python
+#     name: python
+#     nbconvert_exporter: python
+#     pygments_lexer: ipython3
+#     version: 3.10.19
+# ---
+
 # %%
 import pandas as pd
 import numpy as np
@@ -22,7 +49,7 @@ class OptimaOutput:
 
         self.job_name = str(job_name)
         if optima_path == None:
-            self.optima_path = Path("/home/nvme/Opt/outputs")
+            self.optima_path = Path("/home/szupernikusz/OptimaPP/outputs")
         self.job_folder = self.optima_path / job_name
         file_path = self.job_folder / "mechanismInfo.txt"
         try:
@@ -126,7 +153,6 @@ class OptimaMechtest(OptimaOutput):
             axis=1
         )
         self.df_followed18 = followed18.T
-
 
 
 # %%
@@ -269,7 +295,7 @@ class Genesis:
             random_ics[key] = self.model.inputs[key]
         random_ics["REF"] = 1.0
         if self.model.food == 'stac':
-            random_ics['Q'] = 3e-6
+            random_ics['Q'] = 6e-6
         return random_ics
 
     def make_xml_output(self, file_index: int, output_xmls_path: str, prefix) -> None:
@@ -284,7 +310,6 @@ class Genesis:
     def compileDataRow(self, dataPoints):
         meas = "".join(f"<{v}>{{:.4e}}</{v}>" for v in self.model.exp_data.columns)
         return f"<dataPoint>{meas.format(*dataPoints)}</dataPoint>"
-
 
 # %%
 class Simulation:
@@ -353,20 +378,25 @@ class Simulation:
       return mechmod + "\n" + mechtest
 
     def sim_runner(self, log_location:str = ''):
-      self.parent_path = Path.cwd().parents[2]
+      self.parent_path = os.path.join(Path.cwd().parents[4], "OptimaPP") #Path.cwd().parents[2]
+      #print(f"self.parent_path: {self.parent_path}")
 
       if log_location == '':
         for idx, opp_file in enumerate(self.opps):
-            command = ["bin/Release/OptimaPP", f"7_Krisztian/1_mechtest/{opp_file}"]
+            command = ["bin/Release/OptimaPP", f"../Projects/Semmelweis_BCRN/BCRN/1_mechtest/{opp_file}"]
             print(f"Running: {' '.join(command)}")
             subprocess.run(command, check=True, cwd=self.parent_path)
       else:
         for idx, opp_file in enumerate(self.opps):
-          command = ["bin/Release/OptimaPP", f"7_Krisztian/1_mechtest/{opp_file}"]
+          command = ["bin/Release/OptimaPP", f"../Projects/Semmelweis_BCRN/BCRN/1_mechtest/{opp_file}"]
           print(f"Running: {' '.join(command)}")
           log_idx = self.xmls[idx][-1]
           with open(f"{log_location}/run_log_stac_starve_rap{log_idx}.txt", "w") as log:
               subprocess.run(command, check=True, stdout=log, stderr=subprocess.STDOUT, cwd=self.parent_path)
+
+# %%
+os.path.join(Path.cwd().parents[4], "OptimaPP")
+
 
 # %%
 class Natural_Selection:
@@ -451,7 +481,6 @@ class Natural_Selection:
             self.dict_f_corr[f"{keys[idx]}"] = self.filtered_followed.iloc[alma].copy().corr()
             self.dict_f_cov[f"{keys[idx]}"] = self.filtered_followed.iloc[alma].copy().cov()
             #self.dict_b_cov[f"{keys[idx]}"] = self.filtered_basal.iloc[alma].copy().cov()
-
 
 # %%
 def plot_correlation_distance_heatmap(dict, corr_xmls, title: str, method='fro',
@@ -575,351 +604,6 @@ def plot_correlation_distance_heatmap_leodit(dict, corr_xmls, title: str, method
     plot_it(distance_matrix, corr_xmls, corr_xmls, method, save_fig, title)
 
 # %%
-proc = Processing('species.txt')
-
-# %%
-t = np.arange(0, 5070, 30)
-food = 'stac'
-if food == 'starve':
-    exp_food = 1e-6
-elif food == 'stac':
-    exp_food = 6e-6
-else:
-    raise Exception('food must either be "starve" or "stac"')
-
-# %%
-exp_foods = ['stac', 'starve']
-must_be_zero = ['RAP', 'RK', 'RKMTORA', 'RAPOUT']
-date = datetime.datetime.now()
-date_prefix = f"{date.year}{date.month}{date.day}"
-t = np.arange(0, 5070, 30)
-sims: dict[str, Simulation] = {}
-
-for food in exp_foods:
-    if food == 'starve':
-        exp_food = 1e-6
-    elif food == 'stac':
-        exp_food = 6e-6
-    else:
-        raise Exception('food must either be "starve" or "stac"')
-
-    mod = Model(model_name='gluc_rap_mTOR', ics_df_path='../input_files/species_ics_ranges.csv',
-                dont_observe=proc.not_observables, time_points=t, time_course_vals=7e-10,
-                uncertainty=True, must_be_zero=must_be_zero, inputs={'GLUCOUT': exp_food},
-                food=food)
-
-    gen = Genesis(mod, max_digit=4)
-    gen.create_xml_files(output_xmls_path=f'/home/nvme/Opt/7_Krisztian/xml/testing_{food}',
-                         num_of_xmls=100,
-                         xml_template_path='../input_files/std_xml_template.xml',
-                         prefix=food, kiir=True)
-
-    sim = Simulation(gen, 100)
-    sim.opp_gen(opp_output_dir='/home/nvme/Opt/7_Krisztian/1_mechtest',
-                opp_name_prefix=f'{date_prefix}_testing_{food}',
-                kiir=True, mech_file='7_Krisztian/mech/Minimal_gluc_rap_mTOR_v1.inp',
-                food=food)
-
-    sim.sim_runner('/home/nvme/Opt/7_Krisztian/logs/testing')
-
-    sims[food] = sim
-
-# %%
-sim.opps
-
-# %%
-mechs: dict[str, OptimaMechtest] = {}
-for k in sims.keys():
-    mechs[k] = OptimaMechtest(sims[k].opps[0], sims[k].mech_inp_name)
-
-# %%
-plot_this = mechs['stac'].orig_time_sim_df['stac_0001']
-plt.plot(t, plot_this.AMPK + plot_this.AMPK_ATP + plot_this.AMPK_ADP + plot_this.AMPK_AMP, label='AMPK')
-plt.plot(t, plot_this.AMPKA + plot_this.AMPKA_ATP + plot_this.AMPKA_ADP + plot_this.AMPKA_AMP, label='AMPKA')
-plt.legend()
-
-# %%
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from typing import Dict, Iterable, Optional, Tuple
-
-def plot_species_summary_by_species(
-    df_starve: Dict[str, pd.DataFrame],
-    df_stac: Dict[str, pd.DataFrame],
-    species=('ATP','ADP','AMP'),
-    label_starve='starve',
-    label_stac='stac',
-    dt_minutes=30,
-    total_hours=84,
-    show_bands=True,
-    figsize=(10, 8),
-    colors: Dict[str, str] | None = None,
-):
-    """
-    One subplot per species; within each subplot, starve and stac are overlaid.
-    """
-    species = tuple(species) if not isinstance(species, str) else (species,)
-    # colors for the two conditions
-    if colors is None:
-        colors = {label_starve: 'tab:blue', label_stac: 'tab:orange'}
-
-    # stack & summarize once for all requested species
-    t_min_s, stacks_s = _align_runs(df_starve, species, dt_minutes, total_hours)
-    t_min_c, stacks_c = _align_runs(df_stac,   species, dt_minutes, total_hours)
-    S = _summarize(stacks_s)  # dict[species] -> stats arrays
-    C = _summarize(stacks_c)
-
-    # set up subplots (one per species)
-    n = len(species)
-    fig, axes = plt.subplots(1, n, figsize=figsize, sharex=True, sharey=True)
-    if n == 1:
-        axes = [axes]
-
-    def _draw_condition(ax, t_min, Summ, cond_label, color, add_labels=False):
-        if show_bands:
-            ax.fill_between(t_min, Summ['q10'], Summ['q90'], alpha=0.05, linewidth=0, color=color)
-            ax.fill_between(t_min, Summ['q25'], Summ['q75'], alpha=0.10, linewidth=0, color=color)
-        ax.plot(t_min,   Summ['mean'],   lw=2.5, color=color, label=(cond_label if add_labels else None))
-        ax.plot(t_min,   Summ['median'], lw=1.0, ls='--', color=color, alpha=0.6)
-
-    for ax, sp in zip(axes, species):
-        # starve
-        _draw_condition(ax, t_min_s, S[sp], label_starve, colors[label_starve], add_labels=True)
-        # stac
-        _draw_condition(ax, t_min_c, C[sp], label_stac,  colors[label_stac],  add_labels=True)
-
-        ax.set_title(f"{sp} Dynamics - Data Representative of N = {100} Simulations", fontsize=25)
-        ax.set_xlabel('time [min]')
-        ax.grid(alpha=0.2, linestyle=':')
-
-        total_h = int(max(t_min_s[-1], t_min_c[-1]) / 60)
-        hours = np.arange(0, total_h + 1, 6)
-        ax.set_xticks(hours * 60)
-        ax.set_xticklabels([f"{h} h" for h in hours])
-
-    axes[0].set_ylabel('Concentration [mol/cm³]')
-
-    # single legend on the last axis (deduplicated)
-    handles, labels = axes[-1].get_legend_handles_labels()
-    seen, h2, l2 = set(), [], []
-    for h, l in zip(handles, labels):
-        if l not in seen:
-            seen.add(l); h2.append(h); l2.append(l)
-    axes[-1].legend(h2, l2, frameon=False, loc='right', fontsize=20)
-    fig.patch.set_facecolor('#f8f6f6')
-    fig.tight_layout()
-    return fig
-
-
-
-# --- Examples ---
-# 1) Plot the AXP trio (adds dashed AXP total automatically)
-#fig = plot_species_summary_two_panels(mechs['starve'].orig_time_sim_df, mechs['stac'].orig_time_sim_df,
-#                                      species=('ADP','ATP','AMP'))
-
-# 2) Plot a different set (e.g., GLUCOUT and GLUCIN) — no AXP dashed line
-fig = plot_species_summary_by_species(mechs['starve'].orig_time_sim_df, mechs['stac'].orig_time_sim_df,
-                                       species='ATP')
-# plt.show()
-
-
-# %%
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from typing import Dict, Iterable, Optional, Tuple
-
-def plot_species_summary_two_panels(
-    df_starve: Dict[str, pd.DataFrame],
-    df_stac: Dict[str, pd.DataFrame],
-    species=('ADP','ATP','AMP'),
-    label_starve='starve',
-    label_stac='stac',
-    dt_minutes=30,
-    total_hours=84,
-    show_bands=True,
-    figsize=(12, 4),
-    color_map_override: Dict[str, str] | None = None
-):
-    species = tuple(species) if not isinstance(species, str) else (species,)
-
-    # --- colors ---
-    # default palette (Matplotlib “tab” colors)
-    base_palette = ['tab:blue','tab:orange','tab:red','tab:purple','tab:pink','tab:gray','tab:olive','tab:cyan','tab:green','tab:brown']
-    # prefer classic set when user wants blue/orange/red/magenta
-    classic_pref = ['tab:blue','tab:orange','tab:red','green']
-    # map species to colors deterministically
-    cmap = {}
-    if color_map_override:
-        cmap.update(color_map_override)
-    i = 0
-    for sp in species:
-        if sp not in cmap:
-            # use classic first, then fall back to base
-            palette = classic_pref + base_palette
-            cmap[sp] = palette[i % len(palette)]
-            i += 1
-
-    t_min_s, stacks_s = _align_runs(df_starve, species, dt_minutes, total_hours)
-    t_min_c, stacks_c = _align_runs(df_stac,   species, dt_minutes, total_hours)
-    S = _summarize(stacks_s)
-    C = _summarize(stacks_c)
-
-    AXP_SET = {'ADP','ATP','AMP'}
-    plot_axp = AXP_SET.issubset(set(species))
-    if plot_axp:
-        axp_mean_s = (stacks_s['ATP'] + stacks_s['ADP'] + stacks_s['AMP']).mean(axis=0)
-        axp_mean_c = (stacks_c['ATP'] + stacks_c['ADP'] + stacks_c['AMP']).mean(axis=0)
-
-    fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
-
-    def _panel(ax, t_min, Summ, title, axp_mean=None, add_labels=False):
-        if show_bands:
-            # faint 10–90, slightly stronger IQR (compact look)
-            for sp in species:
-                col = cmap[sp]
-                ax.fill_between(t_min, Summ[sp]['q10'], Summ[sp]['q90'], alpha=0.05, linewidth=0, color=col)
-                ax.fill_between(t_min, Summ[sp]['q25'], Summ[sp]['q75'], alpha=0.10, linewidth=0, color=col)
-
-        # bold mean, thin median
-        for sp in species:
-            col = cmap[sp]
-            ax.plot(t_min, Summ[sp]['mean'], lw=2.5, color=col, label=(sp if add_labels else None))
-            ax.plot(t_min, Summ[sp]['median'], lw=1.0, ls='--', color=col, alpha=0.6)
-
-        if axp_mean is not None:
-            ax.plot(t_min, axp_mean, lw=1.6, ls=':', color='black', alpha=0.7, label=('AXP mean' if add_labels else None))
-
-        ax.set_title(title)
-        ax.set_xlabel('time [min]')
-        ax.grid(alpha=0.2, linestyle=':')
-        total_h = int(t_min[-1] / 60)
-        hours = np.arange(0, total_h + 1, 6)
-        ax.set_xticks(hours * 60)
-        ax.set_xticklabels([f"{h} h" for h in hours])
-        if add_labels:
-            ax.legend(frameon=False, loc='upper right', ncol=1)
-
-    n_runs_left = S[next(iter(S))]['n']
-    _panel(axes[0], t_min_s, S, f"AXP Dynamics — {label_starve} (n={n_runs_left})",
-           axp_mean_s if plot_axp else None, add_labels=True)
-
-    n_runs_right = C[next(iter(C))]['n']
-    _panel(axes[1], t_min_c, C, f"AXP Dynamics — {label_stac} (n={n_runs_right})",
-           axp_mean_c if plot_axp else None, add_labels=False)
-
-    axes[0].set_ylabel('Concentration [mol/cm³]')
-    fig.tight_layout()
-    return fig
-
-
-
-# --- Examples ---
-# 1) Plot the AXP trio (adds dashed AXP total automatically)
-#fig = plot_species_summary_two_panels(mechs['starve'].orig_time_sim_df, mechs['stac'].orig_time_sim_df,
-#                                      species=('ADP','ATP','AMP'))
-
-# 2) Plot a different set (e.g., GLUCOUT and GLUCIN) — no AXP dashed line
-fig = plot_species_summary_two_panels(mechs['starve'].orig_time_sim_df, mechs['stac'].orig_time_sim_df,
-                                       species=('ATP', 'ADP', 'AMP'))
-# plt.show()
-
-
-# %%
-def plot_compare_summary_by_condition(
-    df_dict_a: Dict[str, pd.DataFrame],
-    df_dict_b: Dict[str, pd.DataFrame],
-    label_a: str = 'stac',
-    label_b: str = 'starve',
-    species=('ATP','ADP','AMP'),
-    dt_minutes=30,
-    total_hours=84,
-    n_sample_trajs=8,
-    show_axp=True,
-    figsize=(13, 4)
-):
-    species = _normalize_species(species)
-    n_expected = int(total_hours*60/dt_minutes + 1)
-
-    # stack & summarize for each condition (all requested species)
-    idx_a, Xa = _stack_runs(df_dict_a, species, n_expected)
-    idx_b, Xb = _stack_runs(df_dict_b, species, n_expected)
-    t_h_a = (idx_a.values - 1) * dt_minutes / 60.0
-    t_h_b = (idx_b.values - 1) * dt_minutes / 60.0
-
-    qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)  # shapes: [time, n_species]
-    qb10, qb25, qbmed, qb75, qb90, qbmean = _summary(Xb)
-
-    fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True)
-    ax_a, ax_b = axes
-
-    rng = np.random.default_rng(0)
-    samp_a = rng.choice(Xa.shape[0], size=min(n_sample_trajs, Xa.shape[0]), replace=False)
-    samp_b = rng.choice(Xb.shape[0], size=min(n_sample_trajs, Xb.shape[0]), replace=False)
-
-    # helper to plot one condition with all species overlaid
-    def _plot_condition(ax, t, X, q10, q25, qmed, q75, q90, qmean, label):
-        # thin sample trajectories (light lines) for each species
-        for si, sp in enumerate(species):
-            for ridx in (samp_a if label == label_a else samp_b):
-                ax.plot(t, X[ridx, :, si], lw=0.5, alpha=0.15)
-
-            # 80% & IQR bands per species
-            ax.fill_between(t, q10[:, si], q90[:, si], alpha=0.10, linewidth=0, label=f'{sp} 10–90%')
-            ax.fill_between(t, q25[:, si], q75[:, si], alpha=0.18, linewidth=0, label=f'{sp} IQR')
-
-            # mean (solid) + median (dashed)
-            ax.plot(t, qmean[:, si], lw=2, label=f'{sp} mean')
-            ax.plot(t, qmed[:, si], lw=1, linestyle='--', label=f'{sp} median')
-
-        if show_axp:
-            ax.plot(t, qmean.sum(axis=1), lw=1.3, linestyle=':', label='AXP mean (ATP+ADP+AMP)')
-
-        ax.set_title(label)
-        ax.set_xlim(0, total_hours)
-        ax.set_xticks(np.arange(0, total_hours+0.1, 6))
-        ax.set_xlabel('time [h]')
-        ax.set_ylabel('concentration [mol/cm³]')
-
-    _plot_condition(ax_a, t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean, label_a)
-    _plot_condition(ax_b, t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean, label_b)
-
-    # one compact legend on the right plot
-    handles, labels = ax_b.get_legend_handles_labels()
-    # de-duplicate legend entries while preserving order
-    seen, h2, l2 = set(), [], []
-    for h, l in zip(handles, labels):
-        if l not in seen:
-            seen.add(l)
-            h2.append(h); l2.append(l)
-    ax_b.legend(h2, l2, frameon=False, loc='upper right', ncol=1)
-
-    fig.suptitle(f"AXP dynamics summary — species overlaid per condition", y=1.03)
-    fig.tight_layout()
-    return fig
-
-# --- Example call ---
-fig = plot_compare_summary_by_condition(
-    mechs['stac'].orig_time_sim_df,
-    mechs['starve'].orig_time_sim_df,
-    label_a='stac', label_b='starve',
-    species=('ATP','ADP','AMP'),
-    dt_minutes=30, total_hours=84,
-    n_sample_trajs=50, show_axp=True,
-    figsize=(14, 4)
-)
-plt.show()
-
-
-# %%
-sejeong_gluc = pd.read_csv('../input_files/sejeong_gluc_cc_starve.csv')
-sejeong_gluc.t = sejeong_gluc.t
-sejeong_gluc.y = sejeong_gluc.y * 1e-6
-sejeong_gluc.sigma = sejeong_gluc.sigma * 1e-6
-sejeong_gluc
-
-# %%
 from typing import Dict, Iterable, Optional, Tuple
 
 def _normalize_species(species):
@@ -955,6 +639,241 @@ def _summary(X: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndar
     mean = X.mean(axis=0)
     return q10, q25, med, q75, q90, mean
 
+def _spread(y_values, min_gap):
+    """
+    Given a list of y positions, return adjusted positions so that
+    consecutive labels are at least `min_gap` apart (in data units),
+    while preserving ordering as much as possible.
+    """
+    y = np.array(y_values, dtype=float)
+    order = np.argsort(y)
+    y_sorted = y[order]
+
+    adj = np.empty_like(y_sorted)
+    prev = -np.inf
+    for i, val in enumerate(y_sorted):
+        if val <= prev + min_gap:
+            adj[i] = prev + min_gap
+        else:
+            adj[i] = val
+        prev = adj[i]
+
+    result = np.empty_like(adj)
+    result[order] = adj
+    return result
+
+def plot_compare_summary_gluc(
+    df_dict_a: Dict[str, pd.DataFrame],
+    df_dict_b: Dict[str, pd.DataFrame],
+    label_a: str = 'cond A',
+    label_b: str = 'cond B',
+    species=('ATP','ADP','AMP'),
+    dt_minutes=30,
+    total_hours=84,
+    show_iqr: bool = True,
+    show_p80: bool = False,
+    show_mean: bool = True,
+    show_median: bool = False,
+    sample_trajs: int = 0,
+    traj_alpha: float = 0.10,
+    band_alpha_iqr: float = 0.20,
+    band_alpha_p80: float = 0.10,
+    legend_pos: str = "below",
+    show_axp: bool = True,
+    y_label = r'concentration $[\frac{mol}{cm^{3}}]$',
+    figsize=(12, 8),
+    curve_labels=False
+):
+
+    species = _normalize_species(species)
+    n_expected = int(total_hours*60/dt_minutes + 1)
+
+    idx_a, Xa = _stack_runs(df_dict_a, species, n_expected)
+    idx_b, Xb = _stack_runs(df_dict_b, species, n_expected)
+    t_h_a = (idx_a.values - 1) * dt_minutes / 60.0
+    t_h_b = (idx_b.values - 1) * dt_minutes / 60.0
+
+    qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)
+    qb10, qb25, qbmed, qb75, qb90, qbmean = _summary(Xb)
+
+    fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+    if len(species) == 1:
+        axes = [axes]
+
+    rng = np.random.default_rng(0)
+    samp_a = rng.choice(Xa.shape[0], size=min(sample_trajs, Xa.shape[0]),
+                        replace=False) if sample_trajs else []
+    samp_b = rng.choice(Xb.shape[0], size=min(sample_trajs, Xb.shape[0]),
+                        replace=False) if sample_trajs else []
+
+    for si, sp in enumerate(species):
+        ax = axes[si]
+
+        for ridx in samp_a:
+            ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
+        for ridx in samp_b:
+            ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
+
+        if show_p80:
+            ax.fill_between(t_h_a, qa10[:, si], qa90[:, si],
+                            alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
+        if show_iqr:
+            ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
+                            alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
+
+        if show_p80:
+            ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
+                            alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
+        if show_iqr:
+            ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
+                            alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
+
+        if curve_labels:
+            y0_a = qamean[0, si]
+            y0_b = qbmean[0, si]
+            ax.text(-2.5, y0_a, f"{label_a}", color='tab:blue', va='center', ha='right',
+                    fontsize=12, weight='bold')
+            ax.text(-2.5, y0_b, f"{label_b}", color='tab:orange', va='center', ha='right',
+                    fontsize=12, weight='bold')
+
+        if show_mean:
+            ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
+            ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
+        if show_median:
+            ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--', label=f'{label_a} median')
+            ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--', label=f'{label_b} median')
+
+        ax.set_title("Extracellular Glucose Concentrations - Simulations and Measurements",
+                     fontsize=19)
+        ax.set_xlim(-0.2, total_hours)
+        ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+        if si == 0:
+            ax.set_ylabel(y_label, fontsize=18)
+        ax.set_xlabel('time [h]', fontsize=15)
+        ax.grid(alpha=0.2, linestyle=':')
+
+        # ------- EXP DATA + SQUARED ERROR QUANTIFICATION (GLUCOUT only) -------
+        if sp == 'GLUCOUT' and (label_a == 'Starved' or label_b == 'Starved'):
+            # experimental data
+            ax.errorbar(
+                sejeong_gluc.t,
+                sejeong_gluc.y,
+                yerr=sejeong_gluc.sigma,
+                fmt='x',
+                capsize=5,
+                lw=1.8,
+                markersize=5,
+                color='tab:red',
+                ecolor='tab:red',
+                elinewidth=2,
+                alpha=0.9,
+                label='Experimental Data'
+            )
+
+            # squared errors between experimental data and sim mean (cond A)
+            mean_sim = qamean[:, si]                            # mean curve for GLUCOUT
+            sim_at_meas = np.interp(sejeong_gluc.t, t_h_a, mean_sim)
+            sq_errors = (sim_at_meas - sejeong_gluc.y) ** 2
+            sse = sq_errors.sum()
+            mse = sq_errors.mean()
+            rmse = np.sqrt(mse)
+
+            # print to console (optional)
+            print(f"[GLUCOUT] SSE = {sse:.4e}, RMSE = {rmse:.4e}")
+
+            # show on the plot
+            ax.text(
+                0.98, 0.82,
+                r"$\sum (y_{\mathrm{sim}}-y_{\mathrm{exp}})^2$"
+                + f" = {sse:.2e}\nRMSE = {rmse:.2e}",
+                transform=ax.transAxes,
+                ha='right', va='bottom',
+                fontsize=20,
+                bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="none", alpha=0.7)
+            )
+        # ----------------------------------------------------------------------
+
+    if show_axp and set(species) == {'ATP','ADP','AMP'}:
+        axes[0].plot(t_h_a, qamean.sum(axis=1), lw=1.2, linestyle=':',
+                     label=f'AXP mean – {label_a}')
+        axes[0].plot(t_h_b, qbmean.sum(axis=1), lw=1.2, linestyle=':',
+                     label=f'AXP mean – {label_b}')
+
+    handles, labels = axes[0].get_legend_handles_labels()
+    if legend_pos == "below":
+        fig.legend(handles, labels, frameon=False, loc='lower center',
+                   bbox_to_anchor=(0.5, -0.01), ncol=6, fontsize=15)
+        fig.tight_layout(rect=[0, 0.06, 1, 1])
+    elif legend_pos == "above":
+        fig.legend(handles, labels, frameon=False, loc='upper center',
+                   bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=15)
+        fig.tight_layout(rect=[0, 0, 1, 0.94])
+    else:
+        axes[-1].legend(handles, labels, frameon=False, loc='upper right')
+        fig.tight_layout()
+
+    fig.patch.set_facecolor('white')
+    return fig
+
+# %%
+from typing import Dict, Iterable, Optional, Tuple
+
+def _normalize_species(species):
+    if isinstance(species, str):
+        return (species,)
+    return tuple(species)
+
+def _stack_runs(df_dict, species, n_expected=None):
+    species = _normalize_species(species)
+    max_idx = max(df.index.max() for df in df_dict.values())
+    if n_expected is not None:
+        max_idx = max(max_idx, n_expected)
+    idx = pd.RangeIndex(1, max_idx + 1)
+
+    mats = []
+    for _, df in df_dict.items():
+        tmp = (df.sort_index()
+                 .reindex(idx)
+                 .apply(pd.to_numeric, errors='coerce')
+                 .ffill().bfill())
+        if set(species).issubset(tmp.columns):
+            mats.append(tmp.loc[:, list(species)].to_numpy())
+    if not mats:
+        raise ValueError(f"No runs contained the requested species: {species}")
+    return idx, np.stack(mats, axis=0)
+
+def _summary(X: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    q10 = np.quantile(X, 0.10, axis=0)
+    q25 = np.quantile(X, 0.25, axis=0)
+    med  = np.quantile(X, 0.50, axis=0)
+    q75 = np.quantile(X, 0.75, axis=0)
+    q90 = np.quantile(X, 0.90, axis=0)
+    mean = X.mean(axis=0)
+    return q10, q25, med, q75, q90, mean
+
+def _spread(y_values, min_gap):
+    """
+    Given a list of y positions, return adjusted positions so that
+    consecutive labels are at least `min_gap` apart (in data units),
+    while preserving ordering as much as possible.
+    """
+    y = np.array(y_values, dtype=float)
+    order = np.argsort(y)
+    y_sorted = y[order]
+
+    adj = np.empty_like(y_sorted)
+    prev = -np.inf
+    for i, val in enumerate(y_sorted):
+        if val <= prev + min_gap:
+            adj[i] = prev + min_gap
+        else:
+            adj[i] = val
+        prev = adj[i]
+
+    result = np.empty_like(adj)
+    result[order] = adj
+    return result
+
 def plot_compare_summary(
     df_dict_a: Dict[str, pd.DataFrame],
     df_dict_b: Dict[str, pd.DataFrame],
@@ -963,7 +882,9 @@ def plot_compare_summary(
     species=('ATP','ADP','AMP'),
     dt_minutes=30,
     total_hours=84,
-    # ---- new controls ----
+    # ---- layout switch ----
+    layout_mode: str = "species",   # "species" | "condition"
+    # ---- stat controls ----
     show_iqr: bool = True,
     show_p80: bool = False,
     show_mean: bool = True,
@@ -976,14 +897,66 @@ def plot_compare_summary(
     # -----------------------
     show_axp: bool = True,          # only used if plotting the AXP trio
     figsize=(12, 8),
-    curve_labels=False
+    curve_labels: bool = False,
+    curve_label_min_gap_frac: float = 0.02,
+    curve_label_xpad: float = -3.0,
+    curve_label_connectors: bool = True,
+    # ---- NEW: separate figures per species ----
+    multi_fig: bool = False,
 ):
     """
     Compare conditions A vs B for the given species.
-    You can toggle which summary statistics to draw and how many single-run
-    trajectories to overlay (thin lines).
+
+    layout_mode = "species":
+        One subplot per species. Each subplot shows both conditions.
+
+    layout_mode = "condition":
+        Two subplots (A, B). Each subplot shows all species for that condition.
+
+    multi_fig = True:
+        Instead of one figure for all species, return a *list of figures*,
+        one figure per species, using the chosen layout_mode.
     """
+    if layout_mode not in {"species", "condition"}:
+        raise ValueError('layout_mode must be "species" or "condition".')
+
     species = _normalize_species(species)
+
+    # --- NEW: create one fig per species if requested -------------------
+    if multi_fig and len(species) > 1:
+        figs = []
+        for sp in species:
+            figs.append(
+                plot_compare_summary(
+                    df_dict_a=df_dict_a,
+                    df_dict_b=df_dict_b,
+                    label_a=label_a,
+                    label_b=label_b,
+                    species=(sp,),
+                    dt_minutes=dt_minutes,
+                    total_hours=total_hours,
+                    layout_mode=layout_mode,
+                    show_iqr=show_iqr,
+                    show_p80=show_p80,
+                    show_mean=show_mean,
+                    show_median=show_median,
+                    sample_trajs=sample_trajs,
+                    traj_alpha=traj_alpha,
+                    band_alpha_iqr=band_alpha_iqr,
+                    band_alpha_p80=band_alpha_p80,
+                    legend_pos=legend_pos,
+                    show_axp=show_axp,
+                    figsize=figsize,
+                    curve_labels=curve_labels,
+                    curve_label_min_gap_frac=curve_label_min_gap_frac,
+                    curve_label_xpad=curve_label_xpad,
+                    curve_label_connectors=curve_label_connectors,
+                    multi_fig=False,      # avoid infinite recursion
+                )
+            )
+        return figs
+    # --------------------------------------------------------------------
+
     n_expected = int(total_hours*60/dt_minutes + 1)
 
     # stack & summarize
@@ -995,115 +968,1466 @@ def plot_compare_summary(
     qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)
     qb10, qb25, qbmed, qb75, qb90, qbmean = _summary(Xb)
 
-    fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
-    if len(species) == 1:
-        axes = [axes]
-
-    # prepare sampling of individual trajectories
     rng = np.random.default_rng(0)
     samp_a = rng.choice(Xa.shape[0], size=min(sample_trajs, Xa.shape[0]), replace=False) if sample_trajs else []
     samp_b = rng.choice(Xb.shape[0], size=min(sample_trajs, Xb.shape[0]), replace=False) if sample_trajs else []
 
-    for si, sp in enumerate(species):
-        ax = axes[si]
+    legend_data = {label_a: {}, label_b: {}}
 
-        # optional thin single-run trajectories
-        for ridx in samp_a:
-            ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
-        for ridx in samp_b:
-            ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
+    # ---------------- LAYOUT 1: one subplot per species ----------------
+    if layout_mode == "species":
+        fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+        if len(species) == 1:
+            axes = [axes]
 
-        # condition A bands
-        if show_p80:
-            ax.fill_between(t_h_a, qa10[:, si], qa90[:, si],
-                            alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
+        for si, sp in enumerate(species):
+            ax = axes[si]
+
+            for ridx in samp_a:
+                ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
+            for ridx in samp_b:
+                ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
+
+            if show_p80:
+                ax.fill_between(t_h_a, qa10[:, si], qa90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
+
+            if show_p80:
+                ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
+
+            if curve_labels:
+                y0_a = qamean[0, si]
+                y0_b = qbmean[0, si]
+                ax.text(-2.5, y0_a, f"{label_a}", color='tab:blue',
+                        va='center', ha='right', fontsize=12, weight='bold')
+                ax.text(-2.5, y0_b, f"{label_b}", color='tab:orange',
+                        va='center', ha='right', fontsize=12, weight='bold')
+
+            if show_mean:
+                ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
+                ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
+            if show_median:
+                ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--', label=f'{label_a} median')
+                ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--', label=f'{label_b} median')
+
+            ax.set_title(f"Time Profile of {sp} Dynamics for N = {Xa.shape[0]} Simulations", fontsize=20)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            if si == 0:
+                ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+            ax.set_xlabel('time [h]', fontsize=12)
+            ax.grid(alpha=0.2, linestyle=':')
+
+            if sp == 'GLUCOUT' and (label_a == 'Starved' or label_b == 'Starved'):
+                ax.errorbar(
+                    sejeong_gluc.t,
+                    sejeong_gluc.y,
+                    yerr=sejeong_gluc.sigma,
+                    fmt='x',
+                    capsize=5,
+                    lw=1.8,
+                    markersize=5,
+                    color='tab:red',
+                    ecolor='tab:red',
+                    elinewidth=2,
+                    alpha=0.9
+                )
+
+    # ---------------- LAYOUT 2: one subplot per condition ----------------
+    else: # stac vs starve
+        fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
+
+        def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
+                                  samp_idx, cond_label, bucket):
+            first_for_stat = True
+            sp_colors = {}
+
+            for si, sp in enumerate(species):
+                for ridx in samp_idx:
+                    ax.plot(t_h, X[ridx, :, si], lw=0.6, alpha=traj_alpha, label='_nolegend_')
+
+                if show_p80:
+                    band = ax.fill_between(
+                        t_h, q10[:, si], q90[:, si],
+                        alpha=band_alpha_p80, linewidth=0
+                    )
+                    if first_for_stat:
+                        bucket[('P80', None)] = band
+                if show_iqr:
+                    band = ax.fill_between(
+                        t_h, q25[:, si], q75[:, si],
+                        alpha=band_alpha_iqr, linewidth=0
+                    )
+                    if first_for_stat:
+                        bucket[('IQR', None)] = band
+
+                if show_mean:
+                    line = ax.plot(t_h, qmean[:, si], lw=2)[0]
+                    sp_colors[sp] = line.get_color()
+                    bucket[('mean', sp)] = line
+                if show_median:
+                    line = ax.plot(t_h, qmed[:, si], lw=1, linestyle='--')[0]
+                    bucket[('median', sp)] = line
+
+                first_for_stat = False
+
+            if cond_label == 'Starved':
+                ax.set_title(f"Starvation AXP Dynamics for N = {X.shape[0]} simulations", fontsize=15)
+            else:
+                ax.set_title(f"Basal State AXP Dynamics for N = {X.shape[0]} simulations", fontsize=15)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            ax.set_xlabel('time [h]', fontsize=12)
+            ax.grid(alpha=0.2, linestyle=':')
+
+            # left species labels
+            if curve_labels and show_mean:
+                y0s = [qmean[0, si] for si in range(len(species))]
+                y_min, y_max = ax.get_ylim()
+                y_range = max(1e-12, (y_max - y_min))
+                y_labs = _spread(y0s, curve_label_min_gap_frac * y_range)
+
+                x_min, x_max = ax.get_xlim()
+                ax.set_xlim(0, x_max)
+
+                for sp, y_lab, y_true in zip(species, y_labs, y0s):
+                    col = sp_colors.get(sp, 'black')
+                    ax.text(curve_label_xpad, y_lab, sp,
+                            color=col, va='center', ha='right',
+                            fontsize=12, weight='bold')
+                    if curve_label_connectors:
+                        ax.plot([curve_label_xpad + 0.2, 0],
+                                [y_lab, y_true],
+                                lw=2.0, alpha=0.6, color=col,
+                                label='_nolegend_',
+                                clip_on=False)
+
+        _plot_condition_panel(axes[0], t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean,
+                              samp_a, label_a, legend_data[label_a])
+        _plot_condition_panel(axes[1], t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean,
+                              samp_b, label_b, legend_data[label_b])
+
+        axes[0].set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+
+        # --- NEW: force y-ticks/labels on the right subplot as well -----
+        axes[1].tick_params(labelleft=True)
+        # ----------------------------------------------------------------
+
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            line_a = axes[0].plot(t_h_a, qamean.sum(axis=1), lw=1.2, linestyle=':')[0]
+            line_b = axes[1].plot(t_h_b, qbmean.sum(axis=1), lw=1.2, linestyle=':')[0]
+            legend_data[label_a][('AXP_mean', None)] = line_a
+            legend_data[label_b][('AXP_mean', None)] = line_b
+
+    # -------- legend placement (same as your last version) -------------
+    if layout_mode == "condition" and legend_pos in {"below", "above"}:
+        cols = []
         if show_iqr:
-            ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
-                            alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
-
-        # condition B bands
+            cols.append(('IQR', None))
         if show_p80:
-            ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
-                            alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
-        if show_iqr:
-            ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
-                            alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
+            cols.append(('P80', None))
+        for sp in species:
+            if show_mean:
+                cols.append(('mean', sp))
+            if show_median:
+                cols.append(('median', sp))
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            cols.append(('AXP_mean', None))
 
-        # add labels near t=0
-        if curve_labels:
-            y0_a = qamean[0, si]
-            y0_b = qbmean[0, si]
-            ax.text(-2.5, y0_a, f"{label_a}", color='tab:blue', va='center', ha='right', fontsize=12, weight='bold')
-            ax.text(-2.5, y0_b, f"{label_b}", color='tab:orange', va='center', ha='right', fontsize=12, weight='bold')
+        def desc_str(key):
+            kind, sp = key
+            if kind == 'IQR':
+                return 'IQR'
+            if kind == 'P80':
+                return '10–90%'
+            if kind == 'mean' and sp is not None:
+                return f'{sp} mean'
+            if kind == 'median' and sp is not None:
+                return f'{sp} median'
+            if kind == 'AXP_mean':
+                return 'AXP mean'
+            return str(key)
 
-        # central tendency lines
-        if show_mean:
-            ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
-            ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
-        if show_median:
-            ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--', label=f'{label_a} median')
-            ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--', label=f'{label_b} median')
+        handles, labels = [], []
+        for cond_label in (label_a, label_b):
+            bucket = legend_data[cond_label]
+            for key in cols:
+                h = bucket.get(key)
+                if h is not None:
+                    handles.append(h)
+                    labels.append(f"{cond_label} {desc_str(key)}")
 
-        # axis cosmetics
-        ax.set_title(f"Extracellular Glucose (GLUCOUT) Concentrations for Basal and Starved Cells", fontsize=20)
-        ax.set_xlim(0, total_hours)
-        ax.set_xticks(np.arange(0, total_hours+0.1, 6))
-        if si == 0:
-            ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
-        ax.set_xlabel('time [h]', fontsize=15)
-        ax.grid(alpha=0.2, linestyle=':')
+        ncol = len(cols) if cols else 1
+    else:
+        if layout_mode == "condition":
+            h0, l0 = axes[0].get_legend_handles_labels()
+            h1, l1 = axes[1].get_legend_handles_labels()
+            handles, labels = list(h0), list(l0)
+            for h, lab in zip(h1, l1):
+                if lab not in labels:
+                    handles.append(h)
+                    labels.append(lab)
+        else:
+            handles, labels = axes[0].get_legend_handles_labels()
+        ncol = 6
 
-        if sp == 'GLUCOUT' and (label_a == 'Starved' or label_b == 'Starved'):
-            plt.errorbar(
-            sejeong_gluc.t,             # x-values
-            sejeong_gluc.y,             # y-values
-            yerr=sejeong_gluc.sigma,    # error bars
-            fmt='x',                   # circles with line
-            capsize=5,                  # small caps on error bars
-            lw=1.8,                     # line width
-            markersize=5,
-            color='tab:red',
-            ecolor='tab:red',          # color of error bars
-            elinewidth=2,
-            alpha=0.9
-            )
-
-    # Optional AXP (ATP+ADP+AMP) dashed overlays on the first axis
-    if show_axp and set(species) == {'ATP','ADP','AMP'}:
-        axes[0].plot(t_h_a, qamean.sum(axis=1), lw=1.2, linestyle=':', label=f'AXP mean – {label_a}')
-        axes[0].plot(t_h_b, qbmean.sum(axis=1), lw=1.2, linestyle=':', label=f'AXP mean – {label_b}')
-
-    # shared legend placement
-    handles, labels = axes[0].get_legend_handles_labels()
     if legend_pos == "below":
         fig.legend(handles, labels, frameon=False, loc='lower center',
-                   bbox_to_anchor=(0.5, -0.01), ncol=6, fontsize=12)
+                   bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
         fig.tight_layout(rect=[0, 0.06, 1, 1])
     elif legend_pos == "above":
         fig.legend(handles, labels, frameon=False, loc='upper center',
-                   bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=12)
+                   bbox_to_anchor=(0.5, 1.15), ncol=ncol, fontsize=12)
         fig.tight_layout(rect=[0, 0, 1, 0.94])
-    else:  # inside (previous behavior)
+    else:
         axes[-1].legend(handles, labels, frameon=False, loc='upper right')
+        fig.tight_layout()
+
+    fig.patch.set_facecolor('white')
+    #fig.subplots_adjust(left=0.22)
+    return fig
+
+# %%
+def plot_compare_summary_ampk(
+    df_dict_a: Dict[str, pd.DataFrame],
+    df_dict_b: Dict[str, pd.DataFrame],
+    label_a: str = 'cond A',
+    label_b: str = 'cond B',
+    species=('ATP','ADP','AMP'),
+    dt_minutes=30,
+    total_hours=84,
+    # ---- layout switch ----
+    layout_mode: str = "species",   # "species" | "condition"
+    # ---- stat controls ----
+    show_iqr: bool = True,
+    show_p80: bool = False,
+    show_mean: bool = True,
+    show_median: bool = False,
+    sample_trajs: int = 0,          # 0 -> no thin trajectories
+    traj_alpha: float = 0.10,
+    band_alpha_iqr: float = 0.20,
+    band_alpha_p80: float = 0.10,
+    legend_pos: str = "below",      # "below" | "above" | "inside"
+    # -----------------------
+    show_axp: bool = True,          # only used if plotting the AXP trio
+    figsize=(12, 8),
+    curve_labels: bool = False,
+    curve_label_min_gap_frac: float = 0.02,
+    curve_label_xpad: float = -3.0,
+    curve_label_connectors: bool = True,
+    # ---- separate figures ----
+    multi_fig: bool = False,        # one fig per *species*
+    separate_conditions: bool = False,  # only used if layout_mode="condition"
+    user_title='',
+    curve_label_xfrac=1,
+    curve_label_y_offset_frac=0.02
+):
+    """
+    Compare conditions A vs B for the given species.
+
+    layout_mode = "species":
+        One subplot per species. Each subplot shows both conditions.
+
+    layout_mode = "condition":
+        Two panels (A, B). Each panel shows all species for that condition.
+
+    multi_fig = True:
+        Instead of one figure for all species, return a list of figures, one
+        per species (using the chosen layout_mode).
+
+    separate_conditions = True (with layout_mode="condition"):
+        Instead of a single figure with two subplots, return two separate
+        figures: (fig_A, fig_B).
+    """
+    if layout_mode not in {"species", "condition"}:
+        raise ValueError('layout_mode must be "species" or "condition".')
+
+    species = _normalize_species(species)
+
+    # --- one fig per species if requested -------------------
+    if multi_fig and len(species) > 1:
+        figs = []
+        for sp in species:
+            figs.append(
+                plot_compare_summary(
+                    df_dict_a=df_dict_a,
+                    df_dict_b=df_dict_b,
+                    label_a=label_a,
+                    label_b=label_b,
+                    species=(sp,),
+                    dt_minutes=dt_minutes,
+                    total_hours=total_hours,
+                    layout_mode=layout_mode,
+                    show_iqr=show_iqr,
+                    show_p80=show_p80,
+                    show_mean=show_mean,
+                    show_median=show_median,
+                    sample_trajs=sample_trajs,
+                    traj_alpha=traj_alpha,
+                    band_alpha_iqr=band_alpha_iqr,
+                    band_alpha_p80=band_alpha_p80,
+                    legend_pos=legend_pos,
+                    show_axp=show_axp,
+                    figsize=figsize,
+                    curve_labels=curve_labels,
+                    curve_label_min_gap_frac=curve_label_min_gap_frac,
+                    curve_label_xpad=curve_label_xpad,
+                    curve_label_connectors=curve_label_connectors,
+                    multi_fig=False,
+                    separate_conditions=separate_conditions,
+                    user_title=user_title
+                )
+            )
+        return figs
+    # --------------------------------------------------------
+
+    n_expected = int(total_hours*60/dt_minutes + 1)
+
+    idx_a, Xa = _stack_runs(df_dict_a, species, n_expected)
+    idx_b, Xb = _stack_runs(df_dict_b, species, n_expected)
+    t_h_a = (idx_a.values - 1) * dt_minutes / 60.0
+    t_h_b = (idx_b.values - 1) * dt_minutes / 60.0
+
+    qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)
+    qb10, qb25, qbmed, qb75, qb90, qbmean = _summary(Xb)
+
+    rng = np.random.default_rng(0)
+    samp_a = rng.choice(Xa.shape[0], size=min(sample_trajs, Xa.shape[0]),
+                        replace=False) if sample_trajs else []
+    samp_b = rng.choice(Xb.shape[0], size=min(sample_trajs, Xb.shape[0]),
+                        replace=False) if sample_trajs else []
+
+    legend_data = {label_a: {}, label_b: {}}
+
+    # ---------------- LAYOUT 1: one subplot per species ----------------
+    if layout_mode == "species":
+        fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+        if len(species) == 1:
+            axes = [axes]
+
+        for si, sp in enumerate(species):
+            ax = axes[si]
+
+            for ridx in samp_a:
+                ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
+            for ridx in samp_b:
+                ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
+
+            if show_p80:
+                ax.fill_between(t_h_a, qa10[:, si], qa90[:, si],
+                                alpha=band_alpha_p80, linewidth=0,
+                                label=f'{label_a} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0,
+                                label=f'{label_a} IQR')
+
+            if show_p80:
+                ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
+                                alpha=band_alpha_p80, linewidth=0,
+                                label=f'{label_b} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0,
+                                label=f'{label_b} IQR')
+
+            if curve_labels:
+                y0_a = qamean[0, si]
+                y0_b = qbmean[0, si]
+                ax.text(-2.5, y0_a, f"{label_a}", color='tab:blue',
+                        va='center', ha='right', fontsize=12, weight='bold')
+                ax.text(-2.5, y0_b, f"{label_b}", color='tab:orange',
+                        va='center', ha='right', fontsize=12, weight='bold')
+
+            if show_mean:
+                ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
+                ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
+            if show_median:
+                ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--',
+                        label=f'{label_a} median')
+                ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--',
+                        label=f'{label_b} median')
+
+            ax.set_title(
+                f"Time Profile of {sp} Dynamics for N = {Xa.shape[0]} Simulations",
+                fontsize=20
+            )
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            if si == 0:
+                ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+            ax.set_xlabel('time [h]', fontsize=12)
+            ax.grid(alpha=0.2, linestyle=':')
+
+        # legend for layout_mode="species"
+        handles, labels = axes[0].get_legend_handles_labels()
+        ncol = 6
+
+        if legend_pos == "below":
+            fig.legend(handles, labels, frameon=False, loc='lower center',
+                       bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
+            fig.tight_layout(rect=[0, 0.06, 1, 1])
+        elif legend_pos == "above":
+            fig.legend(handles, labels, frameon=False, loc='upper center',
+                       bbox_to_anchor=(0.5, 1.15), ncol=ncol, fontsize=12)
+            fig.tight_layout(rect=[0, 0, 1, 0.94])
+        elif legend_pos == 'none':
+            pass
+        else:
+            axes[-1].legend(handles, labels, frameon=False, loc='upper right')
+            fig.tight_layout()
+
+        fig.patch.set_facecolor('white')
+        return fig
+
+    # ---------------- LAYOUT 2: condition layout ----------------
+    # option A: separate figures per condition
+    if separate_conditions:
+        figs = []
+
+        def _single_condition_fig(t_h, X, q10, q25, qmed, q75, q90, qmean,
+                                  samp_idx, cond_label):
+            fig_c, ax = plt.subplots(1, 1, figsize=figsize)
+
+            sp_colors = {}
+            for si, sp in enumerate(species):
+                for ridx in samp_idx:
+                    ax.plot(t_h, X[ridx, :, si], lw=0.6, alpha=traj_alpha,
+                            label='_nolegend_')
+
+                if show_p80:
+                    ax.fill_between(t_h, q10[:, si], q90[:, si],
+                                    alpha=band_alpha_p80, linewidth=0,
+                                    label='_nolegend_')
+                if show_iqr:
+                    ax.fill_between(t_h, q25[:, si], q75[:, si],
+                                    alpha=band_alpha_iqr, linewidth=0,
+                                    label='_nolegend_')
+
+                if show_mean:
+                    line = ax.plot(t_h, qmean[:, si], lw=2,
+                                   label=f"{sp} mean")[0]
+                    sp_colors[sp] = line.get_color()
+                if show_median:
+                    ax.plot(t_h, qmed[:, si], lw=1, linestyle='--',
+                            label=f"{sp} median")
+
+            if show_axp and set(species) == {'ATP','ADP','AMP'}: #####################################x
+                ax.plot(t_h, qmean.sum(axis=1), lw=2.2, linestyle=':',
+                        label='AXP mean')
+
+            title = ("Starvation" if cond_label == 'Starved' else "Basal State") ############################x
+            ax.set_title(f"{user_title} in {title}  for N = {X.shape[0]} simulations",
+                         fontsize=15)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            ax.set_xlabel('time [h]', fontsize=12)
+            ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+            ax.grid(alpha=0.2, linestyle=':')
+
+            # left-side species labels if requested
+                        # curve labels with connectors at arbitrary x-position
+            if curve_labels and show_mean:
+                # --- choose x-position along the curve ---
+                x0, x1 = t_h[0], t_h[-1]
+                if 0.0 <= curve_label_xfrac <= 1.0:
+                    # interpret as fraction of [x0, x1]
+                    x_target = x0 + curve_label_xfrac * (x1 - x0)
+                else:
+                    # interpret as absolute time in hours
+                    x_target = curve_label_xfrac
+                x_target = np.clip(x_target, x0, x1)
+
+                # --- y-values of each curve at that x (via interpolation) ---
+                y_at_x = [
+                    np.interp(x_target, t_h, qmean[:, si])
+                    for si in range(len(species))
+                ]
+
+                # --- spread vertically to avoid overlaps ---
+                y_min, y_max = ax.get_ylim()
+                y_range = max(1e-12, (y_max - y_min))
+                y_spread = _spread(y_at_x, curve_label_min_gap_frac * y_range)
+
+                # optional extra offset above/below the curve
+                y_labels = [
+                    y_s + curve_label_y_offset_frac * y_range
+                    for y_s in y_spread
+                ]
+
+                # x-position of labels: a bit to the right of x_target
+                x_label = x_target + curve_label_xpad
+
+                # extend x-limits if labels would be outside the axes
+                if x_label > x1:
+                    ax.set_xlim(x0, x_label + 0.5)
+
+                for sp, y_lab, y_true in zip(species, y_labels, y_at_x):
+                    col = sp_colors.get(sp, 'black')
+                    ax.text(
+                        x_label, y_lab, sp,
+                        color=col, va='center', ha='left',
+                        fontsize=12, weight='bold'
+                    )
+                    if curve_label_connectors:
+                        ax.plot(
+                            [x_target, x_label - 0.2],
+                            [y_true,  y_lab],
+                            lw=2.0, alpha=0.6, color=col,
+                            label='_nolegend_',
+                            clip_on=False
+                        )
+
+
+            handles_c, labels_c = ax.get_legend_handles_labels()
+            if legend_pos == "below":
+                fig_c.legend(handles_c, labels_c, frameon=False, loc='lower center',
+                             bbox_to_anchor=(0.5, -0.01), ncol=len(labels_c),
+                             fontsize=12)
+                fig_c.tight_layout(rect=[0, 0.06, 1, 1])
+            elif legend_pos == "above":
+                fig_c.legend(handles_c, labels_c, frameon=False, loc='upper center',
+                             bbox_to_anchor=(0.5, 1.15), ncol=len(labels_c),
+                             fontsize=12)
+                fig_c.tight_layout(rect=[0, 0, 1, 0.94])
+            elif legend_pos == 'none':
+                pass
+            else:
+                ax.legend(frameon=False, loc='upper right')
+                fig_c.tight_layout()
+
+            fig_c.patch.set_facecolor('white')
+            return fig_c
+
+        figs.append(_single_condition_fig(
+            t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean,
+            samp_a, label_a
+        ))
+        figs.append(_single_condition_fig(
+            t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean,
+            samp_b, label_b
+        ))
+        return figs
+
+    # option B: original behaviour – one figure with two subplots
+    fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
+
+    def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
+                              samp_idx, cond_label, bucket):
+        first_for_stat = True
+        sp_colors = {}
+
+        for si, sp in enumerate(species):
+            for ridx in samp_idx:
+                ax.plot(t_h, X[ridx, :, si], lw=0.6, alpha=traj_alpha,
+                        label='_nolegend_')
+
+            if show_p80:
+                band = ax.fill_between(
+                    t_h, q10[:, si], q90[:, si],
+                    alpha=band_alpha_p80, linewidth=0
+                )
+                if first_for_stat:
+                    bucket[('P80', None)] = band
+            if show_iqr:
+                band = ax.fill_between(
+                    t_h, q25[:, si], q75[:, si],
+                    alpha=band_alpha_iqr, linewidth=0
+                )
+                if first_for_stat:
+                    bucket[('IQR', None)] = band
+
+            if show_mean:
+                line = ax.plot(t_h, qmean[:, si], lw=2)[0]
+                sp_colors[sp] = line.get_color()
+                bucket[('mean', sp)] = line
+            if show_median:
+                line = ax.plot(t_h, qmed[:, si], lw=1, linestyle='--')[0]
+                bucket[('median', sp)] = line
+
+            first_for_stat = False
+
+        if cond_label == 'Starved':
+            ax.set_title(
+                f"AXP Dynamics during Starvation  for N = {X.shape[0]} simulations",
+                fontsize=15
+            )
+        else:
+            ax.set_title(
+                f" AXP Dynamics in Basal State for N = {X.shape[0]} simulations",
+                fontsize=15
+            )
+        ax.set_xlim(0, total_hours)
+        ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+        ax.set_xlabel('time [h]', fontsize=12)
+        ax.grid(alpha=0.2, linestyle=':')
+
+        if curve_labels and show_mean:
+            y0s = [qmean[0, si] for si in range(len(species))]
+            y_min, y_max = ax.get_ylim()
+            y_range = max(1e-12, (y_max - y_min))
+            y_labs = _spread(y0s, curve_label_min_gap_frac * y_range)
+
+            for sp, y_lab, y_true in zip(species, y_labs, y0s):
+                col = sp_colors.get(sp, 'black')
+                ax.text(curve_label_xpad, y_lab, sp,
+                        color=col, va='center', ha='right',
+                        fontsize=12, weight='bold')
+                if curve_label_connectors:
+                    ax.plot([curve_label_xpad + 0.2, 0],
+                            [y_lab, y_true],
+                            lw=2.0, alpha=0.6, color=col,
+                            label='_nolegend_',
+                            clip_on=False)
+
+    _plot_condition_panel(axes[0], t_h_a, Xa, qa10, qa25, qamed, qa75, qa90,
+                          qamean, samp_a, label_a, legend_data[label_a])
+    _plot_condition_panel(axes[1], t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90,
+                          qbmean, samp_b, label_b, legend_data[label_b])
+
+    axes[0].set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+    axes[1].tick_params(labelleft=True)
+
+    if show_axp and set(species) == {'ATP','ADP','AMP'}:
+        line_a = axes[0].plot(t_h_a, qamean.sum(axis=1),
+                              lw=1.2, linestyle=':')[0]
+        line_b = axes[1].plot(t_h_b, qbmean.sum(axis=1),
+                              lw=1.2, linestyle=':')[0]
+        legend_data[label_a][('AXP_mean', None)] = line_a
+        legend_data[label_b][('AXP_mean', None)] = line_b
+
+    # ---- shared legend for this layout ----
+    if legend_pos in {"below", "above"}:
+        cols = []
+        if show_iqr:
+            cols.append(('IQR', None))
+        if show_p80:
+            cols.append(('P80', None))
+        for sp in species:
+            if show_mean:
+                cols.append(('mean', sp))
+            if show_median:
+                cols.append(('median', sp))
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            cols.append(('AXP_mean', None))
+
+        def desc_str(key):
+            kind, sp = key
+            if kind == 'IQR':
+                return 'IQR'
+            if kind == 'P80':
+                return '10–90%'
+            if kind == 'mean' and sp is not None:
+                return f'{sp} mean'
+            if kind == 'median' and sp is not None:
+                return f'{sp} median'
+            if kind == 'AXP_mean':
+                return 'AXP mean'
+            return str(key)
+
+        handles, labels = [], []
+        for cond_label in (label_a, label_b):
+            bucket = legend_data[cond_label]
+            for key in cols:
+                h = bucket.get(key)
+                if h is not None:
+                    handles.append(h)
+                    labels.append(f"{cond_label} {desc_str(key)}")
+
+        ncol = len(cols) if cols else 1
+
+        if legend_pos == "below":
+            fig.legend(handles, labels, frameon=False, loc='lower center',
+                       bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
+            fig.tight_layout(rect=[0, 0.06, 1, 1])
+        else:  # "above"
+            fig.legend(handles, labels, frameon=False, loc='upper center',
+                       bbox_to_anchor=(0.5, 1.15), ncol=ncol, fontsize=12)
+            fig.tight_layout(rect=[0, 0, 1, 0.94])
+    else:
+        axes[-1].legend(frameon=False, loc='upper right')
         fig.tight_layout()
 
     fig.patch.set_facecolor('white')
     return fig
 
 
-# --- Example call (your objects) ---
-fig = plot_compare_summary(
-    df_dict_a=mechs['stac'].orig_time_sim_df,
-    df_dict_b=mechs['starve'].orig_time_sim_df,
-    label_a='Basal', label_b='Starved',
+# %%
+def add_ampk_totals(df_dict,
+                    ampk_name='AMPK',
+                    ampka_name='AMPKA'):
+    """
+    Return a new dict of DataFrames where each df has two extra columns:
+    AMPK_tot  = AMPK  + AMPK_ATP  + AMPK_ADP  + AMPK_AMP
+    AMPKA_tot = AMPKA + AMPKA_ATP + AMPKA_ADP + AMPKA_AMP
+    """
+    out = {}
+    for key, df in df_dict.items():
+        tmp = df.copy()
+
+        tmp[ampk_name] = (
+            tmp['AMPK'] +
+            tmp['AMPK_ATP'] +
+            tmp['AMPK_ADP'] +
+            tmp['AMPK_AMP']
+        )
+
+        tmp[ampka_name] = (
+            tmp['AMPKA'] +
+            tmp['AMPKA_ATP'] +
+            tmp['AMPKA_ADP'] +
+            tmp['AMPKA_AMP']
+        )
+
+        out[key] = tmp
+    return out
+
+# %%
+def plot_compare_summary_atp(
+    df_dict_a: Dict[str, pd.DataFrame],
+    df_dict_b: Dict[str, pd.DataFrame],
+    label_a: str = 'cond A',
+    label_b: str = 'cond B',
+    species=('ATP','ADP','AMP'),
+    dt_minutes=30,
+    total_hours=84,
+    # ---- layout switch ----
+    layout_mode: str = "species",   # "species" | "condition"
+    # ---- stat controls ----
+    show_iqr: bool = True,
+    show_p80: bool = False,
+    show_mean: bool = True,
+    show_median: bool = False,
+    sample_trajs: int = 0,          # 0 -> no thin trajectories
+    traj_alpha: float = 0.10,
+    band_alpha_iqr: float = 0.20,
+    band_alpha_p80: float = 0.10,
+    legend_pos: str = "below",      # "below" | "above" | "inside"
+    # -----------------------
+    show_axp: bool = True,          # only used if plotting the AXP trio
+    figsize=(12, 8),
+    curve_labels: bool = False,
+    curve_label_min_gap_frac: float = 0.02,
+    curve_label_xpad: float = -3.0,
+    curve_label_connectors: bool = True,
+    # ---- separate figures ----
+    multi_fig: bool = False,        # one fig per *species*
+    separate_conditions: bool = False,  # only used if layout_mode="condition"
+    user_title='',
+    title_font_size=15,
+    x_title_font_size=10
+):
+    """
+    Compare conditions A vs B for the given species.
+
+    layout_mode = "species":
+        One subplot per species. Each subplot shows both conditions.
+
+    layout_mode = "condition":
+        Two panels (A, B). Each panel shows all species for that condition.
+
+    multi_fig = True:
+        Instead of one figure for all species, return a list of figures, one
+        per species (using the chosen layout_mode).
+
+    separate_conditions = True (with layout_mode="condition"):
+        Instead of a single figure with two subplots, return two separate
+        figures: (fig_A, fig_B).
+    """
+    if layout_mode not in {"species", "condition"}:
+        raise ValueError('layout_mode must be "species" or "condition".')
+
+    species = _normalize_species(species)
+
+    # --- one fig per species if requested -------------------
+    if multi_fig and len(species) > 1:
+        figs = []
+        for sp in species:
+            figs.append(
+                plot_compare_summary(
+                    df_dict_a=df_dict_a,
+                    df_dict_b=df_dict_b,
+                    label_a=label_a,
+                    label_b=label_b,
+                    species=(sp,),
+                    dt_minutes=dt_minutes,
+                    total_hours=total_hours,
+                    layout_mode=layout_mode,
+                    show_iqr=show_iqr,
+                    show_p80=show_p80,
+                    show_mean=show_mean,
+                    show_median=show_median,
+                    sample_trajs=sample_trajs,
+                    traj_alpha=traj_alpha,
+                    band_alpha_iqr=band_alpha_iqr,
+                    band_alpha_p80=band_alpha_p80,
+                    legend_pos=legend_pos,
+                    show_axp=show_axp,
+                    figsize=figsize,
+                    curve_labels=curve_labels,
+                    curve_label_min_gap_frac=curve_label_min_gap_frac,
+                    curve_label_xpad=curve_label_xpad,
+                    curve_label_connectors=curve_label_connectors,
+                    multi_fig=False,
+                    separate_conditions=separate_conditions,
+                    user_title=user_title,
+                    title_font_size=title_font_size,
+                    x_title_font_size=x_title_font_size
+                )
+            )
+        return figs
+    # --------------------------------------------------------
+
+    n_expected = int(total_hours*60/dt_minutes + 1)
+
+    idx_a, Xa = _stack_runs(df_dict_a, species, n_expected)
+    idx_b, Xb = _stack_runs(df_dict_b, species, n_expected)
+    t_h_a = (idx_a.values - 1) * dt_minutes / 60.0
+    t_h_b = (idx_b.values - 1) * dt_minutes / 60.0
+
+    qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)
+    qb10, qb25, qbmed, qb75, qb90, qbmean = _summary(Xb)
+
+    rng = np.random.default_rng(0)
+    samp_a = rng.choice(Xa.shape[0], size=min(sample_trajs, Xa.shape[0]),
+                        replace=False) if sample_trajs else []
+    samp_b = rng.choice(Xb.shape[0], size=min(sample_trajs, Xb.shape[0]),
+                        replace=False) if sample_trajs else []
+
+    legend_data = {label_a: {}, label_b: {}}
+
+    # ---------------- LAYOUT 1: one subplot per species ----------------
+    if layout_mode == "species":
+        fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+        if len(species) == 1:
+            axes = [axes]
+
+        for si, sp in enumerate(species):
+            ax = axes[si]
+
+            for ridx in samp_a:
+                ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
+            for ridx in samp_b:
+                ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
+
+            if show_p80:
+                ax.fill_between(t_h_a, qa10[:, si], qa90[:, si],
+                                alpha=band_alpha_p80, linewidth=0,
+                                label=f'{label_a} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0,
+                                label=f'{label_a} IQR')
+
+            if show_p80:
+                ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
+                                alpha=band_alpha_p80, linewidth=0,
+                                label=f'{label_b} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0,
+                                label=f'{label_b} IQR')
+
+            if curve_labels:
+                y0_a = qamean[0, si]
+                y0_b = qbmean[0, si]
+                ax.text(-2.5, y0_a, f"{label_a}", color='tab:blue',
+                        va='center', ha='right', fontsize=12, weight='bold')
+                ax.text(-2.5, y0_b, f"{label_b}", color='tab:orange',
+                        va='center', ha='right', fontsize=12, weight='bold')
+
+            if show_mean:
+                ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
+                ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
+            if show_median:
+                ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--',
+                        label=f'{label_a} median')
+                ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--',
+                        label=f'{label_b} median')
+
+            ax.set_title(
+                f"Time Profile of {sp} Dynamics for N = {Xa.shape[0]} Simulations",
+                fontsize=20
+            )
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            if si == 0:
+                ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+            ax.set_xlabel('time [h]', fontsize=x_title_font_size)
+            ax.grid(alpha=0.2, linestyle=':')
+
+        # legend for layout_mode="species"
+        handles, labels = axes[0].get_legend_handles_labels()
+        ncol = 6
+
+        if legend_pos == "below":
+            fig.legend(handles, labels, frameon=False, loc='lower center',
+                       bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
+            fig.tight_layout(rect=[0, 0.06, 1, 1])
+        elif legend_pos == "above":
+            fig.legend(handles, labels, frameon=False, loc='upper center',
+                       bbox_to_anchor=(0.5, 1.15), ncol=ncol, fontsize=12)
+            fig.tight_layout(rect=[0, 0, 1, 0.94])
+        else:
+            axes[-1].legend(handles, labels, frameon=False, loc='upper right')
+            fig.tight_layout()
+
+        fig.patch.set_facecolor('white')
+        return fig
+
+    # ---------------- LAYOUT 2: condition layout ----------------
+    # option A: separate figures per condition
+    if separate_conditions:
+        figs = []
+
+        def _single_condition_fig(t_h, X, q10, q25, qmed, q75, q90, qmean,
+                                  samp_idx, cond_label):
+            fig_c, ax = plt.subplots(1, 1, figsize=figsize)
+
+            sp_colors = {}
+            for si, sp in enumerate(species):
+                for ridx in samp_idx:
+                    ax.plot(t_h, X[ridx, :, si], lw=0.6, alpha=traj_alpha,
+                            label='_nolegend_')
+
+                if show_p80:
+                    ax.fill_between(t_h, q10[:, si], q90[:, si],
+                                    alpha=band_alpha_p80, linewidth=0,
+                                    label='_nolegend_')
+                if show_iqr:
+                    ax.fill_between(t_h, q25[:, si], q75[:, si],
+                                    alpha=band_alpha_iqr, linewidth=0,
+                                    label='_nolegend_')
+
+                if show_mean:
+                    line = ax.plot(t_h, qmean[:, si], lw=2,
+                                   label=f"{sp} mean")[0]
+                    sp_colors[sp] = line.get_color()
+                if show_median:
+                    ax.plot(t_h, qmed[:, si], lw=1, linestyle='--',
+                            label=f"{sp} median")
+
+            if show_axp and set(species) == {'ATP','ADP','AMP'}: #####################################x
+                ax.plot(t_h, qmean.sum(axis=1), lw=2.2, linestyle=':',
+                        label='AXP mean')
+
+            title = ("Starvation" if cond_label == 'Starved' else "Basal State") ############################x
+            ax.set_title(f"{user_title} in {title}  for N = {X.shape[0]} simulations",
+                         fontsize=title_font_size)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            ax.set_xlabel('time [h]', fontsize=12)
+            ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+            ax.grid(alpha=0.2, linestyle=':')
+
+            # left-side species labels if requested
+            if curve_labels and show_mean:
+                y0s = [qmean[0, si] for si in range(len(species))]
+                y_min, y_max = ax.get_ylim()
+                y_range = max(1e-12, (y_max - y_min))
+                y_labs = _spread(y0s, curve_label_min_gap_frac * y_range)
+
+                for sp, y_lab, y_true in zip(species, y_labs, y0s):
+                    col = sp_colors.get(sp, 'black')
+                    ax.text(curve_label_xpad, y_lab, sp,
+                            color=col, va='center', ha='right',
+                            fontsize=12, weight='bold')
+                    if curve_label_connectors:
+                        ax.plot([curve_label_xpad + 0.2, 0],
+                                [y_lab, y_true],
+                                lw=2.0, alpha=0.6, color=col,
+                                label='_nolegend_',
+                                clip_on=False)
+
+            handles_c, labels_c = ax.get_legend_handles_labels()
+            if legend_pos == "below":
+                fig_c.legend(handles_c, labels_c, frameon=False, loc='lower center',
+                             bbox_to_anchor=(0.5, -0.01), ncol=len(labels_c),
+                             fontsize=12)
+                fig_c.tight_layout(rect=[0, 0.06, 1, 1])
+            elif legend_pos == "above":
+                fig_c.legend(handles_c, labels_c, frameon=False, loc='upper center',
+                             bbox_to_anchor=(0.5, 1.15), ncol=len(labels_c),
+                             fontsize=12)
+                fig_c.tight_layout(rect=[0, 0, 1, 0.94])
+            else:
+                ax.legend(frameon=False, loc='upper right')
+                fig_c.tight_layout()
+
+            fig_c.patch.set_facecolor('white')
+            return fig_c
+
+        figs.append(_single_condition_fig(
+            t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean,
+            samp_a, label_a
+        ))
+        figs.append(_single_condition_fig(
+            t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean,
+            samp_b, label_b
+        ))
+        return figs
+
+    # option B: original behaviour – one figure with two subplots
+    fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
+
+    def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
+                              samp_idx, cond_label, bucket):
+        first_for_stat = True
+        sp_colors = {}
+
+        for si, sp in enumerate(species):
+            for ridx in samp_idx:
+                ax.plot(t_h, X[ridx, :, si], lw=0.6, alpha=traj_alpha,
+                        label='_nolegend_')
+
+            if show_p80:
+                band = ax.fill_between(
+                    t_h, q10[:, si], q90[:, si],
+                    alpha=band_alpha_p80, linewidth=0
+                )
+                if first_for_stat:
+                    bucket[('P80', None)] = band
+            if show_iqr:
+                band = ax.fill_between(
+                    t_h, q25[:, si], q75[:, si],
+                    alpha=band_alpha_iqr, linewidth=0
+                )
+                if first_for_stat:
+                    bucket[('IQR', None)] = band
+
+            if show_mean:
+                line = ax.plot(t_h, qmean[:, si], lw=2)[0]
+                sp_colors[sp] = line.get_color()
+                bucket[('mean', sp)] = line
+            if show_median:
+                line = ax.plot(t_h, qmed[:, si], lw=1, linestyle='--')[0]
+                bucket[('median', sp)] = line
+
+            first_for_stat = False
+
+        if cond_label == 'Starved':
+            ax.set_title(
+                f"AXP Dynamics during Starvation  for N = {X.shape[0]} simulations",
+                fontsize=title_font_size
+            )
+        else:
+            ax.set_title(
+                f" AXP Dynamics in Basal State for N = {X.shape[0]} simulations",
+                fontsize=title_font_size
+            )
+        ax.set_xlim(0, total_hours)
+        ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+        ax.set_xlabel('time [h]', fontsize=x_title_font_size)
+        ax.grid(alpha=0.2, linestyle=':')
+
+        if curve_labels and show_mean:
+            y0s = [qmean[0, si] for si in range(len(species))]
+            y_min, y_max = ax.get_ylim()
+            y_range = max(1e-12, (y_max - y_min))
+            y_labs = _spread(y0s, curve_label_min_gap_frac * y_range)
+
+            for sp, y_lab, y_true in zip(species, y_labs, y0s):
+                col = sp_colors.get(sp, 'black')
+                ax.text(curve_label_xpad, y_lab, sp,
+                        color=col, va='center', ha='right',
+                        fontsize=12, weight='bold')
+                if curve_label_connectors:
+                    ax.plot([curve_label_xpad + 0.2, 0],
+                            [y_lab, y_true],
+                            lw=2.0, alpha=0.6, color=col,
+                            label='_nolegend_',
+                            clip_on=False)
+
+    _plot_condition_panel(axes[0], t_h_a, Xa, qa10, qa25, qamed, qa75, qa90,
+                          qamean, samp_a, label_a, legend_data[label_a])
+    _plot_condition_panel(axes[1], t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90,
+                          qbmean, samp_b, label_b, legend_data[label_b])
+
+    axes[0].set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+    axes[1].tick_params(labelleft=True)
+
+    if show_axp and set(species) == {'ATP','ADP','AMP'}:
+        line_a = axes[0].plot(t_h_a, qamean.sum(axis=1),
+                              lw=1.2, linestyle=':')[0]
+        line_b = axes[1].plot(t_h_b, qbmean.sum(axis=1),
+                              lw=1.2, linestyle=':')[0]
+        legend_data[label_a][('AXP_mean', None)] = line_a
+        legend_data[label_b][('AXP_mean', None)] = line_b
+
+    # ---- shared legend for this layout ----
+    if legend_pos in {"below", "above"}:
+        cols = []
+        if show_iqr:
+            cols.append(('IQR', None))
+        if show_p80:
+            cols.append(('P80', None))
+        for sp in species:
+            if show_mean:
+                cols.append(('mean', sp))
+            if show_median:
+                cols.append(('median', sp))
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            cols.append(('AXP_mean', None))
+
+        def desc_str(key):
+            kind, sp = key
+            if kind == 'IQR':
+                return 'IQR'
+            if kind == 'P80':
+                return '10–90%'
+            if kind == 'mean' and sp is not None:
+                return f'{sp} mean'
+            if kind == 'median' and sp is not None:
+                return f'{sp} median'
+            if kind == 'AXP_mean':
+                return 'AXP mean'
+            return str(key)
+
+        handles, labels = [], []
+        for cond_label in (label_a, label_b):
+            bucket = legend_data[cond_label]
+            for key in cols:
+                h = bucket.get(key)
+                if h is not None:
+                    handles.append(h)
+                    labels.append(f"{cond_label} {desc_str(key)}")
+
+        ncol = len(cols) if cols else 1
+
+        if legend_pos == "below":
+            fig.legend(handles, labels, frameon=False, loc='lower center',
+                       bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
+            fig.tight_layout(rect=[0, 0.06, 1, 1])
+        else:  # "above"
+            fig.legend(handles, labels, frameon=False, loc='upper center',
+                       bbox_to_anchor=(0.5, 1.15), ncol=ncol, fontsize=12)
+            fig.tight_layout(rect=[0, 0, 1, 0.94])
+    else:
+        axes[-1].legend(frameon=False, loc='upper right')
+        fig.tight_layout()
+
+    fig.patch.set_facecolor('white')
+    return fig
+
+
+# %%
+proc = Processing('species.txt')
+
+# %%
+t = np.arange(0, 5070, 30)
+food = 'stac'
+if food == 'starve':
+    exp_food = 1e-6
+elif food == 'stac':
+    exp_food = 6e-6
+else:
+    raise Exception('food must either be "starve" or "stac"')
+
+# %%
+exp_foods = ['stac', 'starve']
+must_be_zero = ['RAP', 'RK', 'RKMTORA', 'RAPOUT']
+date = datetime.datetime.now()
+date_prefix = f"{date.year}{date.month}{date.day}" # '20251113'
+t = np.arange(0, 5070, 30)
+sims: dict[str, Simulation] = {}
+kiir = True
+
+for food in exp_foods:
+    if food == 'starve':
+        exp_food = 1e-6
+    elif food == 'stac':
+        exp_food = 6e-6
+    else:
+        raise Exception('food must either be "starve" or "stac"')
+
+    mod = Model(model_name='gluc_rap_mTOR', ics_df_path='../input_files/species_ics_ranges.csv',
+                dont_observe=proc.not_observables, time_points=t, time_course_vals=7e-10,
+                uncertainty=True, must_be_zero=must_be_zero, inputs={'GLUCOUT': exp_food},
+                food=food)
+
+    gen = Genesis(mod, max_digit=4)
+    gen.create_xml_files(output_xmls_path=f'/home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/{date_prefix}_testing_ULK_{food}',
+                         num_of_xmls=100,
+                         xml_template_path='../input_files/std_xml_template.xml',
+                         prefix=food, kiir=kiir)
+
+    sim = Simulation(gen, 100)
+    sim.opp_gen(opp_output_dir=f'/home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/1_mechtest',
+                opp_name_prefix=f'{date_prefix}_testing_ULK_{food}',
+                kiir=kiir, mech_file='../Projects/Semmelweis_BCRN/BCRN/mech/Minimal_gluc_rap_mTOR_v1.inp',
+                food=food)
+
+    sim.sim_runner('/home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/logs/testing')
+
+    sims[food] = sim
+
+# %% [markdown]
+# bin/Release/OptimaPP ../Projects/Semmelweis_BCRN/BCRN/1_mechtest/2026128_all_setups.opp
+
+# %%
+mechs: dict[str, OptimaMechtest] = {}
+for k in sims.keys():
+    mechs[k] = OptimaMechtest(sims[k].opps[0], sims[k].mech_inp_name)
+
+# %%
+sejeong_gluc = pd.read_csv('../input_files/sejeong_gluc_cc_starve.csv')
+sejeong_gluc.t = sejeong_gluc.t
+sejeong_gluc.y = sejeong_gluc.y #* 1e-6
+sejeong_gluc.sigma = sejeong_gluc.sigma #* 1e-6
+sejeong_gluc
+
+# %%
+alma = copy.deepcopy(mechs['starve'].orig_time_sim_df)
+for xml_name, temp_df in alma.items():
+    alma[xml_name]['GLUCOUT'] *= 1e+6
+
+fig = plot_compare_summary_gluc(
+    df_dict_a=alma,
+    df_dict_b=alma,
+    label_a='Starved', label_b='Starved',
     species=('GLUCOUT'),
     show_iqr=True, show_p80=False,
-    show_mean=True, show_median=True,
+    show_mean=True, show_median=False,
     sample_trajs=100, legend_pos="below",
-    curve_labels=True
+    curve_labels=False,
+    y_label=r"concentration $[\frac{mol}{dm^{3}}]$",
+    figsize=(12, 9)
 )
 
 plt.show()
+
+# %%
+fig = plot_compare_summary_atp(
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
+    label_a='Starved', label_b='Basal',
+    species=('ATP', 'ADP', 'AMP'),
+    layout_mode="condition",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=False,
+    sample_trajs=100,
+    legend_pos="below",
+    curve_labels=True,
+    curve_label_min_gap_frac=0.05,
+    curve_label_xpad=-3.0,
+    curve_label_connectors=True,
+    figsize=(12, 6),
+    separate_conditions=False
+)
+
+# %%
+fig = plot_compare_summary_atp(
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
+    label_a='Starved', label_b='Basal',
+    species=('ATP', 'ADP', 'AMP'),
+    layout_mode="condition",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=False,
+    sample_trajs=100,
+    legend_pos="below",
+    curve_labels=True,
+    curve_label_min_gap_frac=0.05,
+    curve_label_xpad=-3.0,
+    curve_label_connectors=True,
+    figsize=(12, 9),
+    separate_conditions=True,
+    user_title='AXP Dynamics',
+    title_font_size=20,
+    x_title_font_size=56
+    )
+
+# %%
+fig = plot_compare_summary(
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
+    label_a='Starved', label_b='Basal',
+    species=('AMPKA', 'AMPKA_ATP', 'AMPKA_ADP', 'AMPKA_AMP'),
+    layout_mode="condition",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=False,
+    sample_trajs=100,
+    legend_pos="below",
+    curve_labels=True,
+    curve_label_min_gap_frac=0.05,
+    curve_label_xpad=-3.0,
+    curve_label_connectors=True,
+    figsize=(14, 8)
+)
+fig = plot_compare_summary_atp(
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
+    label_a='Starved', label_b='Basal',
+    species=('AMPKA_ATP', 'AMPKA_ADP', 'AMPKA_AMP','AMPKA',
+             'AMPK_ATP', 'AMPK_ADP', 'AMPK_AMP','AMPK'),
+    layout_mode="condition",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=False,
+    sample_trajs=100,
+    legend_pos="up",
+    curve_labels=True,
+    curve_label_min_gap_frac=0.05,
+    curve_label_xpad=-3.0,
+    curve_label_connectors=True,
+    figsize=(12, 9),
+    separate_conditions=True,
+    user_title='AMPKA_AXP Dynamics'
+    )
+
+# %%
+
+
+# %%
+fig = plot_compare_summary_ampk(
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
+    label_a='Starved', label_b='Basal',
+    species=('AMPKA_ATP', 'AMPKA_ADP', 'AMPKA_AMP','AMPKA',
+             'AMPK_ATP', 'AMPK_ADP', 'AMPK_AMP','AMPK'),
+    layout_mode="condition",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=False,
+    sample_trajs=100,
+    legend_pos='above',
+    curve_labels=True,
+    curve_label_min_gap_frac=0.05,
+    curve_label_xpad=2.0,
+    curve_label_connectors=True,
+    figsize=(12, 9),
+    separate_conditions=True,
+    user_title='AMPKA_AXP Dynamics'
+    )
+
+# %%
+def add_ampk_totals(df_dict,
+                    ampk_name='AMPK_t',
+                    ampka_name='AMPKA_t'):
+    """
+    Return a new dict of DataFrames where each df has two extra columns:
+    AMPK_tot  = AMPK  + AMPK_ATP  + AMPK_ADP  + AMPK_AMP
+    AMPKA_tot = AMPKA + AMPKA_ATP + AMPKA_ADP + AMPKA_AMP
+    """
+    out = {}
+    for key, df in df_dict.items():
+        tmp = df.copy()
+
+        tmp[ampk_name] = (
+            tmp['AMPK'] +
+            tmp['AMPK_ATP'] +
+            tmp['AMPK_ADP'] +
+            tmp['AMPK_AMP']
+        )
+
+        tmp[ampka_name] = (
+            tmp['AMPKA'] +
+            tmp['AMPKA_ATP'] +
+            tmp['AMPKA_ADP'] +
+            tmp['AMPKA_AMP']
+        )
+
+        out[key] = tmp
+    return out
+
+stac_ampk   = add_ampk_totals(mechs['stac'].orig_time_sim_df)
+starve_ampk = add_ampk_totals(mechs['starve'].orig_time_sim_df)
+
+fig = plot_compare_summary_ampk(
+    df_dict_a=starve_ampk,
+    df_dict_b=stac_ampk,
+    label_a='Starved',
+    label_b='Basal',
+    species=('AMPK_t', 'AMPKA_t', 'ULK', 'ULKA', 'MTOR', 'MTORA'),
+    layout_mode="condition",   # or "species", as you like
+    show_iqr=False, show_p80=False,
+    show_mean=True, show_median=False,
+    sample_trajs=0,
+    legend_pos="none",
+    separate_conditions=True, 
+    curve_labels=False,
+    curve_label_xfrac=20,        # 1.0 = end of time window
+    curve_label_xpad=1.5,         # 1.5 h to the right of that point
+    curve_label_y_offset_frac=0.02,  # 2% of y-range above the curve
+    figsize=(12, 8),
+    user_title='AMPK-MTOR-ULK Dynamics'
+)
+
+plt.show()
+
+# %%
+stac_ampk   = add_ampk_totals(mechs['stac'].orig_time_sim_df)
+starve_ampk = add_ampk_totals(mechs['starve'].orig_time_sim_df)
+
+
+# %%
+fig = plot_compare_summary(
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
+    label_a='Starved', label_b='Basal',
+    species=('AMPK', 'AMPK_ATP', 'AMPK_ADP', 'AMPK_AMP'),
+    layout_mode="condition",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=False,
+    sample_trajs=10,
+    legend_pos="below",
+    curve_labels=True,
+    curve_label_min_gap_frac=0.05,
+    curve_label_xpad=-3.0,
+    curve_label_connectors=True,
+    figsize=(14, 6)
+)
+
+fig = plot_compare_summary(
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
+    label_a='Starved', label_b='Basal',
+    species=('AMPKA', 'AMPKA_ATP', 'AMPKA_ADP', 'AMPKA_AMP'),
+    layout_mode="condition",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=False,
+    sample_trajs=90,
+    legend_pos="below",
+    curve_labels=True,
+    curve_label_min_gap_frac=0.05,
+    curve_label_xpad=-3.0,
+    curve_label_connectors=True,
+    figsize=(14, 6)
+)
+
+# %%
+ampks = {}
+i = 0
+for k in mechs.keys():
+    for k2, v2 in mechs[k].orig_time_sim_df.items():
+        if f'starve_{k2[-4:]}' in mechs['starve'].orig_time_sim_df.keys() and f'stac_{k2[-4:]}' in mechs['stac'].orig_time_sim_df.keys() and k2[-4:] != '0015' and k2[-4:] != '0063' and k2[-4:] != '0066' :
+            AMPK = v2.AMPK + v2.AMPK_ATP + v2.AMPK_ADP + v2.AMPK_AMP
+            AMPKA = v2.AMPKA + v2.AMPKA_ATP + v2.AMPKA_ADP + v2.AMPKA_AMP
+            data_to_ampks = {'t': t, 'AMPK': AMPK, 'AMPKA': AMPKA}
+            i+=1
+            ampks[k] ={f"{k2}": pd.DataFrame(data_to_ampks)}
+
+fig = plot_compare_summary(
+    df_dict_a=ampks['starve'],
+    df_dict_b=ampks['stac'],
+    label_a='Starved', label_b='Basal',
+    species=('AMPK', 'AMPKA'),
+    layout_mode="condition",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=False,
+    sample_trajs=90,
+    legend_pos="below",
+    curve_labels=True,
+    curve_label_min_gap_frac=0.05,
+    curve_label_xpad=-3.0,
+    curve_label_connectors=True,
+    figsize=(14, 8)
+)
 
 # %%
 from typing import Dict, Iterable, Optional, Tuple
@@ -1149,32 +2473,81 @@ def plot_compare_summary(
     species=('ATP','ADP','AMP'),
     dt_minutes=30,
     total_hours=84,
-    # ---- display controls ----
+    # ---- layout switch ----
+    layout_mode: str = "species",   # "species" | "condition"
+    # ---- stat controls ----
     show_iqr: bool = True,
     show_p80: bool = False,
     show_mean: bool = True,
     show_median: bool = False,
-    sample_trajs: int = 0,
+    sample_trajs: int = 0,          # 0 -> no thin trajectories
     traj_alpha: float = 0.10,
     band_alpha_iqr: float = 0.20,
     band_alpha_p80: float = 0.10,
-    legend_pos: str = "below",      # "below" | "above" | "inside" | "none"
-    # ---- left-side labels ----
-    curve_labels: bool = False,         # draw labels to the left at t=0
+    legend_pos: str = "below",      # "below" | "above" | "inside"
+    # -----------------------
+    show_axp: bool = True,          # only used if plotting the AXP trio
+    figsize=(12, 8),
+    curve_labels: bool = False,
     curve_label_min_gap_frac: float = 0.02,
-    curve_label_xpad: float = -2.5,     # x position (hours) for labels
+    curve_label_xpad: float = -3.0,
     curve_label_connectors: bool = True,
-    # ---- layout switch ----
-    layout: str = "by_species",         # "by_species" | "by_condition"
-    # ---------------------------
-    show_axp: bool = True,              # only used if plotting the AXP trio
-    figsize=(12, 8)
+    # ---- NEW: separate figures per species ----
+    multi_fig: bool = False,
 ):
     """
-    layout='by_species'  -> one subplot per species, conditions overlaid.
-    layout='by_condition'-> two subplots (label_a, label_b), species overlaid per panel.
+    Compare conditions A vs B for the given species.
+
+    layout_mode = "species":
+        One subplot per species. Each subplot shows both conditions.
+
+    layout_mode = "condition":
+        Two subplots (A, B). Each subplot shows all species for that condition.
+
+    multi_fig = True:
+        Instead of one figure for all species, return a *list of figures*,
+        one figure per species, using the chosen layout_mode.
     """
+    if layout_mode not in {"species", "condition"}:
+        raise ValueError('layout_mode must be "species" or "condition".')
+
     species = _normalize_species(species)
+
+    # --- NEW: create one fig per species if requested -------------------
+    if multi_fig and len(species) > 1:
+        figs = []
+        for sp in species:
+            figs.append(
+                plot_compare_summary(
+                    df_dict_a=df_dict_a,
+                    df_dict_b=df_dict_b,
+                    label_a=label_a,
+                    label_b=label_b,
+                    species=(sp,),
+                    dt_minutes=dt_minutes,
+                    total_hours=total_hours,
+                    layout_mode=layout_mode,
+                    show_iqr=show_iqr,
+                    show_p80=show_p80,
+                    show_mean=show_mean,
+                    show_median=show_median,
+                    sample_trajs=sample_trajs,
+                    traj_alpha=traj_alpha,
+                    band_alpha_iqr=band_alpha_iqr,
+                    band_alpha_p80=band_alpha_p80,
+                    legend_pos=legend_pos,
+                    show_axp=show_axp,
+                    figsize=figsize,
+                    curve_labels=curve_labels,
+                    curve_label_min_gap_frac=curve_label_min_gap_frac,
+                    curve_label_xpad=curve_label_xpad,
+                    curve_label_connectors=curve_label_connectors,
+                    multi_fig=False,      # avoid infinite recursion
+                )
+            )
+        return figs
+    # --------------------------------------------------------------------
+
     n_expected = int(total_hours*60/dt_minutes + 1)
 
     # stack & summarize
@@ -1183,179 +2556,623 @@ def plot_compare_summary(
     t_h_a = (idx_a.values - 1) * dt_minutes / 60.0
     t_h_b = (idx_b.values - 1) * dt_minutes / 60.0
 
-    qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)  # shapes [T, S]
+    qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)
     qb10, qb25, qbmed, qb75, qb90, qbmean = _summary(Xb)
-
-    # helper: spread y-labels to avoid overlap
-    def _spread(yvals, min_gap):
-        if len(yvals) <= 1: return yvals
-        idx = np.argsort(yvals); ys = np.array(yvals, float)[idx]
-        for i in range(1, len(ys)):
-            if ys[i] - ys[i-1] < min_gap:
-                ys[i] = ys[i-1] + min_gap
-        ys_out = np.empty_like(ys); ys_out[idx] = ys
-        return ys_out
 
     rng = np.random.default_rng(0)
     samp_a = rng.choice(Xa.shape[0], size=min(sample_trajs, Xa.shape[0]), replace=False) if sample_trajs else []
     samp_b = rng.choice(Xb.shape[0], size=min(sample_trajs, Xb.shape[0]), replace=False) if sample_trajs else []
 
-    # -------- LAYOUT A: by species --------
-    if layout == "by_species":
+    legend_data = {label_a: {}, label_b: {}}
+
+    # ---------------- LAYOUT 1: one subplot per species ----------------
+    if layout_mode == "species":
         fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
-        if len(species) == 1: axes = [axes]
+        if len(species) == 1:
+            axes = [axes]
 
         for si, sp in enumerate(species):
             ax = axes[si]
 
-            # thin trajectories
-            for ridx in samp_a: ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
-            for ridx in samp_b: ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
+            for ridx in samp_a:
+                ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
+            for ridx in samp_b:
+                ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
 
-            # bands
             if show_p80:
-                ax.fill_between(t_h_a, qa10[:, si], qa90[:, si], alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
-                ax.fill_between(t_h_b, qb10[:, si], qb90[:, si], alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
+                ax.fill_between(t_h_a, qa10[:, si], qa90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
             if show_iqr:
-                ax.fill_between(t_h_a, qa25[:, si], qa75[:, si], alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
-                ax.fill_between(t_h_b, qb25[:, si], qb75[:, si], alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
+                ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
 
-            # lines
+            if show_p80:
+                ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
+
+            if curve_labels:
+                y0_a = qamean[0, si]
+                y0_b = qbmean[0, si]
+                ax.text(-2.5, y0_a, f"{label_a}", color='tab:blue',
+                        va='center', ha='right', fontsize=12, weight='bold')
+                ax.text(-2.5, y0_b, f"{label_b}", color='tab:orange',
+                        va='center', ha='right', fontsize=12, weight='bold')
+
             if show_mean:
-                ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean', color='tab:blue')
-                ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean', color='tab:orange')
+                ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
+                ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
             if show_median:
-                ax.plot(t_h_a, qamed[:, si], lw=1, ls='--', label=f'{label_a} median', color='tab:green')
-                ax.plot(t_h_b, qbmed[:, si], lw=1, ls='--', label=f'{label_b} median', color='tab:red')
+                ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--', label=f'{label_a} median')
+                ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--', label=f'{label_b} median')
 
-            # left labels (for conditions)
-            if curve_labels and show_mean:
-                y0s = [qamean[0, si], qbmean[0, si]]
-                y_min, y_max = ax.get_ylim(); y_range = max(1e-12, (y_max - y_min))
-                y_labs = _spread(y0s, curve_label_min_gap_frac * y_range)
-                ax.set_xlim(min(curve_label_xpad, 0), total_hours)
-                for y_lab, y_true, txt, col in zip(y_labs, y0s, [label_a, label_b], ['tab:blue','tab:orange']):
-                    ax.text(curve_label_xpad, y_lab, txt, color=col, va='center', ha='right', fontsize=12, weight='bold')
-                    if curve_label_connectors:
-                        ax.plot([curve_label_xpad+0.2, 0], [y_lab, y_true], lw=0.8, alpha=0.6, color=col)
-
-            # cosmetics
-            ax.set_title(sp, fontsize=16)
+            ax.set_title(f"Time Profile of {sp} Dynamics for N = {Xa.shape[0]} Simulations", fontsize=20)
+            ax.set_xlim(0, total_hours)
             ax.set_xticks(np.arange(0, total_hours+0.1, 6))
-            if si == 0: ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=14)
-            ax.set_xlabel('time [h]', fontsize=14)
+            if si == 0:
+                ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+            ax.set_xlabel('time [h]', fontsize=12)
             ax.grid(alpha=0.2, linestyle=':')
 
-            # Example measurement overlay for GLUCOUT on starved
             if sp == 'GLUCOUT' and (label_a == 'Starved' or label_b == 'Starved'):
-                ax.errorbar(sejeong_gluc.t, sejeong_gluc.y, yerr=sejeong_gluc.sigma,
-                            fmt='x', capsize=5, lw=1.8, markersize=5,
-                            color='tab:red', ecolor='tab:red', elinewidth=2, alpha=0.9)
+                ax.errorbar(
+                    sejeong_gluc.t,
+                    sejeong_gluc.y,
+                    yerr=sejeong_gluc.sigma,
+                    fmt='x',
+                    capsize=5,
+                    lw=1.8,
+                    markersize=5,
+                    color='tab:red',
+                    ecolor='tab:red',
+                    elinewidth=2,
+                    alpha=0.9
+                )
 
-        # AXP overlay only makes sense in by_species when ATP/ADP/AMP are exactly the trio
-        if show_axp and set(species) == {'ATP','ADP','AMP'}:
-            axes[0].plot(t_h_a, qamean.sum(axis=1), lw=1.2, ls=':', label=f'AXP mean – {label_a}')
-            axes[0].plot(t_h_b, qbmean.sum(axis=1), lw=1.2, ls=':', label=f'AXP mean – {label_b}')
-
-    # -------- LAYOUT B: by condition --------
-    elif layout == "by_condition":
+    # ---------------- LAYOUT 2: one subplot per condition ----------------
+    else: # stac vs starve
         fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
-        axA, axB = axes
 
-        # assign fixed colors per species (consistent across panels)
-        base_palette = ['tab:blue','tab:orange','tab:red','tab:purple','magenta','tab:green','tab:brown','tab:gray','tab:olive','tab:cyan']
-        sp_colors = {sp: base_palette[i % len(base_palette)] for i, sp in enumerate(species)}
+        def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
+                                  samp_idx, cond_label, bucket):
+            first_for_stat = True
+            sp_colors = {}
 
-        # helper to draw one condition panel
-        def _draw_panel(ax, t, q10, q25, q50, q75, q90, qmean, title, label_side_texts=True):
-            # bands & lines for every species
             for si, sp in enumerate(species):
-                col = sp_colors[sp]
-                if show_p80:
-                    ax.fill_between(t, q10[:, si], q90[:, si], alpha=band_alpha_p80, linewidth=0)
-                if show_iqr:
-                    ax.fill_between(t, q25[:, si], q75[:, si], alpha=band_alpha_iqr, linewidth=0)
-                if show_mean:
-                    ax.plot(t, qmean[:, si], lw=2, color=col, label=sp)
-                if show_median:
-                    ax.plot(t, q50[:, si], lw=1, ls='--', color=col, alpha=0.7)
+                for ridx in samp_idx:
+                    ax.plot(t_h, X[ridx, :, si], lw=0.6, alpha=traj_alpha, label='_nolegend_')
 
-            # left labels (for species names)
+                if show_p80:
+                    band = ax.fill_between(
+                        t_h, q10[:, si], q90[:, si],
+                        alpha=band_alpha_p80, linewidth=0
+                    )
+                    if first_for_stat:
+                        bucket[('P80', None)] = band
+                if show_iqr:
+                    band = ax.fill_between(
+                        t_h, q25[:, si], q75[:, si],
+                        alpha=band_alpha_iqr, linewidth=0
+                    )
+                    if first_for_stat:
+                        bucket[('IQR', None)] = band
+
+                if show_mean:
+                    line = ax.plot(t_h, qmean[:, si], lw=2)[0]
+                    sp_colors[sp] = line.get_color()
+                    bucket[('mean', sp)] = line
+                if show_median:
+                    line = ax.plot(t_h, qmed[:, si], lw=1, linestyle='--')[0]
+                    bucket[('median', sp)] = line
+
+                first_for_stat = False
+
+            if cond_label == 'Starved':
+                ax.set_title(f"AXP Dynamics during Starvation  for N = {X.shape[0]} simulations", fontsize=15)
+            else:
+                ax.set_title(f"AXP Dynamics in Basal State  for N = {X.shape[0]} simulations", fontsize=15)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            ax.set_xlabel('time [h]', fontsize=12)
+            ax.grid(alpha=0.2, linestyle=':')
+
+            # left species labels
             if curve_labels and show_mean:
                 y0s = [qmean[0, si] for si in range(len(species))]
-                y_min, y_max = ax.get_ylim(); y_range = max(1e-12, (y_max - y_min))
+                y_min, y_max = ax.get_ylim()
+                y_range = max(1e-12, (y_max - y_min))
                 y_labs = _spread(y0s, curve_label_min_gap_frac * y_range)
-                ax.set_xlim(min(curve_label_xpad, 0), total_hours)
-                for sp, y_lab, y_true in zip(species, y_labs, y0s):
-                    col = sp_colors[sp]
-                    ax.text(curve_label_xpad, y_lab, sp, color=col, va='center', ha='right', fontsize=12, weight='bold')
-                    if curve_label_connectors:
-                        ax.plot([curve_label_xpad+0.2, 0], [y_lab, y_true], lw=0.8, alpha=0.6, color=col)
 
-            ax.set_title(title, fontsize=16)
+                x_min, x_max = ax.get_xlim()
+                ax.set_xlim(0, x_max)
+
+                for sp, y_lab, y_true in zip(species, y_labs, y0s):
+                    col = sp_colors.get(sp, 'black')
+                    ax.text(curve_label_xpad, y_lab, sp,
+                            color=col, va='center', ha='right',
+                            fontsize=12, weight='bold')
+                    if curve_label_connectors:
+                        ax.plot([curve_label_xpad + 0.2, 0],
+                                [y_lab, y_true],
+                                lw=2.0, alpha=0.6, color=col,
+                                label='_nolegend_',
+                                clip_on=False)
+
+        _plot_condition_panel(axes[0], t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean,
+                              samp_a, label_a, legend_data[label_a])
+        _plot_condition_panel(axes[1], t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean,
+                              samp_b, label_b, legend_data[label_b])
+
+        axes[0].set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+
+        # --- NEW: force y-ticks/labels on the right subplot as well -----
+        axes[1].tick_params(labelleft=True)
+        # ----------------------------------------------------------------
+
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            line_a = axes[0].plot(t_h_a, qamean.sum(axis=1), lw=1.2, linestyle=':')[0]
+            line_b = axes[1].plot(t_h_b, qbmean.sum(axis=1), lw=1.2, linestyle=':')[0]
+            legend_data[label_a][('AXP_mean', None)] = line_a
+            legend_data[label_b][('AXP_mean', None)] = line_b
+
+    # -------- legend placement (same as your last version) -------------
+    if layout_mode == "condition" and legend_pos in {"below", "above"}:
+        cols = []
+        if show_iqr:
+            cols.append(('IQR', None))
+        if show_p80:
+            cols.append(('P80', None))
+        for sp in species:
+            if show_mean:
+                cols.append(('mean', sp))
+            if show_median:
+                cols.append(('median', sp))
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            cols.append(('AXP_mean', None))
+
+        def desc_str(key):
+            kind, sp = key
+            if kind == 'IQR':
+                return 'IQR'
+            if kind == 'P80':
+                return '10–90%'
+            if kind == 'mean' and sp is not None:
+                return f'{sp} mean'
+            if kind == 'median' and sp is not None:
+                return f'{sp} median'
+            if kind == 'AXP_mean':
+                return 'AXP mean'
+            return str(key)
+
+        handles, labels = [], []
+        for cond_label in (label_a, label_b):
+            bucket = legend_data[cond_label]
+            for key in cols:
+                h = bucket.get(key)
+                if h is not None:
+                    handles.append(h)
+                    labels.append(f"{cond_label} {desc_str(key)}")
+
+        ncol = len(cols) if cols else 1
+    else:
+        if layout_mode == "condition":
+            h0, l0 = axes[0].get_legend_handles_labels()
+            h1, l1 = axes[1].get_legend_handles_labels()
+            handles, labels = list(h0), list(l0)
+            for h, lab in zip(h1, l1):
+                if lab not in labels:
+                    handles.append(h)
+                    labels.append(lab)
+        else:
+            handles, labels = axes[0].get_legend_handles_labels()
+        ncol = 6
+
+    if legend_pos == "below":
+        fig.legend(handles, labels, frameon=False, loc='lower center',
+                   bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
+        fig.tight_layout(rect=[0, 0.06, 1, 1])
+    elif legend_pos == "above":
+        fig.legend(handles, labels, frameon=False, loc='upper center',
+                   bbox_to_anchor=(0.5, 1.15), ncol=ncol, fontsize=12)
+        fig.tight_layout(rect=[0, 0, 1, 0.94])
+    else:
+        axes[-1].legend(handles, labels, frameon=False, loc='upper right')
+        fig.tight_layout()
+
+    fig.patch.set_facecolor('white')
+    #fig.subplots_adjust(left=0.22)
+    return fig
+
+fig = plot_compare_summary(
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
+    label_a='Starved', label_b='Basal',
+    species=('GLUCOUT'),
+    layout_mode="species",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=True,
+    sample_trajs=100,
+    legend_pos="below",
+    curve_labels=True,
+    curve_label_min_gap_frac=0.05,
+    curve_label_xpad=-3.0,
+    curve_label_connectors=True,
+    figsize=(12, 8)
+)
+
+# %%
+from typing import Dict, Iterable, Optional, Tuple
+
+def _normalize_species(species):
+    if isinstance(species, str):
+        return (species,)
+    return tuple(species)
+
+def _stack_runs(df_dict, species, n_expected=None):
+    species = _normalize_species(species)
+    max_idx = max(df.index.max() for df in df_dict.values())
+    if n_expected is not None:
+        max_idx = max(max_idx, n_expected)
+    idx = pd.RangeIndex(1, max_idx + 1)
+
+    mats = []
+    for _, df in df_dict.items():
+        tmp = (df.sort_index()
+                 .reindex(idx)
+                 .apply(pd.to_numeric, errors='coerce')
+                 .ffill().bfill())
+        if set(species).issubset(tmp.columns):
+            mats.append(tmp.loc[:, list(species)].to_numpy())
+    if not mats:
+        raise ValueError(f"No runs contained the requested species: {species}")
+    return idx, np.stack(mats, axis=0)
+
+def _summary(X: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    q10 = np.quantile(X, 0.10, axis=0)
+    q25 = np.quantile(X, 0.25, axis=0)
+    med  = np.quantile(X, 0.50, axis=0)
+    q75 = np.quantile(X, 0.75, axis=0)
+    q90 = np.quantile(X, 0.90, axis=0)
+    mean = X.mean(axis=0)
+    return q10, q25, med, q75, q90, mean
+
+def plot_compare_summary(
+    df_dict_a: Dict[str, pd.DataFrame],
+    df_dict_b: Dict[str, pd.DataFrame],
+    label_a: str = 'cond A',
+    label_b: str = 'cond B',
+    species=('ATP','ADP','AMP'),
+    dt_minutes=30,
+    total_hours=84,
+    # ---- layout switch ----
+    layout_mode: str = "species",   # "species" | "condition"
+    # ---- stat controls ----
+    show_iqr: bool = True,
+    show_p80: bool = False,
+    show_mean: bool = True,
+    show_median: bool = False,
+    sample_trajs: int = 0,          # 0 -> no thin trajectories
+    traj_alpha: float = 0.10,
+    band_alpha_iqr: float = 0.20,
+    band_alpha_p80: float = 0.10,
+    legend_pos: str = "below",      # "below" | "above" | "inside"
+    # -----------------------
+    show_axp: bool = True,          # only used if plotting the AXP trio
+    figsize=(12, 8),
+    curve_labels: bool = False,
+    curve_label_min_gap_frac: float = 0.02,
+    curve_label_xpad: float = -3.0,
+    curve_label_connectors: bool = True,
+    # ---- NEW: separate figures per species ----
+    multi_fig: bool = False,
+):
+    """
+    Compare conditions A vs B for the given species.
+
+    layout_mode = "species":
+        One subplot per species. Each subplot shows both conditions.
+
+    layout_mode = "condition":
+        Two subplots (A, B). Each subplot shows all species for that condition.
+
+    multi_fig = True:
+        Instead of one figure for all species, return a *list of figures*,
+        one figure per species, using the chosen layout_mode.
+    """
+    if layout_mode not in {"species", "condition"}:
+        raise ValueError('layout_mode must be "species" or "condition".')
+
+    species = _normalize_species(species)
+
+    # --- NEW: create one fig per species if requested -------------------
+    if multi_fig and len(species) > 1:
+        figs = []
+        for sp in species:
+            figs.append(
+                plot_compare_summary(
+                    df_dict_a=df_dict_a,
+                    df_dict_b=df_dict_b,
+                    label_a=label_a,
+                    label_b=label_b,
+                    species=(sp,),
+                    dt_minutes=dt_minutes,
+                    total_hours=total_hours,
+                    layout_mode=layout_mode,
+                    show_iqr=show_iqr,
+                    show_p80=show_p80,
+                    show_mean=show_mean,
+                    show_median=show_median,
+                    sample_trajs=sample_trajs,
+                    traj_alpha=traj_alpha,
+                    band_alpha_iqr=band_alpha_iqr,
+                    band_alpha_p80=band_alpha_p80,
+                    legend_pos=legend_pos,
+                    show_axp=show_axp,
+                    figsize=figsize,
+                    curve_labels=curve_labels,
+                    curve_label_min_gap_frac=curve_label_min_gap_frac,
+                    curve_label_xpad=curve_label_xpad,
+                    curve_label_connectors=curve_label_connectors,
+                    multi_fig=False,      # avoid infinite recursion
+                )
+            )
+        return figs
+    # --------------------------------------------------------------------
+
+    n_expected = int(total_hours*60/dt_minutes + 1)
+
+    # stack & summarize
+    idx_a, Xa = _stack_runs(df_dict_a, species, n_expected)  # [runs, time, species]
+    idx_b, Xb = _stack_runs(df_dict_b, species, n_expected)
+    t_h_a = (idx_a.values - 1) * dt_minutes / 60.0
+    t_h_b = (idx_b.values - 1) * dt_minutes / 60.0
+
+    qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)
+    qb10, qb25, qbmed, qb75, qb90, qbmean = _summary(Xb)
+
+    rng = np.random.default_rng(0)
+    samp_a = rng.choice(Xa.shape[0], size=min(sample_trajs, Xa.shape[0]), replace=False) if sample_trajs else []
+    samp_b = rng.choice(Xb.shape[0], size=min(sample_trajs, Xb.shape[0]), replace=False) if sample_trajs else []
+
+    legend_data = {label_a: {}, label_b: {}}
+
+    # ---------------- LAYOUT 1: one subplot per species ----------------
+    if layout_mode == "species":
+        fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+        if len(species) == 1:
+            axes = [axes]
+
+        for si, sp in enumerate(species):
+            ax = axes[si]
+
+            for ridx in samp_a:
+                ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
+            for ridx in samp_b:
+                ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
+
+            if show_p80:
+                ax.fill_between(t_h_a, qa10[:, si], qa90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
+
+            if show_p80:
+                ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
+
+            if curve_labels:
+                y0_a = qamean[0, si]
+                y0_b = qbmean[0, si]
+                ax.text(-2.5, y0_a, f"{label_a}", color='tab:blue',
+                        va='center', ha='right', fontsize=12, weight='bold')
+                ax.text(-2.5, y0_b, f"{label_b}", color='tab:orange',
+                        va='center', ha='right', fontsize=12, weight='bold')
+
+            if show_mean:
+                ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
+                ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
+            if show_median:
+                ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--', label=f'{label_a} median')
+                ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--', label=f'{label_b} median')
+
+            ax.set_title(f"Time Profile of {sp} Dynamics - N = {Xa.shape[0]} Simulations", fontsize=10)
+            ax.set_xlim(0, total_hours)
             ax.set_xticks(np.arange(0, total_hours+0.1, 6))
-            ax.set_xlabel('time [h]', fontsize=14)
+            if si == 0:
+                ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+            ax.set_xlabel('time [h]', fontsize=15)
             ax.grid(alpha=0.2, linestyle=':')
 
-        # draw both panels
-        _draw_panel(axA, t_h_a, qa10, qa25, qamed, qa75, qa90, qamean, title=label_a)
-        _draw_panel(axB, t_h_b, qb10, qb25, qbmed, qb75, qb90, qbmean, title=label_b)
+            if sp == 'GLUCOUT' and (label_a == 'Starved' or label_b == 'Starved'):
+                ax.errorbar(
+                    sejeong_gluc.t,
+                    sejeong_gluc.y,
+                    yerr=sejeong_gluc.sigma,
+                    fmt='x',
+                    capsize=5,
+                    lw=1.8,
+                    markersize=5,
+                    color='tab:red',
+                    ecolor='tab:red',
+                    elinewidth=2,
+                    alpha=0.9
+                )
 
-        axes[0].set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=14)
-
-        # species legend (only if wanted)
-        if legend_pos != "none":
-            handles, labels = axes[1].get_legend_handles_labels()
-            if legend_pos == "below":
-                fig.legend(handles, labels, frameon=False, loc='lower center',
-                           bbox_to_anchor=(0.5, -0.02), ncol=min(6, len(species)), fontsize=12)
-                fig.tight_layout(rect=[0, 0.06, 1, 1])
-            elif legend_pos == "above":
-                fig.legend(handles, labels, frameon=False, loc='upper center',
-                           bbox_to_anchor=(0.5, 1.12), ncol=min(6, len(species)), fontsize=12)
-                fig.tight_layout(rect=[0, 0, 1, 0.92])
-            else:  # inside
-                axes[1].legend(frameon=False, loc='upper right')
-        else:
-            fig.tight_layout()
-
+    # ---------------- LAYOUT 2: one subplot per condition ----------------
     else:
-        raise ValueError("layout must be 'by_species' or 'by_condition'")
+        fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
 
-    # global legend for by_species (conditions)
-    if layout == "by_species" and legend_pos != "none":
-        handles, labels = axes[0].get_legend_handles_labels()
-        if legend_pos == "below":
-            fig.legend(handles, labels, frameon=False, loc='lower center',
-                       bbox_to_anchor=(0.5, -0.02), ncol=6, fontsize=12)
-            fig.tight_layout(rect=[0, 0.06, 1, 1])
-        elif legend_pos == "above":
-            fig.legend(handles, labels, frameon=False, loc='upper center',
-                       bbox_to_anchor=(0.5, 1.12), ncol=6, fontsize=12)
-            fig.tight_layout(rect=[0, 0, 1, 0.92])
+        def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
+                                  samp_idx, cond_label, bucket):
+            first_for_stat = True
+            sp_colors = {}
+
+            for si, sp in enumerate(species):
+                for ridx in samp_idx:
+                    ax.plot(t_h, X[ridx, :, si], lw=0.6, alpha=traj_alpha, label='_nolegend_')
+
+                if show_p80:
+                    band = ax.fill_between(
+                        t_h, q10[:, si], q90[:, si],
+                        alpha=band_alpha_p80, linewidth=0
+                    )
+                    if first_for_stat:
+                        bucket[('P80', None)] = band
+                if show_iqr:
+                    band = ax.fill_between(
+                        t_h, q25[:, si], q75[:, si],
+                        alpha=band_alpha_iqr, linewidth=0
+                    )
+                    if first_for_stat:
+                        bucket[('IQR', None)] = band
+
+                if show_mean:
+                    line = ax.plot(t_h, qmean[:, si], lw=2)[0]
+                    sp_colors[sp] = line.get_color()
+                    bucket[('mean', sp)] = line
+                if show_median:
+                    line = ax.plot(t_h, qmed[:, si], lw=1, linestyle='--')[0]
+                    bucket[('median', sp)] = line
+
+                first_for_stat = False
+
+            ax.set_title(f"{cond_label} — N = {X.shape[0]} simulations", fontsize=10)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            ax.set_xlabel('time [h]', fontsize=15)
+            ax.grid(alpha=0.2, linestyle=':')
+
+            # left species labels
+            if curve_labels and show_mean:
+                y0s = [qmean[0, si] for si in range(len(species))]
+                y_min, y_max = ax.get_ylim()
+                y_range = max(1e-12, (y_max - y_min))
+                y_labs = _spread(y0s, curve_label_min_gap_frac * y_range)
+
+                x_min, x_max = ax.get_xlim()
+                ax.set_xlim(min(curve_label_xpad, x_min), x_max)
+
+                for sp, y_lab, y_true in zip(species, y_labs, y0s):
+                    col = sp_colors.get(sp, 'black')
+                    ax.text(curve_label_xpad, y_lab, sp,
+                            color=col, va='center', ha='right',
+                            fontsize=12, weight='bold')
+                    if curve_label_connectors:
+                        ax.plot([curve_label_xpad + 0.2, 0],
+                                [y_lab, y_true],
+                                lw=0.8, alpha=0.6, color=col,
+                                label='_nolegend_')
+
+        _plot_condition_panel(axes[0], t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean,
+                              samp_a, label_a, legend_data[label_a])
+        _plot_condition_panel(axes[1], t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean,
+                              samp_b, label_b, legend_data[label_b])
+
+        axes[0].set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+
+        # --- NEW: force y-ticks/labels on the right subplot as well -----
+        axes[1].tick_params(labelleft=True)
+        # ----------------------------------------------------------------
+
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            line_a = axes[0].plot(t_h_a, qamean.sum(axis=1), lw=1.2, linestyle=':')[0]
+            line_b = axes[1].plot(t_h_b, qbmean.sum(axis=1), lw=1.2, linestyle=':')[0]
+            legend_data[label_a][('AXP_mean', None)] = line_a
+            legend_data[label_b][('AXP_mean', None)] = line_b
+
+    # -------- legend placement (same as your last version) -------------
+    if layout_mode == "condition" and legend_pos in {"below", "above"}:
+        cols = []
+        if show_iqr:
+            cols.append(('IQR', None))
+        if show_p80:
+            cols.append(('P80', None))
+        for sp in species:
+            if show_mean:
+                cols.append(('mean', sp))
+            if show_median:
+                cols.append(('median', sp))
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            cols.append(('AXP_mean', None))
+
+        def desc_str(key):
+            kind, sp = key
+            if kind == 'IQR':
+                return 'IQR'
+            if kind == 'P80':
+                return '10–90%'
+            if kind == 'mean' and sp is not None:
+                return f'{sp} mean'
+            if kind == 'median' and sp is not None:
+                return f'{sp} median'
+            if kind == 'AXP_mean':
+                return 'AXP mean'
+            return str(key)
+
+        handles, labels = [], []
+        for cond_label in (label_a, label_b):
+            bucket = legend_data[cond_label]
+            for key in cols:
+                h = bucket.get(key)
+                if h is not None:
+                    handles.append(h)
+                    labels.append(f"{cond_label} {desc_str(key)}")
+
+        ncol = len(cols) if cols else 1
+    else:
+        if layout_mode == "condition":
+            h0, l0 = axes[0].get_legend_handles_labels()
+            h1, l1 = axes[1].get_legend_handles_labels()
+            handles, labels = list(h0), list(l0)
+            for h, lab in zip(h1, l1):
+                if lab not in labels:
+                    handles.append(h)
+                    labels.append(lab)
         else:
-            axes[-1].legend(frameon=False, loc='upper right')
-            fig.tight_layout()
+            handles, labels = axes[0].get_legend_handles_labels()
+        ncol = 6
+
+    if legend_pos == "below":
+        fig.legend(handles, labels, frameon=False, loc='lower center',
+                   bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
+        fig.tight_layout(rect=[0, 0.06, 1, 1])
+    elif legend_pos == "above":
+        fig.legend(handles, labels, frameon=False, loc='upper center',
+                   bbox_to_anchor=(0.5, 1.15), ncol=ncol, fontsize=12)
+        fig.tight_layout(rect=[0, 0, 1, 0.94])
+    else:
+        axes[-1].legend(handles, labels, frameon=False, loc='upper right')
+        fig.tight_layout()
 
     fig.patch.set_facecolor('white')
     return fig
 
-fig = plot_compare_summary(
-    mechs['stac'].orig_time_sim_df, mechs['starve'].orig_time_sim_df,
-    label_a='Basal', label_b='Starved',
-    species=('MTOR','MTORA','ULK','ULKA'),   # labels are species names on the left
-    legend_pos='below',    # or 'below' for a species legend
-    figsize=(12, 4),
+figs = plot_compare_summary(
+    mechs['starve'].orig_time_sim_df,
+    mechs['stac'].orig_time_sim_df,
+    label_a='Starved', label_b='Basal',
+    species=('ULK', 'ULKA'),
+    layout_mode="condition",
     show_iqr=True, show_p80=False,
-    show_mean=True, show_median=True,
+    show_mean=True, show_median=False,
     sample_trajs=100,
-    curve_labels=True,                # turn on left labels
-    curve_label_min_gap_frac=0.02,    # min vertical separation (as frac of y-range)
-    curve_label_xpad=-3.0,            # shift labels left (in hours)
+    legend_pos="below",
+    curve_labels=True,
+    multi_fig=True,              # <-- new
     curve_label_connectors=True,
-    layout='by_condition'
+    curve_label_min_gap_frac=0.12,
+    curve_label_xpad=-3
 )
-plt.show()
+
+# figs is now a list of Matplotlib Figure objects, one per species
+for f in figs:
+    f.show()
 
 
 # %%
@@ -1394,6 +3211,29 @@ def _summary(X: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndar
     mean = X.mean(axis=0)
     return q10, q25, med, q75, q90, mean
 
+def _spread(y_values, min_gap):
+    """
+    Given a list of y positions, return adjusted positions so that
+    consecutive labels are at least `min_gap` apart (in data units),
+    while preserving ordering as much as possible.
+    """
+    y = np.array(y_values, dtype=float)
+    order = np.argsort(y)
+    y_sorted = y[order]
+
+    adj = np.empty_like(y_sorted)
+    prev = -np.inf
+    for i, val in enumerate(y_sorted):
+        if val <= prev + min_gap:
+            adj[i] = prev + min_gap
+        else:
+            adj[i] = val
+        prev = adj[i]
+
+    result = np.empty_like(adj)
+    result[order] = adj
+    return result
+
 def plot_compare_summary(
     df_dict_a: Dict[str, pd.DataFrame],
     df_dict_b: Dict[str, pd.DataFrame],
@@ -1402,7 +3242,9 @@ def plot_compare_summary(
     species=('ATP','ADP','AMP'),
     dt_minutes=30,
     total_hours=84,
-    # ---- new controls ----
+    # ---- layout switch ----
+    layout_mode: str = "species",   # "species" | "condition"
+    # ---- stat controls ----
     show_iqr: bool = True,
     show_p80: bool = False,
     show_mean: bool = True,
@@ -1411,21 +3253,34 @@ def plot_compare_summary(
     traj_alpha: float = 0.10,
     band_alpha_iqr: float = 0.20,
     band_alpha_p80: float = 0.10,
-    legend_pos: str = "below",      # "below" | "above" | "inside" | "none"
-    curve_labels: bool = False,
-    # --- NEW knobs for curve labels ---
-    curve_label_min_gap_frac: float = 0.02,  # 2% of y-range minimum vertical gap
-    curve_label_xpad: float = -2.5,          # x position (hours) for left labels
-    curve_label_connectors: bool = True,
-    # -----------------------------------
+    legend_pos: str = "below",      # "below" | "above" | "inside"
     # -----------------------
-    show_axp: bool = True,
-    figsize=(12, 8)
+    show_axp: bool = True,          # only used if plotting the AXP trio
+    figsize=(12, 8),
+    curve_labels: bool = False
 ):
+    """
+    Compare conditions A vs B for the given species.
+
+    layout_mode = "species":
+        One subplot per species. Each subplot shows both conditions.
+        `curve_labels` annotates the two condition curves near t=0.
+
+    layout_mode = "condition":
+        Two subplots (A, B). Each subplot shows all species for that condition.
+        `curve_labels` is ignored (the condition is already in the title).
+
+    All other options (IQR, 10–90%, mean, median, sample trajectories, legend,
+    AXP overlay, Sejeong data overlay) remain available.
+    """
+    if layout_mode not in {"species", "condition"}:
+        raise ValueError('layout_mode must be "species" or "condition".')
+
     species = _normalize_species(species)
     n_expected = int(total_hours*60/dt_minutes + 1)
 
-    idx_a, Xa = _stack_runs(df_dict_a, species, n_expected)
+    # stack & summarize
+    idx_a, Xa = _stack_runs(df_dict_a, species, n_expected)  # [runs, time, species]
     idx_b, Xb = _stack_runs(df_dict_b, species, n_expected)
     t_h_a = (idx_a.values - 1) * dt_minutes / 60.0
     t_h_b = (idx_b.values - 1) * dt_minutes / 60.0
@@ -1433,241 +3288,488 @@ def plot_compare_summary(
     qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)
     qb10, qb25, qbmed, qb75, qb90, qbmean = _summary(Xb)
 
-    def _spread(yvals, min_gap):
-        if len(yvals) <= 1:
-            return yvals
-        idx = np.argsort(yvals)
-        ys = np.array(yvals, dtype=float)[idx]
-        for i in range(1, len(ys)):
-            if ys[i] - ys[i-1] < min_gap:
-                ys[i] = ys[i-1] + min_gap
-        # restore original order
-        ys_out = np.empty_like(ys)
-        ys_out[idx] = ys
-        return ys_out
-
-    fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
-    if len(species) == 1:
-        axes = [axes]
-
+    # prepare sampling of individual trajectories
     rng = np.random.default_rng(0)
     samp_a = rng.choice(Xa.shape[0], size=min(sample_trajs, Xa.shape[0]), replace=False) if sample_trajs else []
     samp_b = rng.choice(Xb.shape[0], size=min(sample_trajs, Xb.shape[0]), replace=False) if sample_trajs else []
 
-    for si, sp in enumerate(species):
-        ax = axes[si]
+    # ---------------- LAYOUT 1: one subplot per species ----------------
+    if layout_mode == "species":
+        fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+        if len(species) == 1:
+            axes = [axes]
 
-        # sample trajectories
-        for ridx in samp_a:
-            ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
-        for ridx in samp_b:
-            ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
+        for si, sp in enumerate(species):
+            ax = axes[si]
 
-        # IQR and 80% bands
-        if show_p80:
-            ax.fill_between(t_h_a, qa10[:, si], qa90[:, si], alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
-            ax.fill_between(t_h_b, qb10[:, si], qb90[:, si], alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
-        if show_iqr:
-            ax.fill_between(t_h_a, qa25[:, si], qa75[:, si], alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
-            ax.fill_between(t_h_b, qb25[:, si], qb75[:, si], alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
+            # optional thin single-run trajectories
+            for ridx in samp_a:
+                ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
+            for ridx in samp_b:
+                ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
 
-        # mean and median lines
-        if show_mean:
-            line_a, = ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean', color='tab:blue')
-            line_b, = ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean', color='tab:orange')
-        if show_median:
-            ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--', label=f'{label_a} median', color='tab:green')
-            ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--', label=f'{label_b} median', color='tab:red')
+            # condition A bands
+            if show_p80:
+                ax.fill_between(t_h_a, qa10[:, si], qa90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
 
-        if curve_labels:
-            # gather starting y-values for all things we label (here: the two means)
-            y0s   = [qamean[0, si], qbmean[0, si]]
-            texts = [label_a,        label_b]
-            cols  = ['tab:blue',     'tab:orange']
+            # condition B bands
+            if show_p80:
+                ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
 
-            # compute min gap as a fraction of the current y-range
-            y_min, y_max = ax.get_ylim()
-            y_range = max(1e-12, (y_max - y_min))
-            min_gap = curve_label_min_gap_frac * y_range
-
-            # spread labels vertically if they collide
-            y_labs = _spread(y0s, min_gap=min_gap)
-
-            # place labels and optional thin connectors to (0, y0)
-            for y_true, y_lab, text, col in zip(y0s, y_labs, texts, cols):
-                ax.text(curve_label_xpad, y_lab, text, color=col,
+            # add labels near t=0 for each species panel
+            if curve_labels:
+                y0_a = qamean[0, si]
+                y0_b = qbmean[0, si]
+                ax.text(-2.5, y0_a, f"{label_a}", color='tab:blue',
                         va='center', ha='right', fontsize=12, weight='bold')
-                if curve_label_connectors:
-                    ax.plot([curve_label_xpad+0.2, 0], [y_lab, y_true],
-                            lw=0.8, alpha=0.6, color=col)
+                ax.text(-2.5, y0_b, f"{label_b}", color='tab:orange',
+                        va='center', ha='right', fontsize=12, weight='bold')
 
+            # central tendency lines
+            if show_mean:
+                ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
+                ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
+            if show_median:
+                ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--', label=f'{label_a} median')
+                ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--', label=f'{label_b} median')
 
-    # optional combined AXP overlay
-    if show_axp and set(species) == {'ATP','ADP','AMP'}:
-        axes[0].plot(t_h_a, qamean.sum(axis=1), lw=1.2, linestyle=':', label=f'AXP mean – {label_a}')
-        axes[0].plot(t_h_b, qbmean.sum(axis=1), lw=1.2, linestyle=':', label=f'AXP mean – {label_b}')
+            # axis cosmetics
+            ax.set_title(f"Time Profile of {sp} Dynamics - N = {Xa.shape[0]} Simulations", fontsize=10)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            if si == 0:
+                ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+            ax.set_xlabel('time [h]', fontsize=15)
+            ax.grid(alpha=0.2, linestyle=':')
 
-    # legend placement
-    if legend_pos != "none":
-        handles, labels = axes[0].get_legend_handles_labels()
-        if legend_pos == "below":
-            fig.legend(handles, labels, frameon=False, loc='lower center',
-                       bbox_to_anchor=(0.5, -0.02), ncol=6, fontsize=12)
-            fig.tight_layout(rect=[0, 0.06, 1, 1])
-        elif legend_pos == "above":
-            fig.legend(handles, labels, frameon=False, loc='upper center',
-                       bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=12)
-            fig.tight_layout(rect=[0, 0, 1, 0.94])
-        else:  # inside
-            axes[-1].legend(frameon=False, loc='upper right')
-            fig.tight_layout()
+            # optional Sejeong glucose data overlay
+            if sp == 'GLUCOUT' and (label_a == 'Starved' or label_b == 'Starved'):
+                ax.errorbar(
+                    sejeong_gluc.t,
+                    sejeong_gluc.y,
+                    yerr=sejeong_gluc.sigma,
+                    fmt='x',
+                    capsize=5,
+                    lw=1.8,
+                    markersize=5,
+                    color='tab:red',
+                    ecolor='tab:red',
+                    elinewidth=2,
+                    alpha=0.9
+                )
+
+    # ---------------- LAYOUT 2: one subplot per condition ----------------
+    else:  # layout_mode == "condition"
+        fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
+
+        # helper to draw one condition panel
+        def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
+                                  samp_idx, cond_label):
+            first_for_stat = True  # avoid duplicate legend labels for bands *within this panel*
+            for si, sp in enumerate(species):
+                # thin individual trajectories
+                for ridx in samp_idx:
+                    ax.plot(t_h, X[ridx, :, si], lw=0.6, alpha=traj_alpha)
+
+                # bands
+                if show_p80:
+                    ax.fill_between(
+                        t_h, q10[:, si], q90[:, si],
+                        alpha=band_alpha_p80, linewidth=0,
+                        label=f'{cond_label} 10–90%' if first_for_stat else None
+                    )
+                if show_iqr:
+                    ax.fill_between(
+                        t_h, q25[:, si], q75[:, si],
+                        alpha=band_alpha_iqr, linewidth=0,
+                        label=f'{cond_label} IQR' if first_for_stat and not show_p80 else None
+                    )
+
+                # central tendency per species
+                if show_mean:
+                    ax.plot(t_h, qmean[:, si], lw=2, label=f'{sp} mean')
+                if show_median:
+                    ax.plot(t_h, qmed[:, si], lw=1, linestyle='--', label=f'{sp} median')
+
+                first_for_stat = False
+
+            ax.set_title(f"{cond_label} — N = {X.shape[0]} simulations", fontsize=10)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            ax.set_xlabel('time [h]', fontsize=15)
+            ax.grid(alpha=0.2, linestyle=':')
+
+        _plot_condition_panel(axes[0], t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean, samp_a, label_a)
+        _plot_condition_panel(axes[1], t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean, samp_b, label_b)
+
+        axes[0].set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+
+        # optional AXP overlay in condition layout too
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            axes[0].plot(t_h_a, qamean.sum(axis=1), lw=1.2, linestyle=':', label='AXP mean')
+            axes[1].plot(t_h_b, qbmean.sum(axis=1), lw=1.2, linestyle=':', label='AXP mean')
+
+    # -------- shared legend placement (both layouts) --------
+    if layout_mode == "condition":
+        # collect handles from BOTH axes so Basal + Starved bands all appear
+        h0, l0 = axes[0].get_legend_handles_labels()
+        h1, l1 = axes[1].get_legend_handles_labels()
+        handles, labels = list(h0), list(l0)
+        for h, lab in zip(h1, l1):
+            if lab not in labels:
+                handles.append(h)
+                labels.append(lab)
     else:
+        handles, labels = axes[0].get_legend_handles_labels()
+
+    if legend_pos == "below":
+        fig.legend(handles, labels, frameon=False, loc='lower center',
+                   bbox_to_anchor=(0.5, -0.01), ncol=6, fontsize=12)
+        fig.tight_layout(rect=[0, 0.06, 1, 1])
+    elif legend_pos == "above":
+        fig.legend(handles, labels, frameon=False, loc='upper center',
+                   bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=12)
+        fig.tight_layout(rect=[0, 0, 1, 0.94])
+    else:  # inside (previous behavior)
+        axes[-1].legend(handles, labels, frameon=False, loc='upper right')
         fig.tight_layout()
 
     fig.patch.set_facecolor('white')
     return fig
 
 
-# --- Example call (your objects) ---
 fig = plot_compare_summary(
-    mechs['stac'].orig_time_sim_df,
-    mechs['starve'].orig_time_sim_df,
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
     label_a='Basal', label_b='Starved',
-    species=('GLUCOUT',),
-    show_iqr=True, show_mean=True, show_median=True,
-    sample_trajs=50,
-    legend_pos="none",
-    curve_labels=True,
-    curve_label_min_gap_frac=0.02,  # tweak if still too close
-    curve_label_xpad=-3.0,
-    curve_label_connectors=True
+    species=('ATP','ADP', 'AMP'),
+    layout_mode="condition",          # default; optional
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=True,
+    sample_trajs=100, legend_pos="below",
+    curve_labels=True
 )
-plt.show()
 
-
-plt.show()
 
 # %%
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 from typing import Dict, Iterable, Optional, Tuple
 
-# ---------- helpers ----------
-def _align_runs(
-    df_dict: Dict[str, pd.DataFrame],
-    species: Iterable[str],
-    dt_minutes: int = 30,
-    total_hours: int = 84
-) -> Tuple[np.ndarray, Dict[str, np.ndarray]]:
-    """
-    Align runs to a common time index and return time (minutes) + arrays per species:
-    arrays have shape [n_runs, n_time].
-    """
-    n_expected = int(total_hours * 60 / dt_minutes + 1)     # e.g. 0..84h every 30 min -> 169 points
-    idx = pd.RangeIndex(1, n_expected + 1, 1)
+def _normalize_species(species):
+    if isinstance(species, str):
+        return (species,)
+    return tuple(species)
 
-    stacks = {sp: [] for sp in species}
+def _stack_runs(df_dict, species, n_expected=None):
+    species = _normalize_species(species)
+    max_idx = max(df.index.max() for df in df_dict.values())
+    if n_expected is not None:
+        max_idx = max(max_idx, n_expected)
+    idx = pd.RangeIndex(1, max_idx + 1)
+
+    mats = []
     for _, df in df_dict.items():
         tmp = (df.sort_index()
                  .reindex(idx)
                  .apply(pd.to_numeric, errors='coerce')
                  .ffill().bfill())
-        if all(sp in tmp.columns for sp in species):
-            for sp in species:
-                stacks[sp].append(tmp[sp].to_numpy())
+        if set(species).issubset(tmp.columns):
+            mats.append(tmp.loc[:, list(species)].to_numpy())
+    if not mats:
+        raise ValueError(f"No runs contained the requested species: {species}")
+    return idx, np.stack(mats, axis=0)
 
-    # stack to [n_runs, n_time]
-    stacks = {sp: np.stack(v, axis=0) for sp, v in stacks.items() if len(v) > 0}
-    if len(stacks) != len(species):
-        missing = [sp for sp in species if sp not in stacks]
-        raise ValueError(f"Missing species in all runs: {missing}")
+def _summary(X: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    q10 = np.quantile(X, 0.10, axis=0)
+    q25 = np.quantile(X, 0.25, axis=0)
+    med = np.quantile(X, 0.50, axis=0)
+    q75 = np.quantile(X, 0.75, axis=0)
+    q90 = np.quantile(X, 0.90, axis=0)
+    mean = X.mean(axis=0)
+    return q10, q25, med, q75, q90, mean
 
-    t_min = (idx.values - 1) * dt_minutes  # minutes
-    return t_min, stacks
+def _spread(y_values, min_gap):
+    """
+    Given a list of y positions, return adjusted positions so that
+    consecutive labels are at least `min_gap` apart (in data units),
+    while preserving ordering as much as possible.
+    """
+    y = np.array(y_values, dtype=float)
+    order = np.argsort(y)
+    y_sorted = y[order]
 
-def _summarize(stacks: Dict[str, np.ndarray]):
-    """Compute per-time summaries across runs for each species."""
-    summary = {}
-    for sp, X in stacks.items():  # X: [n_runs, n_time]
-        summary[sp] = {
-            'mean':   X.mean(axis=0),
-            'median': np.median(X, axis=0),
-            'q10':    np.quantile(X, 0.10, axis=0),
-            'q25':    np.quantile(X, 0.25, axis=0),
-            'q75':    np.quantile(X, 0.75, axis=0),
-            'q90':    np.quantile(X, 0.90, axis=0),
-            'n':      X.shape[0],
-        }
-    return summary
+    adj = np.empty_like(y_sorted)
+    prev = -np.inf
+    for i, val in enumerate(y_sorted):
+        if val <= prev + min_gap:
+            adj[i] = prev + min_gap
+        else:
+            adj[i] = val
+        prev = adj[i]
 
-# ---------- main plotter ----------
-def plot_axp_summary_two_panels(
-    df_starve: Dict[str, pd.DataFrame],
-    df_stac: Dict[str, pd.DataFrame],
-    label_starve='starve',
-    label_stac='stac',
+    result = np.empty_like(adj)
+    result[order] = adj
+    return result
+
+
+def plot_compare_summary(
+    df_dict_a: Dict[str, pd.DataFrame],
+    df_dict_b: Dict[str, pd.DataFrame],
+    label_a: str = 'cond A',
+    label_b: str = 'cond B',
+    species=('ATP','ADP','AMP'),
     dt_minutes=30,
     total_hours=84,
-    show_bands=True,
-    figsize=(10, 3)
+    # ---- layout switch ----
+    layout_mode: str = "species",   # "species" | "condition"
+    # ---- stat controls ----
+    show_iqr: bool = True,
+    show_p80: bool = False,
+    show_mean: bool = True,
+    show_median: bool = False,
+    sample_trajs: int = 0,          # 0 -> no thin trajectories
+    traj_alpha: float = 0.10,
+    band_alpha_iqr: float = 0.20,
+    band_alpha_p80: float = 0.10,
+    legend_pos: str = "below",      # "below" | "above" | "inside"
+    # -----------------------
+    show_axp: bool = True,          # only used if plotting the AXP trio
+    figsize=(12, 8),
+    curve_labels: bool = False,
+    curve_label_min_gap_frac: float = 0.02,
+    curve_label_xpad: float = -3.0,
+    curve_label_connectors: bool = True,
 ):
-    species = ('ADP', 'ATP', 'AMP')  # order to match your legend style
+    """
+    Compare conditions A vs B for the given species.
 
-    # build summaries
-    t_min_s, stacks_s = _align_runs(df_starve, species, dt_minutes, total_hours)
-    t_min_c, stacks_c = _align_runs(df_stac,   species, dt_minutes, total_hours)
-    S = _summarize(stacks_s)
-    C = _summarize(stacks_c)
+    layout_mode = "species":
+        One subplot per species. Each subplot shows both conditions.
+        `curve_labels` annotates the two condition curves near t=0.
 
-    # AXP (mean of per-run sums)
-    axp_mean_s = (stacks_s['ATP'] + stacks_s['ADP'] + stacks_s['AMP']).mean(axis=0)
-    axp_mean_c = (stacks_c['ATP'] + stacks_c['ADP'] + stacks_c['AMP']).mean(axis=0)
+    layout_mode = "condition":
+        Two subplots (A, B). Each subplot shows all species for that condition.
+        If `curve_labels` is True and `show_mean` is True, species names are
+        written to the left of each panel, vertically spaced using `_spread`.
+    """
+    if layout_mode not in {"species", "condition"}:
+        raise ValueError('layout_mode must be "species" or "condition".')
 
-    # figure
-    fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
+    species = _normalize_species(species)
+    n_expected = int(total_hours*60/dt_minutes + 1)
 
-    def _panel(ax, t_min, Summ, axp_mean, title):
-        # shaded bands (same for all species for readability)
-        if show_bands:
-            for sp in species:
-                ax.fill_between(t_min, Summ[sp]['q10'], Summ[sp]['q90'], alpha=0.08, linewidth=0)
-                ax.fill_between(t_min, Summ[sp]['q25'], Summ[sp]['q75'], alpha=0.15, linewidth=0)
+    # stack & summarize
+    idx_a, Xa = _stack_runs(df_dict_a, species, n_expected)  # [runs, time, species]
+    idx_b, Xb = _stack_runs(df_dict_b, species, n_expected)
+    t_h_a = (idx_a.values - 1) * dt_minutes / 60.0
+    t_h_b = (idx_b.values - 1) * dt_minutes / 60.0
 
-        # bold mean curves
-        for sp in species:
-            ax.plot(t_min, Summ[sp]['mean'], lw=2, label=sp)
+    qa10, qa25, qamed, qa75, qa90, qamean = _summary(Xa)
+    qb10, qb25, qbmed, qb75, qb90, qbmean = _summary(Xb)
 
-        # dashed AXP
-        ax.plot(t_min, axp_mean, lw=1.2, linestyle='--', label='AXP')
+    # prepare sampling of individual trajectories
+    rng = np.random.default_rng(0)
+    samp_a = rng.choice(Xa.shape[0], size=min(sample_trajs, Xa.shape[0]), replace=False) if sample_trajs else []
+    samp_b = rng.choice(Xb.shape[0], size=min(sample_trajs, Xb.shape[0]), replace=False) if sample_trajs else []
 
-        # cosmetics to mimic your style
-        ax.set_title(title)
-        ax.set_xlabel('time [min]')
-        ax.grid(alpha=0.2, linestyle=':')
-        ax.legend(frameon=False)
+    # ---------------- LAYOUT 1: one subplot per species ----------------
+    if layout_mode == "species":
+        fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+        if len(species) == 1:
+            axes = [axes]
 
-        # x ticks every 6 h but labeled as “X h”
-        total_hours = int(t_min[-1] / 60)
-        hours = np.arange(0, total_hours + 1, 6)
-        ax.set_xticks(hours * 60)
-        ax.set_xticklabels([f"{h} h" for h in hours])
+        for si, sp in enumerate(species):
+            ax = axes[si]
 
-    _panel(axes[0], t_min_s, S, axp_mean_s, f"AXP Dynamics — {label_starve} (n={S['ATP']['n']})")
-    _panel(axes[1], t_min_c, C, axp_mean_c, f"AXP Dynamics — {label_stac} (n={C['ATP']['n']})")
+            # optional thin single-run trajectories
+            for ridx in samp_a:
+                ax.plot(t_h_a, Xa[ridx, :, si], lw=0.6, alpha=traj_alpha)
+            for ridx in samp_b:
+                ax.plot(t_h_b, Xb[ridx, :, si], lw=0.6, alpha=traj_alpha)
 
-    axes[0].set_ylabel('concentration [mol/cm³]')
-    fig.tight_layout()
+            # condition A bands
+            if show_p80:
+                ax.fill_between(t_h_a, qa10[:, si], qa90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
+
+            # condition B bands
+            if show_p80:
+                ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
+                                alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
+            if show_iqr:
+                ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
+                                alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
+
+            # add labels near t=0 for each species panel (conditions)
+            if curve_labels:
+                y0_a = qamean[0, si]
+                y0_b = qbmean[0, si]
+                ax.text(-2.5, y0_a, f"{label_a}", color='tab:blue',
+                        va='center', ha='right', fontsize=12, weight='bold')
+                ax.text(-2.5, y0_b, f"{label_b}", color='tab:orange',
+                        va='center', ha='right', fontsize=12, weight='bold')
+
+            # central tendency lines
+            if show_mean:
+                ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
+                ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
+            if show_median:
+                ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--', label=f'{label_a} median')
+                ax.plot(t_h_b, qbmed[:, si], lw=1, linestyle='--', label=f'{label_b} median')
+
+            # axis cosmetics
+            ax.set_title(f"Time Profile of {sp} Dynamics - N = {Xa.shape[0]} Simulations", fontsize=10)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            if si == 0:
+                ax.set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+            ax.set_xlabel('time [h]', fontsize=15)
+            ax.grid(alpha=0.2, linestyle=':')
+
+            # optional Sejeong glucose data overlay
+            if sp == 'GLUCOUT' and (label_a == 'Starved' or label_b == 'Starved'):
+                ax.errorbar(
+                    sejeong_gluc.t,
+                    sejeong_gluc.y,
+                    yerr=sejeong_gluc.sigma,
+                    fmt='x',
+                    capsize=5,
+                    lw=1.8,
+                    markersize=5,
+                    color='tab:red',
+                    ecolor='tab:red',
+                    elinewidth=2,
+                    alpha=0.9
+                )
+
+    # ---------------- LAYOUT 2: one subplot per condition ----------------
+    else:  # layout_mode == "condition"
+        fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
+
+        # helper to draw one condition panel
+        def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
+                                  samp_idx, cond_label):
+            first_for_stat = True  # avoid duplicate legend labels for bands *within this panel*
+            sp_colors = {}
+
+            for si, sp in enumerate(species):
+                # thin individual trajectories
+                for ridx in samp_idx:
+                    ax.plot(t_h, X[ridx, :, si], lw=0.6, alpha=traj_alpha)
+
+                # bands (same color cycle for all species; condition coded by label)
+                if show_p80:
+                    ax.fill_between(
+                        t_h, q10[:, si], q90[:, si],
+                        alpha=band_alpha_p80, linewidth=0,
+                        label=f'{cond_label} 10–90%' if first_for_stat else None
+                    )
+                if show_iqr:
+                    ax.fill_between(
+                        t_h, q25[:, si], q75[:, si],
+                        alpha=band_alpha_iqr, linewidth=0,
+                        label=f'{cond_label} IQR' if first_for_stat and not show_p80 else None
+                    )
+
+                # central tendency per species (store color for labels)
+                if show_mean:
+                    line = ax.plot(t_h, qmean[:, si], lw=2, label=f'{sp} mean')
+                    sp_colors[sp] = line[0].get_color()
+                if show_median:
+                    ax.plot(t_h, qmed[:, si], lw=1, linestyle='--', label=f'{sp} median')
+
+                first_for_stat = False
+
+            ax.set_title(f"{cond_label} — N = {X.shape[0]} simulations", fontsize=10)
+            ax.set_xlim(0, total_hours)
+            ax.set_xticks(np.arange(0, total_hours+0.1, 6))
+            ax.set_xlabel('time [h]', fontsize=15)
+            ax.grid(alpha=0.2, linestyle=':')
+
+            # left species labels (only if mean curves exist)
+            if curve_labels and show_mean:
+                y0s = [qmean[0, si] for si in range(len(species))]
+                y_min, y_max = ax.get_ylim()
+                y_range = max(1e-12, (y_max - y_min))
+                y_labs = _spread(y0s, curve_label_min_gap_frac * y_range)
+
+                x_min, x_max = ax.get_xlim()
+                ax.set_xlim(min(curve_label_xpad, x_min), x_max)
+
+                for sp, y_lab, y_true in zip(species, y_labs, y0s):
+                    col = sp_colors.get(sp, 'black')
+                    ax.text(curve_label_xpad, y_lab, sp,
+                            color=col, va='center', ha='right',
+                            fontsize=12, weight='bold')
+                    if curve_label_connectors:
+                        ax.plot([curve_label_xpad + 0.2, 0],
+                                [y_lab, y_true],
+                                lw=0.8, alpha=0.6, color=col,
+                                label='_nolegend_')
+
+        _plot_condition_panel(axes[0], t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean, samp_a, label_a)
+        _plot_condition_panel(axes[1], t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean, samp_b, label_b)
+
+        axes[0].set_ylabel(r'concentration $[\frac{mol}{cm^{3}}]$', fontsize=15)
+
+        # optional AXP overlay in condition layout too
+        if show_axp and set(species) == {'ATP','ADP','AMP'}:
+            axes[0].plot(t_h_a, qamean.sum(axis=1), lw=1.2, linestyle=':', label='AXP mean')
+            axes[1].plot(t_h_b, qbmean.sum(axis=1), lw=1.2, linestyle=':', label='AXP mean')
+
+    # -------- shared legend placement (both layouts) --------
+    if layout_mode == "condition":
+        # collect handles from BOTH axes so Basal + Starved bands all appear
+        h0, l0 = axes[0].get_legend_handles_labels()
+        h1, l1 = axes[1].get_legend_handles_labels()
+        handles, labels = list(h0), list(l0)
+        for h, lab in zip(h1, l1):
+            if lab not in labels:
+                handles.append(h)
+                labels.append(lab)
+    else:
+        handles, labels = axes[0].get_legend_handles_labels()
+
+    if legend_pos == "below":
+        fig.legend(handles, labels, frameon=False, loc='lower center',
+                   bbox_to_anchor=(0.5, -0.01), ncol=6, fontsize=12)
+        fig.tight_layout(rect=[0, 0.06, 1, 1])
+    elif legend_pos == "above":
+        fig.legend(handles, labels, frameon=False, loc='upper center',
+                   bbox_to_anchor=(0.5, 1.15), ncol=6, fontsize=12)
+        fig.tight_layout(rect=[0, 0, 1, 0.94])
+    else:  # inside (previous behavior)
+        axes[-1].legend(handles, labels, frameon=False, loc='upper right')
+        fig.tight_layout()
+
+    fig.patch.set_facecolor('white')
     return fig
 
-# --- Example call with your data dicts ---
-fig = plot_axp_summary_two_panels(
-    mechs['starve'].orig_time_sim_df,
-    mechs['stac'].orig_time_sim_df,
-    label_starve='starve', label_stac='stac',
-    dt_minutes=30, total_hours=84, figsize=(12, 3.2)
+fig = plot_compare_summary(
+    df_dict_a=mechs['starve'].orig_time_sim_df,
+    df_dict_b=mechs['stac'].orig_time_sim_df,
+    label_a='Basal', label_b='Starved',
+    species=('ULK', 'ULKA'),
+    layout_mode="species",
+    show_iqr=True, show_p80=False,
+    show_mean=True, show_median=True,
+    sample_trajs=100,
+    legend_pos="below",
+    curve_labels=True,
+    curve_label_min_gap_frac=1.02,
+    curve_label_xpad=-3.0,
+    curve_label_connectors=True,
 )
-plt.show()
 
 
 # %%
@@ -1679,7 +3781,7 @@ mod = Model(model_name='gluc_rap_mTOR', ics_df_path='../input_files/species_ics_
 
 # %%
 gen = Genesis(mod, max_digit=4)
-gen.create_xml_files(output_xmls_path=f'/home/nvme/Opt/7_Krisztian/xml/testing_{food}',
+gen.create_xml_files(output_xmls_path=f'/home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/xml/testing_{food}',
                      num_of_xmls=1000,
                      xml_template_path='../input_files/std_xml_template.xml',
                      prefix=food, kiir=False)
@@ -1688,9 +3790,9 @@ gen.create_xml_files(output_xmls_path=f'/home/nvme/Opt/7_Krisztian/xml/testing_{
 date = datetime.datetime.now()
 sim = Simulation(gen, 1000)
 date_prefix = f"{date.year}{date.month}{date.day}"
-sim.opp_gen(opp_output_dir='/home/nvme/Opt/7_Krisztian/1_mechtest',
+sim.opp_gen(opp_output_dir='/home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/1_mechtest',
             opp_name_prefix=f'{date_prefix}fail_testing_{food}',
-            kiir=False, mech_file='7_Krisztian/mech/Minimal_gluc_rap_mTOR_v1.inp',
+            kiir=False, mech_file='../Projects/Semmelweis_BCRN/BCRN/mech/Minimal_gluc_rap_mTOR_v1.inp',
             food=food)
 
 # %%
@@ -1742,7 +3844,6 @@ plt.title('Sejeong glucose time course (starve)')
 plt.grid(alpha=0.2, linestyle=':')
 plt.tight_layout()
 plt.show()
-
 
 # %%
 mechs['starve'].orig_time_sim_df['starve_0001']
@@ -1909,9 +4010,9 @@ plt.show()
 # 1. Physically speaking, then, ATPs bound to AMPK molecules begin to dissociate bc the cytosolic free ATP cc. begins to decrease and therefore, binding is no longer favoured
 # 2. Computationally, since AMPK-AXP binding is implemented by MM kinetics, when free (cytosolic) ATP cc. drops below the K_m association constant --> ATP no longer binds AMPK
 # 3. Biologically, active, i.e., ADP or AMP bound AMPK cc. rises bc the cell goes into survival mode and downregs anabolic while upregs catabolic processes --> it tries autophagy
-# 
+#
 # Additionally:
-# 
+#
 # - On the left, we can note that the fact that in the beginning ADP-AMPKA is dominant over AMP-AMPK agrees with other in silico models and experiments in active muscle tissue, where it's been shown (coccimiglio et al.) that under physiological levels, ADP is more important in AMPK activation as the cc. of AMP is real low. However, once starvation really begins and AMP cc. skyrockets --> it becomes apparent (in experiments) that AMP is a several fold stronger activator of AMPK than ADP is (this is due to allosteric activation as well as the stabilization of the active AMPK enzyme - this latter is exactly what is achieved by ADP as well)
 # - On the right, again, AMPK-AMP is not as elevated as AMPK-ADP, bc the cc of ADP is much bigger and thus ADP is the dominant activator of AMPK
 # ## COOL!
@@ -2040,7 +4141,7 @@ plt.show()
 
 # %%
 write_inp(species_list=species2,
-          out_path='/home/nvme/Opt/7_Krisztian/mech/dummy.inp')
+          out_path='/home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/mech/dummy.inp')
 
 # %%
 mech_orig = OptimaMechtest(job_name="2025119_stac_starve_rap2.opp",
@@ -2097,7 +4198,6 @@ for i, ax in enumerate(axes):
 plt.tight_layout()
 plt.show()
 
-
 # %% [markdown]
 # There is no feedback on the AXP module from mTOR activation/inactivation. This is a limitation that will have to be mentioned. It occurs, because we treat the AXPs only as mediators of GLUCOSE input and we do not care about what happens to the AXP pool after they mediated glucose input
 
@@ -2119,7 +4219,6 @@ for i, ax in enumerate(axes):
 
 plt.tight_layout()
 
-
 # %%
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 
@@ -2137,7 +4236,6 @@ for i, ax in enumerate(axes):
     ax.set_xticks(xticks, xticklabels)
 
 plt.tight_layout()
-
 
 # %%
 for col in data_to_plot:
