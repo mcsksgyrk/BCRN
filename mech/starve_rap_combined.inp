@@ -587,7 +587,9 @@ AMPKA_AMP + ULKA => AMPK_AMP + ULKA               4.1653E+01   0.00000         0
 !ULKA=>ULK                          1E-02     0.00000   0.00   
 !
 !REF=>RAPOUT                        1.0000E-11  0.00000         0.00 
-!RAPOUT=>REF                        1.0000E-01  0.00000         0.00 
+!RAPOUT=>REF                        1.0000E-01  0.00000         0.00
+!
+! 
 RAPOUT=>RAP                         1.3333E-02  0.00000         0.00  
 RAP=>RAPOUT                         1.3333E-02  0.00000         0.00  
 RAP+FKBP12=>RK+REF                  1.9000E+09  0.00000         0.00               
@@ -655,7 +657,7 @@ AC_GAA+REF=>AC_GAA+CAMP             5.2991E-06  0.00000         0.00
 CAMP=>REF                           2.0217E-03  0.00000         0.00
 CAMP+EPAC=>CAMP+EPACA               8.0702E+06  0.00000         0.00
 EPACA=>EPAC                         1.4869E-05  0.00000         0.00
-AA=>GA                             5.5976E-01  0.00000         0.00
+GAA=>GA                             5.5976E-01  0.00000         0.00
 GABC+GPCRA+REF=>GAA+GBC+GPCRA       4.0974E+07  0.00000         0.00
 GA+GBC=>GABC+REF                    1.0721E+06  0.00000         0.00
 ATG5T+BCL2=>ATG5_BCL2+REF           7.3997E+04  0.00000         0.00
