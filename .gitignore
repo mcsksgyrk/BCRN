@@ -1,10 +1,12 @@
-xml/
+xml/old_xmls/
+xml/stac_starvation_model
+xml/testing_stac
+xml/testing_starvation
 logs/
-
-# Large installers / local conda
-Miniconda3-*.sh
-Anaconda*-Linux-*.sh
-*.run
-*.tar.gz
-*.zip
+0_evaluate/pics
+mechTestResults_Minimal_gluc_rap_mTOR_v1.csv
+NN_contest
+*.sh
 *.txt
+*.xml
+*data/
