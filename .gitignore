@@ -9,4 +9,6 @@ NN_contest
 *.sh
 *.txt
 *.xml
-*data/
+0_evaluate/codes/data/natural_selection_cache.sqlite
+0_evaluate/codes/data/natural_selection_cache.sqlite-shm
+0_evaluate/codes/data/natural_selection_cache.sqlite-wal
