@@ -4282,3 +4282,267 @@ plt.legend()
 plt.title(f'AXP dynamics for glucose = {gluc}')
 
 
+# %%
+def plot_glucose_and_rapamycin_time_courses(
+    separate_panels: bool = True,
+    rap_result_path: Union[str, Path] = (
+        "/home/szupernikusz/OptimaPP/outputs/"
+        "20260819_103437_testing_rap_big_rap_100.opp/"
+        "mechTestResults_rap_big_rap.csv"
+    ),
+    glucose_result_path: Union[str, Path] = (
+        "/home/szupernikusz/OptimaPP/outputs/"
+        "2026812_testing_ULK_starve_100.opp/"
+        "mechTestResults_Minimal_gluc_rap_mTOR_v1.csv"
+    ),
+    show_iqr: bool = True,
+    sample_trajectories: int = 0,
+    figsize: Optional[tuple[float, float]] = None,
+):
+    """Plot starvation glucose and treated rapamycin time courses.
+
+    Parameters
+    ----------
+    separate_panels
+        If True, draw rapamycin and glucose in two vertically aligned
+        panels. If False, overlay them in one plotting area: glucose uses
+        the red bottom/left axes and rapamycin uses the blue top/right axes.
+        The two x-axes intentionally retain their native time ranges.
+    rap_result_path, glucose_result_path
+        OptimaPP ``mechTestResults`` files produced by the corresponding
+        simulations. They can come from different Git branches because the
+        result format is branch-independent.
+    show_iqr
+        Show the 25th--75th percentile band around each mean curve.
+    sample_trajectories
+        Number of individual trajectories to draw behind each summary.
+        Set to zero for a clean mean-and-IQR figure.
+    figsize
+        Optional Matplotlib figure size. A layout-specific default is used
+        when this is None.
+
+    Returns
+    -------
+    tuple
+        ``(fig, axes)``. In separate-panel mode ``axes`` is a two-element
+        NumPy array. In combined mode it is ``(glucose_axis, rapamycin_axis)``.
+    """
+    rap_time_min = np.array([
+        0.0, 0.1, 0.2, 0.5, 1.0, 1.8, 2.4, 3.0, 3.6, 4.2,
+        4.8, 5.4, 6.0, 6.6, 7.2, 7.8, 8.4, 9.0, 9.6, 10.2,
+        10.8, 11.4, 13.0, 14.0, 15.0, 17.0, 20.0, 23.0,
+        30.0, 35.0, 40.0,
+    ])
+    glucose_time_min = np.arange(0, 5070, 30, dtype=float)
+
+    rap_color = "tab:blue"
+    glucose_color = "tab:red"
+
+    def load_species_time_course(result_path, species, time_points, scale):
+        result_path = Path(result_path).expanduser()
+        if not result_path.is_file():
+            raise FileNotFoundError(f"OptimaPP result file not found: {result_path}")
+
+        result = pd.read_csv(
+            result_path,
+            sep=";",
+            header=None,
+            usecols=[0, 1, 2, 3, 4],
+            names=["run", "output_index", "species", "experimental", "value"],
+            skipinitialspace=True,
+        )
+        result = result[result["species"] == species].copy()
+        if result.empty:
+            raise ValueError(f"Species {species!r} is absent from {result_path}")
+
+        result["value"] = pd.to_numeric(result["value"], errors="coerce")
+        failed_runs = result.loc[result["value"].isna(), "run"].unique()
+        if len(failed_runs):
+            result = result[~result["run"].isin(failed_runs)].copy()
+
+        result["point"] = result.groupby("run", sort=False).cumcount()
+        point_counts = result.groupby("run").size()
+        if not point_counts.eq(len(time_points)).all():
+            observed = sorted(point_counts.unique().tolist())
+            raise ValueError(
+                f"Expected {len(time_points)} {species} points per run in "
+                f"{result_path}, but observed {observed}."
+            )
+
+        result["time_min"] = time_points[result["point"].to_numpy()]
+        result["value"] *= scale
+        return result
+
+    def draw_summary(ax, data, time_divisor, color, label):
+        trajectories = (
+            data.pivot(index="run", columns="time_min", values="value")
+            .sort_index(axis=1)
+        )
+        x_values = trajectories.columns.to_numpy(dtype=float) / time_divisor
+        values = trajectories.to_numpy(dtype=float)
+
+        if sample_trajectories:
+            rng = np.random.default_rng(0)
+            selected = rng.choice(
+                values.shape[0],
+                size=min(sample_trajectories, values.shape[0]),
+                replace=False,
+            )
+            for run_index in selected:
+                ax.plot(
+                    x_values,
+                    values[run_index],
+                    color=color,
+                    linewidth=0.6,
+                    alpha=0.08,
+                    label="_nolegend_",
+                )
+
+        mean = np.nanmean(values, axis=0)
+        if show_iqr:
+            q25 = np.nanquantile(values, 0.25, axis=0)
+            q75 = np.nanquantile(values, 0.75, axis=0)
+            ax.fill_between(
+                x_values,
+                q25,
+                q75,
+                color=color,
+                alpha=0.20,
+                linewidth=0,
+                label=f"{label} IQR",
+            )
+        ax.plot(
+            x_values,
+            mean,
+            color=color,
+            linewidth=2.4,
+            label=f"{label} mean",
+        )
+
+    # The original simulations store concentrations in mol/cm^3.
+    # Multiplication by 1e12 converts RAP to nM; 1e6 converts GLUCOUT to mM.
+    rap = load_species_time_course(
+        rap_result_path,
+        species="RAP",
+        time_points=rap_time_min,
+        scale=1e12,
+    )
+    glucose = load_species_time_course(
+        glucose_result_path,
+        species="GLUCOUT",
+        time_points=glucose_time_min,
+        scale=1e6,
+    )
+
+    if separate_panels:
+        if figsize is None:
+            figsize = (12, 10)
+        fig, axes = plt.subplots(2, 1, figsize=figsize, constrained_layout=True)
+        rap_ax, glucose_ax = axes
+
+        draw_summary(
+            rap_ax,
+            rap,
+            time_divisor=1.0,
+            color=rap_color,
+            label="Rapamycin",
+        )
+        rap_ax.set_title("Rapamycin-treated dynamics")
+        rap_ax.set_xlabel("rapamycin time [min]", color=rap_color)
+        rap_ax.set_ylabel("rapamycin concentration [nM]", color=rap_color)
+        rap_ax.tick_params(axis="both", colors=rap_color)
+        rap_ax.grid(alpha=0.2, linestyle=":")
+        rap_ax.legend(frameon=False)
+
+        draw_summary(
+            glucose_ax,
+            glucose,
+            time_divisor=60.0,
+            color=glucose_color,
+            label="Glucose",
+        )
+        glucose_ax.set_title("Glucose-starvation dynamics")
+        glucose_ax.set_xlabel("glucose time [h]", color=glucose_color)
+        glucose_ax.set_ylabel("extracellular glucose [mM]", color=glucose_color)
+        glucose_ax.tick_params(axis="both", colors=glucose_color)
+        glucose_ax.grid(alpha=0.2, linestyle=":")
+        glucose_ax.legend(frameon=False)
+    else:
+        if figsize is None:
+            figsize = (12, 7)
+        fig = plt.figure(figsize=figsize)
+        grid = fig.add_gridspec(1, 1)
+
+        # These axes deliberately occupy the same plotting rectangle while
+        # retaining independent x and y scales.
+        glucose_ax = fig.add_subplot(grid[0])
+        rap_ax = fig.add_subplot(
+            grid[0],
+            label="rapamycin_independent_axes",
+            frame_on=False,
+        )
+        rap_ax.patch.set_visible(False)
+
+        draw_summary(
+            glucose_ax,
+            glucose,
+            time_divisor=60.0,
+            color=glucose_color,
+            label="Glucose",
+        )
+        draw_summary(
+            rap_ax,
+            rap,
+            time_divisor=1.0,
+            color=rap_color,
+            label="Rapamycin",
+        )
+
+        glucose_ax.set_xlabel("glucose time [h]", color=glucose_color)
+        glucose_ax.set_ylabel("extracellular glucose [mM]", color=glucose_color)
+        glucose_ax.tick_params(axis="x", colors=glucose_color)
+        glucose_ax.tick_params(axis="y", colors=glucose_color)
+        glucose_ax.spines["bottom"].set_color(glucose_color)
+        glucose_ax.spines["left"].set_color(glucose_color)
+        glucose_ax.spines["top"].set_visible(False)
+        glucose_ax.spines["right"].set_visible(False)
+        glucose_ax.grid(alpha=0.2, linestyle=":")
+
+        rap_ax.xaxis.set_label_position("top")
+        rap_ax.xaxis.tick_top()
+        rap_ax.yaxis.set_label_position("right")
+        rap_ax.yaxis.tick_right()
+        rap_ax.set_xlabel("rapamycin time [min]", color=rap_color, labelpad=10)
+        rap_ax.set_ylabel("rapamycin concentration [nM]", color=rap_color)
+        rap_ax.tick_params(axis="x", colors=rap_color)
+        rap_ax.tick_params(axis="y", colors=rap_color)
+        rap_ax.spines["top"].set_visible(True)
+        rap_ax.spines["top"].set_color(rap_color)
+        rap_ax.spines["right"].set_visible(True)
+        rap_ax.spines["right"].set_color(rap_color)
+        rap_ax.spines["bottom"].set_visible(False)
+        rap_ax.spines["left"].set_visible(False)
+
+        glucose_handles, glucose_labels = glucose_ax.get_legend_handles_labels()
+        rap_handles, rap_labels = rap_ax.get_legend_handles_labels()
+        glucose_ax.legend(
+            glucose_handles + rap_handles,
+            glucose_labels + rap_labels,
+            frameon=False,
+            loc="best",
+        )
+        fig.subplots_adjust(top=0.84, bottom=0.13, left=0.12, right=0.88)
+        axes = (glucose_ax, rap_ax)
+
+    fig.suptitle(
+        "Rapamycin and glucose-starvation time courses",
+        fontsize=16,
+    )
+    return fig, axes
+
+
+# Change to False to use one plotting area with independent, color-coded axes.
+combined_rap_glucose_fig, combined_rap_glucose_axes = (
+    plot_glucose_and_rapamycin_time_courses(separate_panels=True)
+)
+plt.show()
