@@ -7,3 +7,7 @@ Anaconda*-Linux-*.sh
 *.run
 *.tar.gz
 *.zip
+0_evaluate/codes/data/natural_selection_cache.sqlite
+0_evaluate/codes/data/natural_selection_cache.sqlite-shm
+0_evaluate/codes/data/natural_selection_cache.sqlite-wal
+*.txt
