@@ -3799,3 +3799,114 @@ figs_mau = plot_compare_summary_ampk_conceptual(
 # %%
 figs_mau[0].savefig('pics/starve_rap_combined_AMPK-mTOR-ULK_starve.png', dpi=600)
 figs_mau[1].savefig('pics/starve_rap_combined_AMPK-mTOR-ULK_stac.png', dpi=600)
+
+# %%
+def plot_compare_summary_ampk_conceptual_perturbed(
+    df_dict_a, df_dict_b, label_a='cond A', label_b='cond B',
+    curve_transforms=None, ylim=None, **plot_kwargs,
+):
+    """Plot perturbed model curves while keeping experimental whiskers unperturbed.
+
+    ``curve_transforms`` has the form
+    ``{condition_label: {species: callable(time_hours, values)}}``. The callable
+    is applied separately to every simulation. ``ylim`` clips runaway curves.
+    """
+    import numpy as np
+    import pandas as pd
+
+    species = plot_kwargs.get('species', ('ATP', 'ADP', 'AMP'))
+    species = (species,) if isinstance(species, str) else tuple(species)
+    dt_minutes = plot_kwargs.get('dt_minutes', 30)
+    total_hours = plot_kwargs.get('total_hours', 84)
+    n_expected = int(total_hours * 60 / dt_minutes + 1)
+
+    def _stack_runs(df_dict, species_, n_expected=None):
+        species_ = (species_,) if isinstance(species_, str) else tuple(species_)
+        max_idx = max(df.index.max() for df in df_dict.values())
+        if n_expected is not None:
+            max_idx = max(max_idx, n_expected)
+        idx = pd.RangeIndex(1, max_idx + 1)
+
+        mats = []
+        for _, df in df_dict.items():
+            tmp = (df.sort_index()
+                     .reindex(idx)
+                     .apply(pd.to_numeric, errors='coerce')
+                     .ffill().bfill())
+            if set(species_).issubset(tmp.columns):
+                mats.append(tmp.loc[:, list(species_)].to_numpy())
+        if not mats:
+            raise ValueError(f"No runs contained the requested species: {species_}")
+        return idx, np.stack(mats, axis=0)
+
+    def _auto_experiment_from_mean(
+        t_h: np.ndarray, qmean: np.ndarray, species_: tuple, n_points: int=8,
+        time_points_h=None, noise_frac: float=0.03, err_frac: float=0.06, seed: int=0,
+    ):
+        rng = np.random.default_rng(seed)
+        x0, x1 = float(t_h[0]), float(t_h[-1])
+
+        if time_points_h is None:
+            t_pts = np.linspace(x0 + 0.05*(x1-x0), x1 - 0.05*(x1-x0), n_points)
+        else:
+            t_pts = np.asarray(time_points_h, dtype=float)
+            t_pts = np.clip(t_pts, x0, x1)
+
+        exp = {}
+        for si, sp in enumerate(species_):
+            y_true = np.interp(t_pts, t_h, qmean[:, si])
+            scale = np.maximum(np.abs(y_true), np.max(np.abs(qmean[:, si])) * 1e-3)
+            y_pts = y_true + rng.normal(0.0, noise_frac * scale)
+            yerr = err_frac * np.maximum(np.abs(y_true), np.max(np.abs(qmean[:, si])) * 1e-3)
+            exp[sp] = {"t": t_pts, "y": y_pts, "yerr": yerr}
+        return exp
+
+    plot_kwargs = dict(plot_kwargs)
+    if plot_kwargs.get('exp_auto', True):
+        for df_dict, exp_key, seed in (
+            (df_dict_a, 'exp_data_a', plot_kwargs.get('exp_seed', 7)),
+            (df_dict_b, 'exp_data_b', plot_kwargs.get('exp_seed', 7) + 1),
+        ):
+            if plot_kwargs.get(exp_key) is None:
+                idx, X = _stack_runs(df_dict, species, n_expected)
+                t_h = (idx.values - 1) * dt_minutes / 60.0
+                plot_kwargs[exp_key] = _auto_experiment_from_mean(
+                    t_h, X.mean(axis=0), species,
+                    n_points=plot_kwargs.get('exp_n_points', 9),
+                    time_points_h=plot_kwargs.get('exp_time_points_h'),
+                    noise_frac=plot_kwargs.get('exp_noise_frac', 0.1),
+                    err_frac=plot_kwargs.get('exp_err_frac', 0.15), seed=seed,
+                )
+        plot_kwargs['exp_auto'] = False
+
+    transformed = {
+        label_a: {key: df.copy() for key, df in df_dict_a.items()},
+        label_b: {key: df.copy() for key, df in df_dict_b.items()},
+    }
+    for condition, transforms in (curve_transforms or {}).items():
+        if condition not in transformed:
+            raise ValueError(f'Unknown condition {condition!r}; use {label_a!r} or {label_b!r}.')
+        for df in transformed[condition].values():
+            t_h = np.arange(len(df)) * dt_minutes / 60.0
+            for sp, transform in transforms.items():
+                if sp in df:
+                    values = np.asarray(transform(t_h, df[sp].to_numpy(copy=True)), dtype=float)
+                    if values.shape != (len(df),):
+                        raise ValueError(f'Transform for {condition}/{sp} must return {len(df)} values.')
+                    df[sp] = np.nan_to_num(values, posinf=1e100, neginf=-1e100)
+
+    result = plot_compare_summary_ampk_conceptual(
+        df_dict_a=transformed[label_a], df_dict_b=transformed[label_b],
+        label_a=label_a, label_b=label_b, **plot_kwargs,
+    )
+    if ylim is not None:
+        figures = result if isinstance(result, list) else [result]
+        for fig in figures:
+            for ax in fig.axes:
+                ax.set_ylim(*ylim)
+                for artist in (*ax.lines, *ax.texts):
+                    artist.set_clip_on(True)
+        if plot_kwargs.get('separate_conditions') and len(figures) == 2:
+            for fig, condition in zip(figures, (label_a, label_b)):
+                fig.savefig(f'pics/AMPK_MTOR_ULK_Dynamics_{condition}.png', dpi=600)
+    return result

@@ -377,7 +377,7 @@ class Simulation:
 
       return mechmod + "\n" + mechtest
 
-    def sim_runner(self, log_location:str = ''):
+    def sim_runner(self, log_location:str = '', date_prefix: str = ''):
       self.parent_path = os.path.join(Path.cwd().parents[4], "OptimaPP") #Path.cwd().parents[2]
       #print(f"self.parent_path: {self.parent_path}")
 
@@ -2164,7 +2164,7 @@ for food in exp_foods:
                 kiir=kiir, mech_file='../Projects/Semmelweis_BCRN/BCRN/mech/Minimal_gluc_rap_mTOR_v1.inp',
                 food=food)
 
-    sim.sim_runner('/home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/logs/testing')
+    sim.sim_runner('/home/szupernikusz/Projects/Semmelweis_BCRN/BCRN/logs/testing', date_prefix=date.strftime("%Y%m%d%H%M%S"))
 
     sims[food] = sim
 
@@ -2432,6 +2432,7 @@ def plot_glucose_and_rapamycin_time_courses(
     show_iqr: bool = True,
     sample_trajectories: int = 0,
     figsize: Optional[tuple[float, float]] = None,
+    legend_loc: str = "best"
 ):
     """Plot starvation glucose and treated rapamycin time courses.
 
@@ -2470,7 +2471,7 @@ def plot_glucose_and_rapamycin_time_courses(
     glucose_time_min = np.arange(0, 5070, 30, dtype=float)
 
     rap_color = "tab:blue"
-    glucose_color = "tab:red"
+    glucose_color = "tab:orange"
 
     def load_species_time_course(result_path, species, time_points, scale):
         result_path = Path(result_path).expanduser()
@@ -2586,7 +2587,7 @@ def plot_glucose_and_rapamycin_time_courses(
         rap_ax.set_ylabel("rapamycin concentration [nM]", color=rap_color)
         rap_ax.tick_params(axis="both", colors=rap_color)
         rap_ax.grid(alpha=0.2, linestyle=":")
-        rap_ax.legend(frameon=False)
+        rap_ax.legend(frameon=False, loc=legend_loc)
 
         draw_summary(
             glucose_ax,
@@ -2600,7 +2601,7 @@ def plot_glucose_and_rapamycin_time_courses(
         glucose_ax.set_ylabel("extracellular glucose [mM]", color=glucose_color)
         glucose_ax.tick_params(axis="both", colors=glucose_color)
         glucose_ax.grid(alpha=0.2, linestyle=":")
-        glucose_ax.legend(frameon=False)
+        glucose_ax.legend(frameon=False, loc=legend_loc)
     else:
         if figsize is None:
             figsize = (12, 7)
@@ -2663,7 +2664,7 @@ def plot_glucose_and_rapamycin_time_courses(
             glucose_handles + rap_handles,
             glucose_labels + rap_labels,
             frameon=False,
-            loc="best",
+            loc=legend_loc,
         )
         fig.subplots_adjust(top=0.84, bottom=0.13, left=0.12, right=0.88)
         axes = (glucose_ax, rap_ax)
@@ -2677,6 +2678,6 @@ def plot_glucose_and_rapamycin_time_courses(
 
 # Change to False to use one plotting area with independent, color-coded axes.
 combined_rap_glucose_fig, combined_rap_glucose_axes = (
-    plot_glucose_and_rapamycin_time_courses(separate_panels=True)
+    plot_glucose_and_rapamycin_time_courses(separate_panels=False, figsize=(8, 6), legend_loc="right")
 )
 plt.show()
