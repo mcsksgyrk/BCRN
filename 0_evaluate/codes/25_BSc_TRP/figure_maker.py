@@ -157,4 +157,79 @@ ax.set_ylim(1e-10, 4.7e-10)
 plt.tight_layout()
 plt.show()
 
+# %%
+# Two conceptual mean curves: bounded disturbance versus divergence
+# Curve controls
+time_min = 0
+time_max = 24
+divergence_start_time = 12.0
+divergence_amplitude = 1.2e-11
+divergence_exponential_rate = 0.18
+iqr_exponential_rate = 0.12
 
+# Text, tick, and font-size controls
+plot_titles = ['Inside sigma ranges', 'Divergence outside sigma ranges']
+title_fontsize = 10
+legend_iqr_labels = ['Upper IQR', 'Lower IQR']
+legend_mean_labels = ['Upper mean', 'Lower mean']
+legend_fontsize = 7
+x_tick_values = np.arange(0, 25, 6)
+y_tick_values = np.arange(1e-10, 4.1e-10, 1e-10)
+x_tick_fontsize = 8
+y_tick_fontsize = 8
+x_axis_label = 'time [h]'
+y_axis_label = ''
+x_axis_label_fontsize = 9
+y_axis_label_fontsize = 9
+
+t_hours = np.linspace(time_min, time_max, 30)
+t_curve = np.linspace(time_min, time_max, 300)
+levels = np.array([3.85e-10, 1.85e-10])
+sigma = 8e-11
+errorbar_alpha = 0.35
+iqr_half_width = 1.5e-11
+colors = ['tab:blue', 'tab:orange']
+
+rng = np.random.default_rng(7)
+noise = [np.interp(t_curve, t_hours, rng.normal(0, 1.6e-11, t_hours.size))
+         for _ in range(4)]
+bounded = [level + np.clip(curve_noise, -3.5e-11, 3.5e-11)
+           for level, curve_noise in zip(levels, noise[:2])]
+time_since_divergence = np.clip(t_curve - divergence_start_time, 0, None)
+divergence = divergence_amplitude * np.expm1(
+    divergence_exponential_rate * time_since_divergence)
+diverging = [levels[0] + 1.1 * divergence + noise[2],
+             levels[1] - 0.9 * divergence + noise[3]]
+
+for curves, title, has_divergence in zip(
+        [bounded, diverging], plot_titles, [False, True]):
+    fig, ax = plt.subplots(figsize=(3, 2.5), dpi=450)
+    iqr_growth = (np.exp(iqr_exponential_rate * time_since_divergence)
+                  if has_divergence else np.ones_like(t_curve))
+    for level, mean, color, iqr_label, mean_label in zip(
+            levels, curves, colors, legend_iqr_labels, legend_mean_labels):
+        ax.errorbar(t_hours, np.full_like(t_hours, level), yerr=sigma,
+                    fmt='s', color='black', ecolor='black', alpha=errorbar_alpha,
+                    elinewidth=1, capsize=2, markersize=2)
+        iqr_low = iqr_half_width * iqr_growth * np.clip(
+            1 + np.interp(t_curve, t_hours, rng.normal(0, 0.25, t_hours.size)), 0.5, 1.5)
+        iqr_high = iqr_half_width * iqr_growth * np.clip(
+            1 + np.interp(t_curve, t_hours, rng.normal(0, 0.25, t_hours.size)), 0.5, 1.5)
+        ax.fill_between(t_curve, mean - iqr_low, mean + iqr_high,
+                        color=color, alpha=0.2, linewidth=0, label=iqr_label)
+        ax.plot(t_curve, mean, color=color, linewidth=1.2, label=mean_label)
+    ax.set_title(title, fontsize=title_fontsize)
+    ax.set_xlabel(x_axis_label, fontsize=x_axis_label_fontsize)
+    ax.set_ylabel(y_axis_label, fontsize=y_axis_label_fontsize)
+    ax.set_xlim(time_min, time_max)
+    ax.set_ylim(1e-10, 4.7e-10)
+    ax.set_xticks(x_tick_values)
+    ax.set_yticks(y_tick_values)
+    ax.tick_params(axis='x', labelsize=x_tick_fontsize)
+    ax.tick_params(axis='y', labelsize=y_tick_fontsize)
+    ax.yaxis.get_offset_text().set_fontsize(y_tick_fontsize)
+    ax.ticklabel_format(axis='y', style='sci', scilimits=(0, 0))
+    ax.grid(alpha=0.2, linestyle=':')
+    ax.legend(frameon=False, fontsize=legend_fontsize, ncol=2)
+    plt.tight_layout()
+    plt.show()
