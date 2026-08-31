@@ -1,7 +1,7 @@
 generator: ck2yaml
 input-files: [chem.cnt.inp, therm.cnt.inp]
 cantera-version: 3.2.0
-date: Fri, 28 Aug 2026 23:52:00 +0200
+date: Mon, 31 Aug 2026 11:21:13 +0200
 
 units: {length: cm, time: s, quantity: mol, activation-energy: K}
 

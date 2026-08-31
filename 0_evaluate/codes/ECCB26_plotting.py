@@ -597,8 +597,16 @@ def _apply_plot_text_controls(
             legend.get_title().set_fontsize(legend_title_size)
 
 
+def _legend_is_disabled(*positions):
+    """Return whether any legend-position option explicitly disables legends."""
+    return any(
+        isinstance(position, str) and position.strip().lower() == 'none'
+        for position in positions
+    )
+
+
 def _apply_legend_position(fig, loc=None, bbox_to_anchor=None):
-    """Optionally move every legend after it has been created."""
+    """Optionally hide or move every legend after it has been created."""
     if loc is None and bbox_to_anchor is None:
         return
     legends = list(fig.legends)
@@ -606,6 +614,10 @@ def _apply_legend_position(fig, loc=None, bbox_to_anchor=None):
         legend for ax in fig.axes
         if (legend := ax.get_legend()) is not None
     )
+    if _legend_is_disabled(loc):
+        for legend in legends:
+            legend.remove()
+        return
     for legend in legends:
         if loc is not None:
             if hasattr(legend, "set_loc"):
@@ -616,6 +628,18 @@ def _apply_legend_position(fig, loc=None, bbox_to_anchor=None):
             legend.set_bbox_to_anchor(bbox_to_anchor)
 
 
+def _apply_figure_background(fig, transparent_bg: bool = False):
+    """Set the figure and axes backgrounds while preserving opaque defaults."""
+    if transparent_bg:
+        fig.patch.set_facecolor('none')
+        fig.patch.set_alpha(0.0)
+        for ax in fig.axes:
+            ax.patch.set_facecolor('none')
+            ax.patch.set_alpha(0.0)
+    else:
+        fig.patch.set_facecolor('white')
+
+
 # %%
 def plot_correlation_distance_heatmap(dict, corr_xmls, title: str, method='fro',
                                       save_fig=False, nat_select:Natural_Selection=None,
@@ -623,7 +647,8 @@ def plot_correlation_distance_heatmap(dict, corr_xmls, title: str, method='fro',
                                       y_label='Number of XMLs - Wide',
                                       colorbar_label=None,
                                       text_overrides=None,
-                                      font_sizes=None):
+                                      font_sizes=None,
+                                      fig_dpi=300):
     num_corrs = len(corr_xmls)
     distance_matrix = np.zeros((num_corrs, num_corrs))
 
@@ -639,7 +664,7 @@ def plot_correlation_distance_heatmap(dict, corr_xmls, title: str, method='fro',
                 distance_matrix[i, j] = compute_matrix_distance(mat1, mat2, method=method)
     if colorbar_label is None:
         colorbar_label = f'{method.upper()} Distance'
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(8, 6), dpi=fig_dpi)
     sns.heatmap(distance_matrix,
                 xticklabels=corr_xmls,
                 yticklabels=corr_xmls,
@@ -673,7 +698,8 @@ def plot_dual_metric_heatmap(dict, keys,
                               upper_colorbar_label=None,
                               lower_colorbar_label=None,
                               text_overrides=None,
-                              font_sizes=None):
+                              font_sizes=None,
+                              fig_dpi=300):
     n = len(keys)
     data_lower = np.zeros((n, n))
     data_upper = np.zeros((n, n))
@@ -698,7 +724,7 @@ def plot_dual_metric_heatmap(dict, keys,
     mask_lower = np.triu(np.ones_like(data_lower, dtype=bool), k=1)
     mask_upper = np.tril(np.ones_like(data_upper, dtype=bool), k=0)
 
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(8, 6), dpi=fig_dpi)
 
     # Plot lower triangle
     norm_lower = Normalize(vmin=np.min(data_lower[np.tril_indices(n, -1)]),
@@ -760,7 +786,7 @@ def plot_dual_metric_heatmap(dict, keys,
     #plt.tight_layout(rect=[0.1, 0, 0.9, 1])
 
     if save_fig:
-        plt.savefig(f"pics/{title.replace(' ', '_')}.png", dpi=300)
+        plt.savefig(f"pics/{title.replace(' ', '_')}.png", dpi=fig_dpi)
         plt.savefig(f"pics/{title.replace(' ', '_')}.pdf")
 
     plt.show()
@@ -772,7 +798,8 @@ def plot_correlation_distance_heatmap_leodit(dict, corr_xmls, title: str, method
                                       y_label='Number of XMLs - Wide',
                                       colorbar_label=None,
                                       text_overrides=None,
-                                      font_sizes=None):
+                                      font_sizes=None,
+                                      fig_dpi=300):
     num_corrs = len(corr_xmls)
     distance_matrix = np.zeros((num_corrs, num_corrs))
 
@@ -789,7 +816,7 @@ def plot_correlation_distance_heatmap_leodit(dict, corr_xmls, title: str, method
                 distance_matrix[i, j] = compute_matrix_distance(mat1, mat2, method=compute_method)
     if colorbar_label is None:
         colorbar_label = f'{method.upper()} Distance'
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig, ax = plt.subplots(figsize=(8, 6), dpi=fig_dpi)
     sns.heatmap(distance_matrix,
                 xticklabels=corr_xmls,
                 yticklabels=corr_xmls,
@@ -904,6 +931,8 @@ def plot_compare_summary_gluc(
     stac_label: str = 'Basal state',
     stac_y_label: str = 'basal glucose concentration',
     stac_color: str = 'tab:red',
+    fig_dpi=300,
+    add_err_text=True,
 ):
     """Compare glucose simulations, optionally adding basal glucose on a twin axis.
 
@@ -932,7 +961,9 @@ def plot_compare_summary_gluc(
         t_h_stac = (idx_stac.values - 1) * dt_minutes / 60.0
         (qs10, qs25, qsmed, qs75, qs90, qsmean) = _summary(Xstac)
 
-    fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+    fig, axes = plt.subplots(
+        1, len(species), figsize=figsize, sharex=True, dpi=fig_dpi,
+    )
     if len(species) == 1:
         axes = [axes]
 
@@ -961,14 +992,14 @@ def plot_compare_summary_gluc(
                             alpha=band_alpha_p80, linewidth=0, label=f'{label_a} 10–90%')
         if show_iqr:
             ax.fill_between(t_h_a, qa25[:, si], qa75[:, si],
-                            alpha=band_alpha_iqr, linewidth=0, label=f'{label_a} IQR')
+                            alpha=band_alpha_iqr, linewidth=0, label='_nolegend_')#f'{label_a} IQR')
 
         if show_p80:
             ax.fill_between(t_h_b, qb10[:, si], qb90[:, si],
                             alpha=band_alpha_p80, linewidth=0, label=f'{label_b} 10–90%')
         if show_iqr:
             ax.fill_between(t_h_b, qb25[:, si], qb75[:, si],
-                            alpha=band_alpha_iqr, linewidth=0, label=f'{label_b} IQR')
+                            alpha=band_alpha_iqr, linewidth=0, label='_nolegend_')#f'{label_b} IQR')
 
         if curve_labels:
             y0_a = qamean[0, si]
@@ -1012,7 +1043,7 @@ def plot_compare_summary_gluc(
                 stac_ax.fill_between(
                     t_h_stac, qs25[:, si], qs75[:, si], color=stac_color,
                     alpha=band_alpha_iqr, linewidth=0,
-                    label=f'{stac_label} IQR',
+                    label='_nolegend_',#f'{stac_label} IQR',
                 )
             if show_mean:
                 stac_ax.plot(
@@ -1041,11 +1072,11 @@ def plot_compare_summary_gluc(
                 capsize=5,
                 lw=1.8,
                 markersize=5,
-                color='tab:red',
-                ecolor='tab:red',
+                color='goldenrod',
+                ecolor='goldenrod',
                 elinewidth=2,
                 alpha=0.9,
-                label='Experimental Data'
+                label='Starvation Data'
             )
 
             # squared errors between experimental data and sim mean (cond A)
@@ -1060,15 +1091,16 @@ def plot_compare_summary_gluc(
             print(f"[GLUCOUT] SSE = {sse:.4e}, RMSE = {rmse:.4e}")
 
             # show on the plot
-            ax.text(
-                0.98, 0.82,
-                r"$\sum (y_{\mathrm{sim}}-y_{\mathrm{exp}})^2$"
-                + f" = {sse:.2e}\nRMSE = {rmse:.2e}",
-                transform=ax.transAxes,
-                ha='right', va='bottom',
-                fontsize=20,
-                bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="none", alpha=0.7)
-            )
+            if add_err_text:
+                ax.text(
+                    0.98, 0.82,
+                    r"$\sum (y_{\mathrm{sim}}-y_{\mathrm{exp}})^2$"
+                    + f" = {sse:.2e}\nRMSE = {rmse:.2e}",
+                    transform=ax.transAxes,
+                    ha='right', va='bottom',
+                    fontsize=20,
+                    bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="none", alpha=0.7)
+                )
         # ----------------------------------------------------------------------
 
     if show_axp and set(species) == {'ATP','ADP','AMP'}:
@@ -1082,7 +1114,9 @@ def plot_compare_summary_gluc(
         stac_handles, stac_labels = stac_axes[0].get_legend_handles_labels()
         handles += stac_handles
         labels += stac_labels
-    if legend_pos == "below":
+    if _legend_is_disabled(legend_pos, legend_loc):
+        fig.tight_layout()
+    elif legend_pos == "below":
         fig.legend(handles, labels, frameon=False, loc='lower center',
                    bbox_to_anchor=(0.5, -0.01), ncol=6, fontsize=15)
         fig.tight_layout(rect=[0, 0.06, 1, 1])
@@ -1202,6 +1236,7 @@ def plot_compare_summary(
     font_sizes=None,
     legend_loc=None,
     legend_bbox_to_anchor=None,
+    fig_dpi=300,
 ):
     """
     Compare conditions A vs B for the given species.
@@ -1258,6 +1293,7 @@ def plot_compare_summary(
                     font_sizes=font_sizes,
                     legend_loc=legend_loc,
                     legend_bbox_to_anchor=legend_bbox_to_anchor,
+                    fig_dpi=fig_dpi,
                 )
             )
         return figs
@@ -1282,7 +1318,9 @@ def plot_compare_summary(
 
     # ---------------- LAYOUT 1: one subplot per species ----------------
     if layout_mode == "species":
-        fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+        fig, axes = plt.subplots(
+            1, len(species), figsize=figsize, sharex=True, dpi=fig_dpi,
+        )
         if len(species) == 1:
             axes = [axes]
 
@@ -1348,7 +1386,9 @@ def plot_compare_summary(
 
     # ---------------- LAYOUT 2: one subplot per condition ----------------
     else: # stac vs starve
-        fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
+        fig, axes = plt.subplots(
+            1, 2, figsize=figsize, sharex=True, sharey=True, dpi=fig_dpi,
+        )
 
         def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
                                   samp_idx, cond_label, bucket):
@@ -1484,7 +1524,9 @@ def plot_compare_summary(
             handles, labels = axes[0].get_legend_handles_labels()
         ncol = 6
 
-    if legend_pos == "below":
+    if _legend_is_disabled(legend_pos, legend_loc):
+        fig.tight_layout()
+    elif legend_pos == "below":
         fig.legend(handles, labels, frameon=False, loc='lower center',
                    bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
         fig.tight_layout(rect=[0, 0.06, 1, 1])
@@ -1553,6 +1595,8 @@ def plot_compare_summary_ampk(
     font_sizes=None,
     legend_loc=None,
     legend_bbox_to_anchor=None,
+    fig_dpi=300,
+    transparent_bg: bool = False,
 ):
     """
     Compare conditions A vs B for the given species.
@@ -1575,6 +1619,9 @@ def plot_compare_summary_ampk(
         Multiplies every plotted concentration before trajectories and summary
         statistics are calculated. The default 1.0 preserves the source units;
         use 1e9 to convert mol/cm^3 to micromolar (µM).
+
+    transparent_bg:
+        If True, make both the figure and axes backgrounds transparent.
     """
     if layout_mode not in {"species", "condition"}:
         raise ValueError('layout_mode must be "species" or "condition".')
@@ -1623,6 +1670,8 @@ def plot_compare_summary_ampk(
                     font_sizes=font_sizes,
                     legend_loc=legend_loc,
                     legend_bbox_to_anchor=legend_bbox_to_anchor,
+                    fig_dpi=fig_dpi,
+                    transparent_bg=transparent_bg,
                 )
             )
         return figs
@@ -1650,7 +1699,9 @@ def plot_compare_summary_ampk(
 
     # ---------------- LAYOUT 1: one subplot per species ----------------
     if layout_mode == "species":
-        fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+        fig, axes = plt.subplots(
+            1, len(species), figsize=figsize, sharex=True, dpi=fig_dpi,
+        )
         if len(species) == 1:
             axes = [axes]
 
@@ -1712,7 +1763,9 @@ def plot_compare_summary_ampk(
         handles, labels = axes[0].get_legend_handles_labels()
         ncol = 6
 
-        if legend_pos == "below":
+        if _legend_is_disabled(legend_pos, legend_loc):
+            fig.tight_layout()
+        elif legend_pos == "below":
             fig.legend(handles, labels, frameon=False, loc='lower center',
                        bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
             fig.tight_layout(rect=[0, 0.06, 1, 1])
@@ -1720,8 +1773,6 @@ def plot_compare_summary_ampk(
             fig.legend(handles, labels, frameon=False, loc='upper center',
                        bbox_to_anchor=(0.5, 1.15), ncol=ncol, fontsize=12)
             fig.tight_layout(rect=[0, 0, 1, 0.94])
-        elif legend_pos == 'none':
-            pass
         else:
             axes[-1].legend(handles, labels, frameon=False, loc='upper right')
             fig.tight_layout()
@@ -1732,7 +1783,7 @@ def plot_compare_summary_ampk(
             x_label=x_label, y_label=y_label,
             text_overrides=text_overrides, font_sizes=font_sizes,
         )
-        fig.patch.set_facecolor('white')
+        _apply_figure_background(fig, transparent_bg)
         return fig
 
     # ---------------- LAYOUT 2: condition layout ----------------
@@ -1741,8 +1792,8 @@ def plot_compare_summary_ampk(
         figs = []
 
         def _single_condition_fig(t_h, X, q10, q25, qmed, q75, q90, qmean,
-                                  samp_idx, cond_label):
-            fig_c, ax = plt.subplots(1, 1, figsize=figsize)
+                                  samp_idx, cond_label, fig_dpi):
+            fig_c, ax = plt.subplots(1, 1, figsize=figsize, dpi=fig_dpi)
 
             sp_colors = {}
             for si, sp in enumerate(species):
@@ -1835,7 +1886,9 @@ def plot_compare_summary_ampk(
 
 
             handles_c, labels_c = ax.get_legend_handles_labels()
-            if legend_pos == "below":
+            if _legend_is_disabled(legend_pos, legend_loc):
+                fig_c.tight_layout()
+            elif legend_pos == "below":
                 fig_c.legend(handles_c, labels_c, frameon=False, loc='lower center',
                              bbox_to_anchor=(0.5, -0.01), ncol=len(labels_c),
                              fontsize=12)
@@ -1845,8 +1898,6 @@ def plot_compare_summary_ampk(
                              bbox_to_anchor=(0.5, 1.15), ncol=len(labels_c),
                              fontsize=12)
                 fig_c.tight_layout(rect=[0, 0, 1, 0.94])
-            elif legend_pos == 'none':
-                pass
             else:
                 ax.legend(frameon=False, loc='upper right')
                 fig_c.tight_layout()
@@ -1857,21 +1908,23 @@ def plot_compare_summary_ampk(
                 x_label=x_label, y_label=y_label,
                 text_overrides=text_overrides, font_sizes=font_sizes,
             )
-            fig_c.patch.set_facecolor('white')
+            _apply_figure_background(fig_c, transparent_bg)
             return fig_c
 
         figs.append(_single_condition_fig(
             t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean,
-            samp_a, label_a
+            samp_a, label_a, fig_dpi=fig_dpi,
         ))
         figs.append(_single_condition_fig(
             t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean,
-            samp_b, label_b
+            samp_b, label_b, fig_dpi=fig_dpi,
         ))
         return figs
 
     # option B: original behaviour – one figure with two subplots
-    fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
+    fig, axes = plt.subplots(
+        1, 2, figsize=figsize, sharex=True, sharey=True, dpi=fig_dpi,
+    )
 
     def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
                               samp_idx, cond_label, bucket):
@@ -1958,7 +2011,9 @@ def plot_compare_summary_ampk(
         legend_data[label_b][('AXP_mean', None)] = line_b
 
     # ---- shared legend for this layout ----
-    if legend_pos in {"below", "above"}:
+    if _legend_is_disabled(legend_pos, legend_loc):
+        fig.tight_layout()
+    elif legend_pos in {"below", "above"}:
         cols = []
         if show_iqr:
             cols.append(('IQR', None))
@@ -2015,7 +2070,7 @@ def plot_compare_summary_ampk(
         x_label=x_label, y_label=y_label,
         text_overrides=text_overrides, font_sizes=font_sizes,
     )
-    fig.patch.set_facecolor('white')
+    _apply_figure_background(fig, transparent_bg)
     return fig
 
 
@@ -2091,6 +2146,8 @@ def plot_compare_summary_atp(
     font_sizes=None,
     legend_loc=None,
     legend_bbox_to_anchor=None,
+    fig_dpi=300,
+    transparent_bg: bool = False,
 ):
     """
     Compare conditions A vs B for the given species.
@@ -2113,6 +2170,9 @@ def plot_compare_summary_atp(
         Multiplies every plotted concentration before trajectories and summary
         statistics are calculated. The default 1.0 preserves the source units;
         use 1e9 to convert mol/cm^3 to micromolar (µM).
+
+    transparent_bg:
+        If True, make both the figure and axes backgrounds transparent.
     """
     if layout_mode not in {"species", "condition"}:
         raise ValueError('layout_mode must be "species" or "condition".')
@@ -2161,6 +2221,8 @@ def plot_compare_summary_atp(
                     font_sizes=font_sizes,
                     legend_loc=legend_loc,
                     legend_bbox_to_anchor=legend_bbox_to_anchor,
+                    fig_dpi=fig_dpi,
+                    transparent_bg=transparent_bg,
                 )
             )
         return figs
@@ -2188,7 +2250,9 @@ def plot_compare_summary_atp(
 
     # ---------------- LAYOUT 1: one subplot per species ----------------
     if layout_mode == "species":
-        fig, axes = plt.subplots(1, len(species), figsize=figsize, sharex=True)
+        fig, axes = plt.subplots(
+            1, len(species), figsize=figsize, sharex=True, dpi=fig_dpi,
+        )
         if len(species) == 1:
             axes = [axes]
 
@@ -2250,7 +2314,9 @@ def plot_compare_summary_atp(
         handles, labels = axes[0].get_legend_handles_labels()
         ncol = 6
 
-        if legend_pos == "below":
+        if _legend_is_disabled(legend_pos, legend_loc):
+            fig.tight_layout()
+        elif legend_pos == "below":
             fig.legend(handles, labels, frameon=False, loc='lower center',
                        bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
             fig.tight_layout(rect=[0, 0.06, 1, 1])
@@ -2268,7 +2334,7 @@ def plot_compare_summary_atp(
             x_label=x_label, y_label=y_label,
             text_overrides=text_overrides, font_sizes=font_sizes,
         )
-        fig.patch.set_facecolor('white')
+        _apply_figure_background(fig, transparent_bg)
         return fig
 
     # ---------------- LAYOUT 2: condition layout ----------------
@@ -2277,8 +2343,8 @@ def plot_compare_summary_atp(
         figs = []
 
         def _single_condition_fig(t_h, X, q10, q25, qmed, q75, q90, qmean,
-                                  samp_idx, cond_label):
-            fig_c, ax = plt.subplots(1, 1, figsize=figsize)
+                                  samp_idx, cond_label, fig_dpi):
+            fig_c, ax = plt.subplots(1, 1, figsize=figsize, dpi=fig_dpi)
 
             sp_colors = {}
             for si, sp in enumerate(species):
@@ -2336,7 +2402,9 @@ def plot_compare_summary_atp(
                                 clip_on=False)
 
             handles_c, labels_c = ax.get_legend_handles_labels()
-            if legend_pos == "below":
+            if _legend_is_disabled(legend_pos, legend_loc):
+                fig_c.tight_layout()
+            elif legend_pos == "below":
                 fig_c.legend(handles_c, labels_c, frameon=False, loc='lower center',
                              bbox_to_anchor=(0.5, -0.01), ncol=len(labels_c),
                              fontsize=12)
@@ -2356,21 +2424,23 @@ def plot_compare_summary_atp(
                 x_label=x_label, y_label=y_label,
                 text_overrides=text_overrides, font_sizes=font_sizes,
             )
-            fig_c.patch.set_facecolor('white')
+            _apply_figure_background(fig_c, transparent_bg)
             return fig_c
 
         figs.append(_single_condition_fig(
             t_h_a, Xa, qa10, qa25, qamed, qa75, qa90, qamean,
-            samp_a, label_a
+            samp_a, label_a, fig_dpi=fig_dpi,
         ))
         figs.append(_single_condition_fig(
             t_h_b, Xb, qb10, qb25, qbmed, qb75, qb90, qbmean,
-            samp_b, label_b
+            samp_b, label_b, fig_dpi=fig_dpi,
         ))
         return figs
 
     # option B: original behaviour – one figure with two subplots
-    fig, axes = plt.subplots(1, 2, figsize=figsize, sharex=True, sharey=True)
+    fig, axes = plt.subplots(
+        1, 2, figsize=figsize, sharex=True, sharey=True, dpi=fig_dpi,
+    )
 
     def _plot_condition_panel(ax, t_h, X, q10, q25, qmed, q75, q90, qmean,
                               samp_idx, cond_label, bucket):
@@ -2457,7 +2527,9 @@ def plot_compare_summary_atp(
         legend_data[label_b][('AXP_mean', None)] = line_b
 
     # ---- shared legend for this layout ----
-    if legend_pos in {"below", "above"}:
+    if _legend_is_disabled(legend_pos, legend_loc):
+        fig.tight_layout()
+    elif legend_pos in {"below", "above"}:
         cols = []
         if show_iqr:
             cols.append(('IQR', None))
@@ -2496,7 +2568,9 @@ def plot_compare_summary_atp(
 
         ncol = len(cols) if cols else 1
 
-        if legend_pos == "below":
+        if _legend_is_disabled(legend_pos, legend_loc):
+            fig.tight_layout()
+        elif legend_pos == "below":
             fig.legend(handles, labels, frameon=False, loc='lower center',
                        bbox_to_anchor=(0.5, -0.01), ncol=ncol, fontsize=12)
             fig.tight_layout(rect=[0, 0.06, 1, 1])
@@ -2514,7 +2588,7 @@ def plot_compare_summary_atp(
         x_label=x_label, y_label=y_label,
         text_overrides=text_overrides, font_sizes=font_sizes,
     )
-    fig.patch.set_facecolor('white')
+    _apply_figure_background(fig, transparent_bg)
     return fig
 
 
@@ -2540,6 +2614,8 @@ def plot_endpoint_concept_diagrams(
     marker_size: float = 65,
     show_endpoint_values: bool = True,
     endpoint_value_format: str = '.4g',
+    lower_text_th: Optional[float] = None,
+    upper_text_th: Optional[float] = None,
     y_major_ticks: int = 10,
     y_minor_subdivisions: int = 2,
     shared_y_limits: bool = False,
@@ -2550,6 +2626,10 @@ def plot_endpoint_concept_diagrams(
     legend_bbox_to_anchor=None,
     text_overrides: Optional[Mapping[str, str]] = None,
     font_sizes: Optional[Mapping[str, float]] = None,
+    fig_dpi=300,
+    transparent_bg: bool = False,
+    plot_combined: bool = False,
+    x_pad: float = 0.0,
 ):
     """Plot final starvation and basal values as one step diagram per species.
 
@@ -2559,16 +2639,40 @@ def plot_endpoint_concept_diagrams(
     categorical x-axis regions; the condition values are not connected.
 
     ``color_species_order`` should match the species order in the corresponding
-    time-course plot. ``species_colors`` may override individual colors.
+    time-course plot. ``species_colors`` may be a partial mapping from species
+    names to any Matplotlib color; unspecified species keep their current
+    color-cycle assignment. Leave it as ``None`` to preserve that behavior for
+    every species.
 
     Set ``shared_y_limits=True`` to give every species figure produced by this
     call the same y-axis limits. ``y_limits=(lower, upper)`` takes precedence
     and sets an exact common range. ``y_bottom`` fixes the automatic lower
     limit; set it to None to let Matplotlib determine both bounds.
+
+    Set ``transparent_bg=True`` to remove the figure and axes backgrounds.
+
+    Set ``plot_combined=True`` to place all species in one vertically stacked
+    figure with no vertical space between axes. For three species this produces
+    a 3x1 layout. The supplied ``figsize`` is treated as the size of one panel,
+    so the combined figure height is scaled by the number of species. In this
+    mode the combined :class:`~matplotlib.figure.Figure` is returned instead of
+    the usual species-to-figure dictionary.
+
+    ``lower_text_th`` and ``upper_text_th`` use the displayed (scaled) data
+    units. Endpoint labels at or below ``lower_text_th`` are placed above their
+    lines, while labels at or above ``upper_text_th`` are placed below. Labels
+    between the thresholds retain the default above-line placement. Leave
+    either threshold as None to disable that bound.
     """
     selected_species = _normalize_species(species)
     if endpoint_statistic not in {'mean', 'median'}:
         raise ValueError('endpoint_statistic must be "mean" or "median".')
+    if (
+        lower_text_th is not None
+        and upper_text_th is not None
+        and lower_text_th >= upper_text_th
+    ):
+        raise ValueError('lower_text_th must be less than upper_text_th.')
 
     color_order = _normalize_species(color_species_order or selected_species)
     color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
@@ -2580,7 +2684,6 @@ def plot_endpoint_concept_diagrams(
         color_map.update(species_colors)
 
     reducer = np.nanmean if endpoint_statistic == 'mean' else np.nanmedian
-    figures = {}
 
     endpoints = {}
     for sp in selected_species:
@@ -2607,10 +2710,27 @@ def plot_endpoint_concept_diagrams(
             lower = y_bottom
         common_y_limits = (lower, upper)
 
-    for sp in selected_species:
+    if plot_combined:
+        combined_fig, combined_axes = plt.subplots(
+            nrows=len(selected_species),
+            ncols=1,
+            figsize=(figsize[0], figsize[1] * len(selected_species)),
+            dpi=fig_dpi,
+            sharex=True,
+            gridspec_kw={'hspace': 0},
+        )
+        combined_axes = np.atleast_1d(combined_axes).tolist()
+    else:
+        figures = {}
+
+    for species_index, sp in enumerate(selected_species):
         starvation_endpoint, basal_endpoint = endpoints[sp]
 
-        fig, ax = plt.subplots(figsize=figsize)
+        if plot_combined:
+            fig = combined_fig
+            ax = combined_axes[species_index]
+        else:
+            fig, ax = plt.subplots(figsize=figsize, dpi=fig_dpi)
         color = color_map.get(sp, color_cycle[0])
 
         # Lightly shade the two categorical fields without obscuring the data.
@@ -2621,13 +2741,13 @@ def plot_endpoint_concept_diagrams(
         ax.plot(
             [-0.5 + plateau_gap, 0.5 - plateau_gap],
             [starvation_endpoint, starvation_endpoint],
-            color=color, lw=line_width, solid_capstyle='round',
+            color=color, lw=line_width,# solid_capstyle='round',
             label=condition_labels[0], zorder=3,
         )
         ax.plot(
             [0.5 + plateau_gap, 1.5 - plateau_gap],
             [basal_endpoint, basal_endpoint],
-            color=color, lw=line_width, solid_capstyle='round',
+            color=color, lw=line_width,# solid_capstyle='round',
             label=condition_labels[1], zorder=3,
         )
 
@@ -2645,15 +2765,22 @@ def plot_endpoint_concept_diagrams(
             for x_position, value in (
                 (0, starvation_endpoint), (1, basal_endpoint),
             ):
+                place_below = upper_text_th is not None and value >= upper_text_th
+                if lower_text_th is not None and value <= lower_text_th:
+                    place_below = False
+                text_offset = -9 if place_below else 9
+                vertical_alignment = 'top' if place_below else 'bottom'
                 ax.annotate(
                     format(value, endpoint_value_format),
-                    xy=(x_position, value), xytext=(0, 9),
-                    textcoords='offset points', ha='center', va='bottom',
+                    xy=(x_position, value), xytext=(0, text_offset),
+                    textcoords='offset points', ha='center',
+                    va=vertical_alignment,
                     color=color, fontweight='semibold', zorder=5,
                 )
 
         ax.set_xlim(-0.5, 1.5)
         ax.set_xticks([0, 1], labels=condition_labels)
+        ax.tick_params(axis="x", pad=x_pad)
         ax.set_title(sp, fontsize=14)
         ax.set_xlabel(x_label, fontsize=12)
         ax.set_ylabel(y_label, fontsize=12)
@@ -2671,22 +2798,41 @@ def plot_endpoint_concept_diagrams(
         ax.grid(axis='y', which='minor', alpha=0.16, linestyle=':', linewidth=0.55)
         ax.tick_params(axis='y', which='major', length=5, width=0.9)
         ax.tick_params(axis='y', which='minor', length=3, width=0.6)
-        for tick_label in ax.get_xticklabels():
-            tick_label.set_fontweight('semibold')
+        #for tick_label in ax.get_xticklabels():
+        #    tick_label.set_fontweight('semibold')
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.spines['left'].set_color('#555555')
         ax.spines['bottom'].set_color('#555555')
 
-        if legend_loc != 'none':
+        if not _legend_is_disabled(legend_loc):
             ax.legend(frameon=False, loc=legend_loc or 'best')
-        _apply_legend_position(fig, legend_loc, legend_bbox_to_anchor)
-        _apply_plot_text_controls(
-            fig, [ax], panel_keys=[sp], title=title,
-            text_overrides=text_overrides, font_sizes=font_sizes,
+        if not plot_combined:
+            _apply_legend_position(fig, legend_loc, legend_bbox_to_anchor)
+            _apply_plot_text_controls(
+                fig, [ax], panel_keys=[sp], title=title,
+                text_overrides=text_overrides, font_sizes=font_sizes,
+            )
+            fig.tight_layout()
+            _apply_figure_background(fig, transparent_bg)
+            figures[sp] = fig
+
+    if plot_combined:
+        _apply_legend_position(
+            combined_fig, legend_loc, legend_bbox_to_anchor,
         )
-        fig.tight_layout()
-        figures[sp] = fig
+        _apply_plot_text_controls(
+            combined_fig, combined_axes, panel_keys=selected_species,
+            title=title, text_overrides=text_overrides,
+            font_sizes=font_sizes,
+        )
+        # Shared categorical x labels are needed only on the bottom panel.
+        for ax in combined_axes[:-1]:
+            ax.tick_params(axis='x', which='both', labelbottom=False)
+            ax.set_xlabel('')
+        combined_fig.subplots_adjust(hspace=0)
+        _apply_figure_background(combined_fig, transparent_bg)
+        return combined_fig
 
     return figures
 
@@ -2705,11 +2851,16 @@ else:
     raise Exception('food must either be "starve" or "stac"')
 
 # %%
-if False:
+run_it = True
+
+# %%
+if run_it:
     exp_foods = ['stac', 'starve']
     must_be_zero = ['RAP', 'RK', 'RKMTORA', 'RAPOUT']
     date = datetime.datetime.now()
-    date_prefix = f"{date.year}{date.month}{date.day}" # '20251113'
+    date_prefix = date.strftime("%Y%m%d%H%M%S") #f"{date.year}{date.month}{date.day}" # '20260830'
+    with open("curr_run_date.txt", "w") as f:
+        f.write(date_prefix)
     t = np.arange(0, 5070, 30)
     sims: dict[str, Simulation] = {}
     kiir = True
@@ -2747,7 +2898,7 @@ if False:
 # bin/Release/OptimaPP ../Projects/Semmelweis_BCRN/BCRN/1_mechtest/2026128_all_setups.opp
 
 # %%
-if False:
+if run_it:
     mechs: dict[str, OptimaMechtest] = {}
     for k in sims.keys():
         mechs[k] = OptimaMechtest(sims[k].opps[0], sims[k].mech_inp_name)
@@ -2769,7 +2920,7 @@ font_sizes={
     "suptitle": 22,
     "axis_label": 15,
     "ticks": 22,
-    "legend": 12,
+    "legend": 17,
     "legend_title": 13,
     "annotation": 18,
     "colorbar_label": 13,
@@ -2794,9 +2945,11 @@ fig = plot_compare_summary_gluc(
     add_stac=True,
     stac_df_dict=mechs['stac'].orig_time_sim_df,
     stac_scaling_factor=1e6,
-    stac_label='Basal state (GLUCOUT = 6 mM)',
-    stac_y_label='basal glucose concentration [mM]',
+    stac_label='Basal state',
+    stac_y_label='',#basal glucose concentration [mM]',
     stac_color='tab:red',
+    fig_dpi=450,
+    add_err_text=False,
 )
 
 plt.show()
@@ -2825,6 +2978,7 @@ fig = plot_compare_summary_gluc(
     x_label='',
     y_label='',
     add_stac=False,
+    fig_dpi=450,
 )
 
 plt.show()
@@ -2839,7 +2993,7 @@ fig = plot_compare_summary_atp(
     show_iqr=True, show_p80=False,
     show_mean=True, show_median=False,
     sample_trajs=100,
-    legend_pos="none",
+    legend_loc="none",
     curve_labels=True,
     curve_label_min_gap_frac=0.05,
     curve_label_xpad=-3.5,
@@ -2850,16 +3004,17 @@ fig = plot_compare_summary_atp(
     font_sizes=font_sizes,
     x_label="",
     y_label="",#r"concentration [$\mu$M]",
-    scaling_factor=1e6
+    scaling_factor=1e6,
+    fig_dpi=450,
     )
 
 # %%
 concept_font_sizes = {
     **font_sizes,
     'title': 18,
-    'axis_label': 13,
-    'ticks': 12,
-    'annotation': 11,
+    'axis_label': 22,
+    'ticks': 22,
+    'annotation': 14,
     'legend': 11,
 }
 axp_concept_species = ('ATP', 'ADP', 'AMP')  # Select species here.
@@ -2869,15 +3024,24 @@ axp_concept_figures = plot_endpoint_concept_diagrams(
     species=axp_concept_species,
     scaling_factor=1e6,
     color_species_order=('ATP', 'ADP', 'AMP'),
+    species_colors=None,  # e.g. {'ATP': '#4472C4', 'ADP': 'tab:orange'}
     #y_label='final concentration [mM]',
     legend_loc='none',
     font_sizes=concept_font_sizes,
     x_label="",
+    #condition_labels=("", ""),
     y_label="",
-    #title="",
-    figsize=(4,2),
+    title="",
+    figsize=(4, 2),
     y_major_ticks=6,
     shared_y_limits=True,
+    y_bottom=-0.75,
+    fig_dpi=450,
+    transparent_bg=True,
+    lower_text_th=0.5,
+    upper_text_th=4.5,
+    plot_combined=True,
+    x_pad=0,
 )
 
 plt.show()
@@ -2887,13 +3051,13 @@ fig = plot_compare_summary_ampk(
     df_dict_a=mechs['starve'].orig_time_sim_df,
     df_dict_b=mechs['stac'].orig_time_sim_df,
     label_a='Starved', label_b='Basal',
-    species=('AMPKA_ATP', 'AMPKA_ADP', 'AMPKA_AMP','AMPKA',
-             'AMPK_ATP', 'AMPK_ADP', 'AMPK_AMP','AMPK'),
+    species=('AMPK_ATP', 'AMPKA_ADP', 'AMPKA_AMP','AMPKA',
+             'AMPKA_ATP', 'AMPK_ADP', 'AMPK_AMP','AMPK'),
     layout_mode="condition",
     show_iqr=True, show_p80=False,
     show_mean=True, show_median=False,
     sample_trajs=100,
-    legend_pos='none',
+    legend_loc='none',
     curve_labels=True,
     curve_label_min_gap_frac=0.05,
     curve_label_xpad=2.0,
@@ -2904,11 +3068,12 @@ fig = plot_compare_summary_ampk(
     title="",#'AXP Dynamics',
     font_sizes=font_sizes,
     x_label="",
-    y_label=r"concentration [$\mu$M]",
+    y_label="",#r"concentration [$\mu$M]",
+    fig_dpi=450,
     )
 
 # %%
-ampk_concept_species = ('AMPKA', 'AMPK')  # Select species here.
+ampk_concept_species = ('AMPK_ATP', 'AMPKA_ADP', 'AMPKA_AMP')  # Select species here.
 ampk_concept_figures = plot_endpoint_concept_diagrams(
     df_dict_starvation=mechs['starve'].orig_time_sim_df,
     df_dict_basal=mechs['stac'].orig_time_sim_df,
@@ -2918,10 +3083,25 @@ ampk_concept_figures = plot_endpoint_concept_diagrams(
         'AMPKA_ATP', 'AMPKA_ADP', 'AMPKA_AMP', 'AMPKA',
         'AMPK_ATP', 'AMPK_ADP', 'AMPK_AMP', 'AMPK',
     ),
-    y_label=r'final concentration [$\mu$M]',
+    species_colors={'AMPK_ATP': 'tab:blue', 'AMPKA_ADP': 'tab:orange', 'AMPKA_AMP': 'tab:green'},
+    #y_label='final concentration [mM]',
     legend_loc='none',
     font_sizes=concept_font_sizes,
+    x_label="",
+    #condition_labels=("", ""),
+    y_label="",
+    title="",
+    figsize=(4, 2),
+    y_major_ticks=3,
+    y_minor_subdivisions=3,
     shared_y_limits=True,
+    y_bottom=-0.05,
+    fig_dpi=450,
+    transparent_bg=True,
+    lower_text_th=0.1,
+    upper_text_th=0.3,
+    plot_combined=True,
+    x_pad=0,
 )
 
 plt.show()
@@ -2964,12 +3144,12 @@ fig = plot_compare_summary_ampk(
     df_dict_b=stac_ampk,
     label_a='Starved',
     label_b='Basal',
-    species=('AMPK_t', 'AMPKA_t', 'ULK', 'ULKA', 'MTOR', 'MTORA'),
+    species=('AMPK_t', 'ULK', 'AMPKA_t', 'ULKA', 'MTOR', 'MTORA'),
     layout_mode="condition",   # or "species", as you like
     show_iqr=False, show_p80=False,
     show_mean=True, show_median=False,
     sample_trajs=0,
-    legend_pos="none",
+    legend_loc="none",
     separate_conditions=True, 
     scaling_factor=1e9,
     curve_labels=False,
@@ -2980,25 +3160,38 @@ fig = plot_compare_summary_ampk(
     title="",#'AXP Dynamics',
     font_sizes=font_sizes,
     x_label="",
-    y_label=r"concentration [$\mu$M]",
+    y_label="",#r"concentration [$\mu$M]",
+    fig_dpi=450,
 )
 
 plt.show()
 
 # %%
 mtor_ulk_ampk_concept_species = (
-    'AMPK_t', 'AMPKA_t', 'ULK', 'ULKA', 'MTOR', 'MTORA',
+    'AMPKA_t', 'ULKA', 'MTORA',
 )  # Select species here.
 mtor_ulk_ampk_concept_figures = plot_endpoint_concept_diagrams(
     df_dict_starvation=starve_ampk,
     df_dict_basal=stac_ampk,
     species=mtor_ulk_ampk_concept_species,
     scaling_factor=1e9,
-    color_species_order=('AMPK_t', 'AMPKA_t', 'ULK', 'ULKA', 'MTOR', 'MTORA'),
-    y_label=r'final concentration [$\mu$M]',
+    color_species_order=('AMPKA_t', 'ULKA', 'MTORA'),
+    species_colors={'AMPKA_t': 'tab:green', 'ULKA': 'tab:red', 'MTORA': 'tab:brown'},  # e.g. {'AMPK_t': '#4472C4', 'MTORA': 'tab:red'}
     legend_loc='none',
     font_sizes=concept_font_sizes,
+    x_label="",
+    y_label="",
+    title="",
+    figsize=(4, 2),
+    y_major_ticks=6,
     shared_y_limits=True,
+    #y_bottom=-0.75,
+    fig_dpi=450,
+    transparent_bg=True,
+    lower_text_th=0.0,
+    upper_text_th=0.3,
+    plot_combined=True,
+    x_pad=0,
 )
 
 plt.show()
