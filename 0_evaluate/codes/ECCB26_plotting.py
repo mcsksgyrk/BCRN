@@ -156,7 +156,6 @@ class OptimaMechtest(OptimaOutput):
         )
         self.df_followed18 = followed18.T
 
-
 # %%
 class Processing:
     def __init__(self, species_txt: str, ) -> None:
@@ -399,7 +398,6 @@ class Simulation:
 # %%
 os.path.join(Path.cwd().parents[4], "OptimaPP")
 
-
 # %%
 class Natural_Selection:
     def __init__(self, sim: Simulation) -> None:
@@ -638,7 +636,6 @@ def _apply_figure_background(fig, transparent_bg: bool = False):
             ax.patch.set_alpha(0.0)
     else:
         fig.patch.set_facecolor('white')
-
 
 # %%
 def plot_correlation_distance_heatmap(dict, corr_xmls, title: str, method='fro',
@@ -1010,7 +1007,7 @@ def plot_compare_summary_gluc(
                     fontsize=12, weight='bold')
 
         if show_mean:
-            ax.plot(t_h_a, qamean[:, si], lw=2, label=f'{label_a} mean')
+            ax.plot(t_h_a, qamean[:, si], lw=2, label="_nolegend_")#f'{label_a} mean')
             ax.plot(t_h_b, qbmean[:, si], lw=2, label=f'{label_b} mean')
         if show_median:
             ax.plot(t_h_a, qamed[:, si], lw=1, linestyle='--', label=f'{label_a} median')
@@ -2073,7 +2070,6 @@ def plot_compare_summary_ampk(
     _apply_figure_background(fig, transparent_bg)
     return fig
 
-
 # %%
 def add_ampk_totals(df_dict,
                     ampk_name='AMPK',
@@ -2591,7 +2587,6 @@ def plot_compare_summary_atp(
     _apply_figure_background(fig, transparent_bg)
     return fig
 
-
 # %%
 def plot_endpoint_concept_diagrams(
     df_dict_starvation: Dict[str, pd.DataFrame],
@@ -2836,7 +2831,6 @@ def plot_endpoint_concept_diagrams(
 
     return figures
 
-
 # %%
 proc = Processing('species.txt')
 
@@ -3040,7 +3034,7 @@ axp_concept_figures = plot_endpoint_concept_diagrams(
     transparent_bg=True,
     lower_text_th=0.5,
     upper_text_th=4.5,
-    plot_combined=True,
+    plot_combined=False,#True,
     x_pad=0,
 )
 
@@ -3152,7 +3146,7 @@ fig = plot_compare_summary_ampk(
     legend_loc="none",
     separate_conditions=True, 
     scaling_factor=1e9,
-    curve_labels=False,
+    curve_labels=True,
     curve_label_xfrac=20,        # 1.0 = end of time window
     curve_label_xpad=1.5,         # 1.5 h to the right of that point
     curve_label_y_offset_frac=0.02,  # 2% of y-range above the curve
